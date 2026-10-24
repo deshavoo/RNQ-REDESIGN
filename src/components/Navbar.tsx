@@ -183,7 +183,7 @@ const DEFAULT_LINKS: NavLink[] = [
         },
     },
     { label: "المناسبات", href: "#occasions" },
-    { label: "حسب الطلب", href: "/custom-orders" },
+    { label: "حسب الطلب", href: "#custom-orders" },
     { label: "من نحن", href: "#about" },
 ];
 
@@ -738,7 +738,8 @@ export default function Navbar({
                     </ul>
 
                     {/* ---------- Tools ---------- */}
-                    <div dir="ltr" className="ms-auto flex items-center gap-1 sm:gap-1.5 lg:gap-2">
+                    {/* dir="ltr" => ms-auto كان بيرمي الأدوات يمين. mr-auto (فيزيائي) بيزقها لأقصى الشمال في الموبايل */}
+                    <div dir="ltr" className="mr-auto flex items-center gap-1 sm:gap-1.5 lg:gap-2">
                         {audience === "b2b" && (
                             <a
                                 href={quoteHref}
