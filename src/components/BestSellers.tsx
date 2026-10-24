@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
 import { BRANDS, SAMPLE_PRODUCTS } from "./brands";
 import type { BrandId, Product } from "./brands";
 import ProductCard from "./ProductCard";
@@ -17,13 +16,13 @@ export interface SideImageData {
 
 /** الصور الافتراضية هي نفس صور الهيرو. غيّرها بصورتين مخصوصين للسكشن (يفضل طوليتين 4:5) */
 const DEFAULT_RIGHT: SideImageData = {
-    src: "/images/hero-2-1.jpg",
+    src: "/images/best-barns.jpg",
     alt: "قهوة بارنيز المختصة",
     href: "/images/best-barns.jpg",
     caption: BRANDS.barns.title,
 };
 const DEFAULT_LEFT: SideImageData = {
-    src: "/images/hero-3.jpg",
+    src: "/images/best-saadeddin.jpg",
     alt: "حلويات وتمور سعد الدين",
     href: "/images/best-saadeddin.jpg",
     caption: BRANDS.saadeddin.title,
@@ -48,12 +47,7 @@ function SideImage({ img, className = "" }: { img: SideImageData; className?: st
             <span aria-hidden className="absolute inset-0 bg-linear-to-t from-black/65 via-transparent to-transparent" />
             <span className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-3 p-4 text-white sm:p-5">
                 <span className="text-base font-semibold sm:text-lg">{img.caption}</span>
-                <span
-                    aria-hidden
-                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-gold/70 text-gold-soft transition-colors duration-300 group-hover:bg-gold group-hover:text-black"
-                >
-                    <ArrowLeft size={16} />
-                </span>
+
             </span>
         </Link>
     );
@@ -159,7 +153,6 @@ export default function BestSellers({
                                 className="inline-flex min-h-12 items-center gap-3 rounded-full border border-gold/60 px-7 text-sm font-bold text-black transition-colors duration-300 hover:border-transparent hover:bg-[linear-gradient(135deg,#f5e3a1,#d4af37_55%,#b8891f)] focus:outline-none focus-visible:ring-2 focus-visible:ring-black sm:text-base"
                             >
                                 عرض كل منتجات {brand.title}
-                                <ArrowLeft size={17} aria-hidden />
                             </Link>
                         </div>
                     </div>

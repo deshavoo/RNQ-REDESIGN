@@ -178,8 +178,7 @@ const DEFAULT_LINKS: NavLink[] = [
                 description: "أرسل احتياجك وفريق الشركات يرجع لك بعرض مفصّل.",
                 href: "/quote",
                 cta: "اطلب عرض سعر",
-
-                image: "/images/company.jpg",
+                image: "/images/business-banner.jpg",
             },
         },
     },
@@ -220,7 +219,7 @@ function AudienceSwitch({
         <div
             role="group"
             aria-label={labels.audienceGroup}
-            className="inline-flex rounded-full border border-[#d4af37]/30 bg-black/3 p-0.5"
+            className="inline-flex rounded-full border border-gold/30 bg-black/3 p-0.5"
         >
             {options.map((o) => {
                 const active = audience === o.id;
@@ -254,20 +253,20 @@ function MegaItemLink({
         <a
             href={item.href}
             onClick={(e) => onClick(e, item.href)}
-            className="group/item flex items-start gap-4 rounded-xl p-3 transition-colors duration-300 hover:bg-black/4 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]"
+            className="group/item flex items-start gap-4 rounded-xl p-3 transition-colors duration-300 hover:bg-black/4 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold"
         >
             {Icon && (
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[#d4af37]/30 bg-black/3 text-[#8a6a1f] transition-all duration-300 group-hover/item:border-transparent group-hover/item:bg-[#d4af37] group-hover/item:text-black"
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-gold/30 bg-black/3 text-gold-deep transition-all duration-300 group-hover/item:border-transparent group-hover/item:bg-gold group-hover/item:text-black"
                 >
                     <Icon size={20} strokeWidth={1.6} />
                 </span>
             )}
             <span className="min-w-0 flex-1">
-                <span className="flex items-center justify-between gap-2 text-[15px] font-bold text-black transition-colors group-hover/item:text-[#8a6a1f]">
+                <span className="flex items-center justify-between gap-2 text-[15px] font-bold text-black transition-colors group-hover/item:text-gold-deep">
                     {item.label}
                     <ArrowLeft
                         size={15}
-                        className="shrink-0 text-[#8a6a1f] opacity-0 transition-all duration-300 group-hover/item:-translate-x-1 group-hover/item:opacity-100"
+                        className="shrink-0 text-gold-deep opacity-0 transition-all duration-300 group-hover/item:-translate-x-1 group-hover/item:opacity-100"
                     />
                 </span>
                 {item.description && (
@@ -289,7 +288,7 @@ function FeaturedCard({
         <a
             href={featured.href}
             onClick={(e) => onClick(e, featured.href)}
-            className="group/feat relative isolate flex h-full min-h-70 flex-col justify-end overflow-hidden rounded-2xl border border-[#d4af37]/30 bg-black p-6 transition-shadow duration-500 hover:shadow-[0_0_50px_-12px_rgba(212,175,55,0.5)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]"
+            className="group/feat relative isolate flex h-full min-h-70 flex-col justify-end overflow-hidden rounded-2xl border border-gold/30 bg-black p-6 transition-shadow duration-500 hover:shadow-[0_0_50px_-12px_rgba(212,175,55,0.5)] focus:outline-none focus-visible:ring-2 focus-visible:ring-gold"
         >
             {featured.image ? (
                 <Image
@@ -311,13 +310,13 @@ function FeaturedCard({
             )}
             <span aria-hidden className="absolute inset-0 -z-10 bg-linear-to-t from-black via-black/70 to-black/10" />
             {featured.badge && (
-                <span className="mb-3 w-fit rounded-full border border-[#d4af37]/50 bg-black/50 px-3 py-1 text-xs font-semibold text-[#f5e3a1] backdrop-blur">
+                <span className="mb-3 w-fit rounded-full border border-gold/50 bg-black/50 px-3 py-1 text-xs font-semibold text-gold-soft backdrop-blur">
                     {featured.badge}
                 </span>
             )}
             <span className="text-xl font-bold leading-snug text-white">{featured.title}</span>
             <span className="mt-2 text-sm leading-relaxed text-white/70">{featured.description}</span>
-            <span className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-[#d4af37] transition-all duration-300 group-hover/feat:gap-3">
+            <span className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-gold transition-all duration-300 group-hover/feat:gap-3">
                 {featured.cta}
                 <ArrowLeft size={16} />
             </span>
@@ -543,7 +542,7 @@ export default function Navbar({
                         <a
                             href={contactHref}
                             onClick={(e) => handleLinkClick(e, contactHref)}
-                            className="transition-colors hover:text-[#8a6a1f] focus:outline-none focus-visible:text-[#8a6a1f]"
+                            className="transition-colors hover:text-gold-deep focus:outline-none focus-visible:text-gold-deep"
                         >
                             {labels.contact}
                         </a>
@@ -552,7 +551,7 @@ export default function Navbar({
                                 type="button"
                                 onClick={onLanguageToggle}
                                 aria-label={languageLabel ?? "English"}
-                                className="flex items-center gap-1.5 font-semibold transition-colors hover:text-[#8a6a1f] focus:outline-none focus-visible:text-[#8a6a1f]"
+                                className="flex items-center gap-1.5 font-semibold transition-colors hover:text-gold-deep focus:outline-none focus-visible:text-gold-deep"
                             >
                                 <Globe size={14} strokeWidth={1.8} />
                                 {languageLabel ?? "EN"}
@@ -580,7 +579,7 @@ export default function Navbar({
                         aria-label={isMobileMenuOpen ? labels.closeMenu : labels.openMenu}
                         aria-expanded={isMobileMenuOpen}
                         aria-controls="mobile-menu"
-                        className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[#d4af37]/30 text-[#8a6a1f] transition-colors hover:bg-black/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] lg:hidden"
+                        className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-gold/30 text-gold-deep transition-colors hover:bg-black/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold lg:hidden"
                     >
                         <Menu size={22} />
                     </button>
@@ -590,7 +589,7 @@ export default function Navbar({
                         href={homeHref}
                         onClick={(e) => handleLinkClick(e, homeHref)}
                         aria-label={logo.alt ?? labels.home}
-                        className="z-10 flex shrink-0 items-center justify-center transition-opacity duration-300 hover:opacity-85 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] max-lg:absolute max-lg:left-1/2 max-lg:-translate-x-1/2"
+                        className="z-10 flex shrink-0 items-center justify-center transition-opacity duration-300 hover:opacity-85 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold max-lg:absolute max-lg:left-1/2 max-lg:-translate-x-1/2"
                     >
                         <Image
                             src={logo.src}
@@ -650,7 +649,7 @@ export default function Navbar({
                                             aria-haspopup="true"
                                             aria-controls={panelId}
                                             onClick={(e) => handleTriggerClick(e, i)}
-                                            className={`${linkClass} ${isOpen ? "text-[#8a6a1f]" : ""}`}
+                                            className={`${linkClass} ${isOpen ? "text-gold-deep" : ""}`}
                                         >
                                             {link.label}
                                             <ChevronDown
@@ -676,7 +675,7 @@ export default function Navbar({
                                             id={panelId}
                                             role="region"
                                             aria-label={link.label}
-                                            className={`absolute inset-x-0 top-full z-10 border-t border-[#d4af37]/20 bg-white/95 backdrop-blur-2xl transition-[opacity,transform,visibility] duration-300 ease-out ${isOpen
+                                            className={`absolute inset-x-0 top-full z-10 border-t border-gold/20 bg-white/95 backdrop-blur-2xl transition-[opacity,transform,visibility] duration-300 ease-out ${isOpen
                                                 ? "visible translate-y-0 opacity-100"
                                                 : "invisible -translate-y-2 opacity-0"
                                                 }`}
@@ -699,7 +698,7 @@ export default function Navbar({
                                                 >
                                                     {mega.columns.map((col) => (
                                                         <div key={col.title}>
-                                                            <p className="mb-3 border-b border-black/10 pb-3 text-sm font-bold text-[#8a6a1f]">
+                                                            <p className="mb-3 border-b border-black/10 pb-3 text-sm font-bold text-gold-deep">
                                                                 {col.title}
                                                             </p>
                                                             <ul className="flex flex-col gap-1">
@@ -714,7 +713,7 @@ export default function Navbar({
                                                     <a
                                                         href={link.href}
                                                         onClick={(e) => handleLinkClick(e, link.href)}
-                                                        className="col-span-full -mt-4 inline-flex w-fit items-center gap-2 text-sm font-bold text-black/65 transition-colors hover:text-[#8a6a1f] focus:outline-none focus-visible:text-[#8a6a1f]"
+                                                        className="col-span-full -mt-4 inline-flex w-fit items-center gap-2 text-sm font-bold text-black/65 transition-colors hover:text-gold-deep focus:outline-none focus-visible:text-gold-deep"
                                                     >
                                                         {labels.viewAll} {link.label}
                                                         <ArrowLeft size={15} />
@@ -757,7 +756,7 @@ export default function Navbar({
                             onSubmit={handleSearchSubmit}
                             role="search"
                             className={`hidden h-10 shrink-0 items-center overflow-hidden rounded-full border transition-all duration-500 ease-out lg:flex ${isSearchOpen
-                                ? "w-60 border-[#d4af37]/60 bg-black/4"
+                                ? "w-60 border-gold/60 bg-black/4"
                                 : "w-10 border-transparent"
                                 }`}
                         >
@@ -885,7 +884,7 @@ export default function Navbar({
                 />
 
                 <div
-                    className={`absolute inset-y-0 right-0 flex w-[88%] max-w-sm flex-col border-l border-[#d4af37]/30 bg-white shadow-[-30px_0_60px_-20px_rgba(0,0,0,0.35)] transition-transform duration-500 ease-[cubic-bezier(.22,.8,.3,1)] ${isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
+                    className={`absolute inset-y-0 right-0 flex w-[88%] max-w-sm flex-col border-l border-gold/30 bg-white shadow-[-30px_0_60px_-20px_rgba(0,0,0,0.35)] transition-transform duration-500 ease-[cubic-bezier(.22,.8,.3,1)] ${isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
                         }`}
                 >
                     <span
@@ -918,7 +917,7 @@ export default function Navbar({
                                 menuButtonRef.current?.focus();
                             }}
                             aria-label={labels.closeMenu}
-                            className="flex h-11 w-11 items-center justify-center rounded-xl border border-[#d4af37]/30 text-[#8a6a1f] transition-colors hover:bg-black/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]"
+                            className="flex h-11 w-11 items-center justify-center rounded-xl border border-gold/30 text-gold-deep transition-colors hover:bg-black/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold"
                         >
                             <X size={22} />
                         </button>
@@ -933,9 +932,9 @@ export default function Navbar({
                         <form
                             onSubmit={handleSearchSubmit}
                             role="search"
-                            className="mb-6 flex min-h-12 items-center gap-3 rounded-2xl border border-[#d4af37]/30 bg-black/4 px-4 focus-within:border-[#d4af37]"
+                            className="mb-6 flex min-h-12 items-center gap-3 rounded-2xl border border-gold/30 bg-black/4 px-4 focus-within:border-gold"
                         >
-                            <Search size={19} className="shrink-0 text-[#8a6a1f]" aria-hidden="true" />
+                            <Search size={19} className="shrink-0 text-gold-deep" aria-hidden="true" />
                             <input
                                 type="search"
                                 value={searchQuery}
@@ -970,12 +969,12 @@ export default function Navbar({
                                                     onClick={() => setOpenAccordion(isOpen ? null : i)}
                                                     aria-expanded={isOpen}
                                                     aria-controls={`m-acc-${i}`}
-                                                    className="flex min-h-14 w-full items-center justify-between gap-4 text-base font-bold text-black transition-colors hover:text-[#8a6a1f] focus:outline-none focus-visible:text-[#8a6a1f]"
+                                                    className="flex min-h-14 w-full items-center justify-between gap-4 text-base font-bold text-black transition-colors hover:text-gold-deep focus:outline-none focus-visible:text-gold-deep"
                                                 >
                                                     {link.label}
                                                     <ChevronDown
                                                         size={18}
-                                                        className={`text-[#8a6a1f] transition-transform duration-300 ${isOpen ? "rotate-180" : ""
+                                                        className={`text-gold-deep transition-transform duration-300 ${isOpen ? "rotate-180" : ""
                                                             }`}
                                                     />
                                                 </button>
@@ -990,7 +989,7 @@ export default function Navbar({
                                                         <div className="flex flex-col gap-5 pb-5">
                                                             {mega.columns.map((col) => (
                                                                 <div key={col.title}>
-                                                                    <p className="mb-1 text-xs font-bold text-[#8a6a1f]">
+                                                                    <p className="mb-1 text-xs font-bold text-gold-deep">
                                                                         {col.title}
                                                                     </p>
                                                                     <ul className="flex flex-col">
@@ -1003,13 +1002,13 @@ export default function Navbar({
                                                                                         onClick={(e) =>
                                                                                             handleLinkClick(e, item.href)
                                                                                         }
-                                                                                        className="flex min-h-12 items-center gap-3 rounded-lg px-1 text-[15px] text-black/75 transition-colors hover:text-[#8a6a1f]"
+                                                                                        className="flex min-h-12 items-center gap-3 rounded-lg px-1 text-[15px] text-black/75 transition-colors hover:text-gold-deep"
                                                                                     >
                                                                                         {Icon && (
                                                                                             <Icon
                                                                                                 size={18}
                                                                                                 strokeWidth={1.6}
-                                                                                                className="shrink-0 text-[#8a6a1f]"
+                                                                                                className="shrink-0 text-gold-deep"
                                                                                             />
                                                                                         )}
                                                                                         {item.label}
@@ -1023,7 +1022,7 @@ export default function Navbar({
                                                             <a
                                                                 href={link.href}
                                                                 onClick={(e) => handleLinkClick(e, link.href)}
-                                                                className="inline-flex w-fit items-center gap-2 text-sm font-bold text-[#8a6a1f]"
+                                                                className="inline-flex w-fit items-center gap-2 text-sm font-bold text-gold-deep"
                                                             >
                                                                 {labels.viewAll} {link.label}
                                                                 <ArrowLeft size={15} />
@@ -1036,12 +1035,12 @@ export default function Navbar({
                                             <a
                                                 href={link.href}
                                                 onClick={(e) => handleLinkClick(e, link.href)}
-                                                className="group flex min-h-14 items-center justify-between gap-4 text-base font-bold text-black transition-colors hover:text-[#8a6a1f]"
+                                                className="group flex min-h-14 items-center justify-between gap-4 text-base font-bold text-black transition-colors hover:text-gold-deep"
                                             >
                                                 <span>{link.label}</span>
                                                 <ArrowLeft
                                                     size={17}
-                                                    className="shrink-0 text-[#8a6a1f] transition-transform group-hover:-translate-x-1"
+                                                    className="shrink-0 text-gold-deep transition-transform group-hover:-translate-x-1"
                                                 />
                                             </a>
                                         )}
@@ -1081,9 +1080,9 @@ export default function Navbar({
                                     key={t.label}
                                     href={t.href}
                                     onClick={(e) => handleLinkClick(e, t.href)}
-                                    className="flex min-h-22 flex-col items-center justify-center gap-2 rounded-2xl border border-[#d4af37]/25 bg-black/3 p-3 text-sm font-semibold text-black transition-colors hover:border-[#d4af37]/70 hover:bg-black/6"
+                                    className="flex min-h-22 flex-col items-center justify-center gap-2 rounded-2xl border border-gold/25 bg-black/3 p-3 text-sm font-semibold text-black transition-colors hover:border-gold/70 hover:bg-black/6"
                                 >
-                                    <span className="text-[#8a6a1f]">{t.icon}</span>
+                                    <span className="text-gold-deep">{t.icon}</span>
                                     <span>{t.label}</span>
                                 </a>
                             ))}
@@ -1091,9 +1090,9 @@ export default function Navbar({
                                 <button
                                     type="button"
                                     onClick={onLanguageToggle}
-                                    className="flex min-h-22 flex-col items-center justify-center gap-2 rounded-2xl border border-[#d4af37]/25 bg-black/3 p-3 text-sm font-semibold text-black transition-colors hover:border-[#d4af37]/70 hover:bg-black/6"
+                                    className="flex min-h-22 flex-col items-center justify-center gap-2 rounded-2xl border border-gold/25 bg-black/3 p-3 text-sm font-semibold text-black transition-colors hover:border-gold/70 hover:bg-black/6"
                                 >
-                                    <Globe size={21} strokeWidth={1.7} className="text-[#8a6a1f]" />
+                                    <Globe size={21} strokeWidth={1.7} className="text-gold-deep" />
                                     <span>{languageLabel ?? "English"}</span>
                                 </button>
                             )}
@@ -1106,7 +1105,7 @@ export default function Navbar({
                                     setIsMobileMenuOpen(false);
                                     onLogout();
                                 }}
-                                className="mt-4 flex min-h-12 w-full items-center justify-center gap-2 rounded-xl border border-black/20 px-4 py-3 text-sm font-bold text-black/75 transition-colors hover:border-[#d4af37] hover:text-[#8a6a1f]"
+                                className="mt-4 flex min-h-12 w-full items-center justify-center gap-2 rounded-xl border border-black/20 px-4 py-3 text-sm font-bold text-black/75 transition-colors hover:border-gold hover:text-gold-deep"
                             >
                                 <LogOut size={18} strokeWidth={1.8} />
                                 <span>{labels.logout}</span>
