@@ -12,7 +12,6 @@ enum AccountType {
   BUSINESS
 }
 
-/// حالة حساب الشركة: بيتعمل PENDING ولازم الإدارة توافق عليه
 enum CompanyStatus {
   PENDING
   APPROVED
@@ -23,6 +22,10 @@ enum OrderStatus {
   PROCESSING
   DELIVERED
   CANCELLED
+}
+
+enum PaymentMethod {
+  CASH_ON_DELIVERY
 }
 
 enum AddressKind {
@@ -54,9 +57,7 @@ model Company {
   userId       String        @unique
   user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   name         String
-  /// رقم السجل التجاري (10 أرقام)
   crNumber     String        @unique
-  /// الرقم الضريبي (15 رقم)، اختياري
   vatNumber    String?
   businessType String
   city         String
@@ -66,18 +67,26 @@ model Company {
 }
 
 model Order {
-  id        String      @id @default(cuid())
-  userId    String
-  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  total     Decimal     @db.Decimal(10, 2)
-  status    OrderStatus @default(PROCESSING)
-  createdAt DateTime    @default(now())
-  items     OrderItem[]
+  id             String        @id @default(cuid())
+  userId         String
+  user           User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subtotal       Decimal       @db.Decimal(10, 2)
+  shippingFee    Decimal       @db.Decimal(10, 2)
+  total          Decimal       @db.Decimal(10, 2)
+  status         OrderStatus   @default(PROCESSING)
+  shippingMethod String
+  paymentMethod  PaymentMethod @default(CASH_ON_DELIVERY)
+  recipientName  String
+  phone          String
+  city           String
+  street         String
+  notes          String?
+  createdAt      DateTime      @default(now())
+  items          OrderItem[]
 
   @@index([userId, createdAt])
 }
 
-/// المنتجات لسه ثابتة في brands.ts، فبنحفظ brand + productId والاسم والسعر وقت الطلب
 model OrderItem {
   id        String  @id @default(cuid())
   orderId   String

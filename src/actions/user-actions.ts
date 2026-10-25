@@ -47,7 +47,6 @@ export async function updatePassword(input: unknown): Promise<ActionResult> {
 
 type AddressResult = ActionResult & { addresses?: ClientAddress[] };
 
-/** بيرجع القائمة كلها بعد التعديل، عشان العنوان الافتراضي يفضل متزامن */
 async function listAddresses(userId: string) {
     const rows = await db.address.findMany({ where: { userId }, orderBy: { createdAt: "asc" } });
     return rows.map(toClientAddress);
@@ -61,7 +60,6 @@ export async function saveAddress(input: unknown): Promise<AddressResult> {
     if (!parsed.success) return { error: "يرجى مراجعة بيانات العنوان", fieldErrors: fieldErrorsOf(parsed.error) };
     const { id, ...data } = parsed.data;
 
-    /* لازم العنوان يكون بتاع المستخدم ده */
     if (id && !(await db.address.findFirst({ where: { id, userId }, select: { id: true } }))) {
         return { error: "العنوان غير موجود" };
     }

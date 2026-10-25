@@ -3,7 +3,8 @@ import LegalPage from "@/components/LegalPage";
 import { TERMS } from "@/components/legal-content";
 
 export const metadata: Metadata = {
-  title: `${TERMS.title} | RNQ`,
+  title: TERMS.title,
+  alternates: { canonical: "/legal/terms" },
   description: TERMS.description,
 };
 

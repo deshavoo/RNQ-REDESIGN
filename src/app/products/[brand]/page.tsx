@@ -1,10 +1,11 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import BrandProducts from "@/components/BrandProducts";
+import BrandProductsFromUrl from "@/components/BrandProductsFromUrl";
 import { BRANDS, isBrandId } from "@/components/brands";
 import type { BrandId } from "@/components/brands";
 
-/* صفحة لكل براند (barns, saadeddin)، وأي رابط تاني بيرجع 404 */
 export const dynamicParams = false;
 
 export function generateStaticParams() {
@@ -16,27 +17,24 @@ type Params = Promise<{ brand: string }>;
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
     const { brand } = await params;
     if (!isBrandId(brand)) return {};
+    const b = BRANDS[brand];
     return {
-        title: `${BRANDS[brand].title} | RNQ`,
-        description: BRANDS[brand].blurb,
+        title: b.title,
+        description: b.blurb,
+        alternates: { canonical: `/products/${brand}` },
+        openGraph: { title: b.title, description: b.blurb, url: `/products/${brand}` },
     };
 }
 
-export default async function BrandPage({
-    params,
-    searchParams,
-}: {
-    params: Params;
-    searchParams: Promise<{ type?: string }>;
-}) {
+export default async function BrandPage({ params }: { params: Params }) {
     const { brand } = await params;
     if (!isBrandId(brand)) notFound();
-    const { type } = await searchParams;
-    const valid = BRANDS[brand].categories.some((c) => c.id === type);
 
     return (
         <main>
-            <BrandProducts key={valid ? type : "all"} brand={brand} headingAs="h1" initialCategory={valid ? type : undefined} />
+            <Suspense fallback={<BrandProducts brand={brand} headingAs="h1" />}>
+                <BrandProductsFromUrl brand={brand} />
+            </Suspense>
         </main>
     );
 }

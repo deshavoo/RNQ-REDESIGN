@@ -78,17 +78,12 @@ export interface NavbarProps {
     onLanguageToggle?: () => void;
     languageLabel?: string;
 
-    /** أفراد / شركات: controlled لو مررت audience، وإلا بيشتغل لوحده */
     audience?: Audience;
     onAudienceChange?: (audience: Audience) => void;
 
     labels?: Partial<typeof DEFAULT_LABELS>;
     className?: string;
 }
-
-/* ------------------------------------------------------------------ */
-/* Defaults                                                            */
-/* ------------------------------------------------------------------ */
 
 const DEFAULT_LOGO: NavbarLogo = {
     src: "/MyLogo.png",
@@ -188,15 +183,7 @@ const DEFAULT_LINKS: NavLink[] = [
     { label: "من نحن", href: "#about" },
 ];
 
-/* ------------------------------------------------------------------ */
-/* Design tokens: white / black / gold                                 */
-/* ------------------------------------------------------------------ */
-
 const goldLine = `linear-gradient(90deg,transparent,${GOLD}aa,transparent)`;
-
-/* ------------------------------------------------------------------ */
-/* Small internal pieces                                               */
-/* ------------------------------------------------------------------ */
 
 function AudienceSwitch({
     audience,
@@ -323,10 +310,6 @@ function FeaturedCard({
     );
 }
 
-/* ------------------------------------------------------------------ */
-/* Navbar                                                              */
-/* ------------------------------------------------------------------ */
-
 export default function Navbar({
     logo = DEFAULT_LOGO,
     links = DEFAULT_LINKS,
@@ -378,7 +361,6 @@ export default function Navbar({
         onAudienceChange?.(a);
     };
 
-    /* ----- mega timers ----- */
     const clearCloseTimer = useCallback(() => {
         if (closeTimer.current) {
             clearTimeout(closeTimer.current);
@@ -406,14 +388,12 @@ export default function Navbar({
 
     useEffect(() => clearCloseTimer, [clearCloseTimer]);
 
-    /* ----- scroll state ----- */
     useEffect(() => {
         const onScroll = () => setIsScrolled(window.scrollY > 8);
         window.addEventListener("scroll", onScroll, { passive: true });
         return () => window.removeEventListener("scroll", onScroll);
     }, []);
 
-    /* ----- lock body scroll while the drawer is open ----- */
     useEffect(() => {
         if (!isMobileMenuOpen) return;
         const previousOverflow = document.body.style.overflow;
@@ -423,14 +403,12 @@ export default function Navbar({
         };
     }, [isMobileMenuOpen]);
 
-    /* ----- inert via ref so it works on React 18 and 19 ----- */
     useEffect(() => {
         if (mobileMenuRef.current) {
             (mobileMenuRef.current as HTMLElement & { inert: boolean }).inert = !isMobileMenuOpen;
         }
     }, [isMobileMenuOpen]);
 
-    /* ----- Esc ----- */
     useEffect(() => {
         if (!isMobileMenuOpen && !isSearchOpen && activeMega === null) return;
         const handleKeyDown = (e: KeyboardEvent) => {
@@ -449,7 +427,6 @@ export default function Navbar({
         return () => window.removeEventListener("keydown", handleKeyDown);
     }, [isMobileMenuOpen, isSearchOpen, activeMega, closeMega]);
 
-    /* ----- click outside closes mega + search ----- */
     useEffect(() => {
         if (activeMega === null && !isSearchOpen) return;
         const handlePointerDown = (e: PointerEvent) => {
@@ -462,7 +439,6 @@ export default function Navbar({
         return () => document.removeEventListener("pointerdown", handlePointerDown);
     }, [activeMega, isSearchOpen, closeMega]);
 
-    /* ----- close drawer when the screen reaches lg ----- */
     useEffect(() => {
         const mediaQuery = window.matchMedia("(min-width: 1024px)");
         const handleChange = (e: MediaQueryListEvent) => {
@@ -472,7 +448,6 @@ export default function Navbar({
         return () => mediaQuery.removeEventListener("change", handleChange);
     }, []);
 
-    /* ----- auto focus search ----- */
     useEffect(() => {
         if (isSearchOpen) searchInputRef.current?.focus();
     }, [isSearchOpen]);
@@ -516,12 +491,9 @@ export default function Navbar({
     const handleTriggerClick = (e: MouseEvent<HTMLButtonElement>, i: number) => {
         const isMouse = (e.nativeEvent as PointerEvent).pointerType === "mouse";
         clearCloseTimer();
-        // mouse: hover already opened it, so a click keeps it open. touch/keyboard: toggle.
         setActiveMega((prev) => (prev === i && !isMouse ? null : i));
     };
 
-    /* ----- shared classes ----- */
-    // نفس اللون للشريط العلوي والنافبار: أبيض مصمت (الشفافية كانت بتطلع رمادي فوق الخلفية الغامقة)
     const surface = "bg-white";
     const iconBtn =
         "relative flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-black/80 transition-colors duration-300 hover:bg-black/5 hover:text-[#8a6a1f] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]";
@@ -530,7 +502,6 @@ export default function Navbar({
 
     return (
         <>
-            {/* ---------- Utility bar (desktop): normal flow, scrolls away; the sticky header never changes height ---------- */}
             <div className={`hidden transition-colors duration-300 lg:block ${surface}`}>
                 <div
                     dir="rtl"
@@ -565,7 +536,6 @@ export default function Navbar({
                 className={`sticky top-0 z-50 w-full transform-gpu text-black backdrop-blur-xl transition-[background-color,box-shadow] duration-300 ${isScrolled ? "bg-white/95 shadow-[0_14px_40px_-18px_rgba(0,0,0,0.25)]" : surface
                     } ${className}`}
             >
-                {/* ---------- Main bar ---------- */}
                 <nav
                     dir="rtl"
                     aria-label={labels.mainNav}
@@ -583,7 +553,6 @@ export default function Navbar({
                         <Menu size={22} />
                     </button>
 
-                    {/* Logo: centered on mobile, at the start on desktop */}
                     <a
                         href={homeHref}
                         onClick={(e) => handleLinkClick(e, homeHref)}
@@ -595,7 +564,7 @@ export default function Navbar({
                             alt={logo.alt ?? ""}
                             width={logo.width ?? 180}
                             height={logo.height ?? 70}
-                            priority
+                            preload
                             className={
                                 logo.className ??
                                 "h-12 w-auto max-w-[42vw] object-contain sm:h-14 lg:h-18 lg:max-w-64"
@@ -603,7 +572,6 @@ export default function Navbar({
                         />
                     </a>
 
-                    {/* ---------- Desktop links + mega ---------- */}
                     <ul className="hidden h-full flex-1 items-center gap-1 lg:flex">
                         {links.map((link, i) => {
                             const mega = link.mega;
@@ -736,8 +704,6 @@ export default function Navbar({
                         })}
                     </ul>
 
-                    {/* ---------- Tools ---------- */}
-                    {/* dir="ltr" => ms-auto كان بيرمي الأدوات يمين. mr-auto (فيزيائي) بيزقها لأقصى الشمال في الموبايل */}
                     <div dir="ltr" className="mr-auto flex items-center gap-1 sm:gap-1.5 lg:gap-2">
                         {audience === "b2b" && (
                             <a
@@ -751,7 +717,6 @@ export default function Navbar({
                             </a>
                         )}
 
-                        {/* Search (desktop) */}
                         <form
                             onSubmit={handleSearchSubmit}
                             role="search"
@@ -848,7 +813,6 @@ export default function Navbar({
                     </div>
                 </nav>
 
-                {/* gold hairline under the header */}
                 <span
                     aria-hidden
                     className="pointer-events-none absolute inset-x-0 bottom-0 h-px"
@@ -857,14 +821,12 @@ export default function Navbar({
 
             </header>
 
-            {/* page dim while a mega menu is open (fixed, outside the header, so it can't affect scroll height) */}
             <div
                 aria-hidden
                 className={`pointer-events-none fixed inset-0 z-40 hidden bg-black/35 backdrop-blur-[2px] transition-opacity duration-300 lg:block ${activeMega !== null ? "opacity-100" : "opacity-0"
                     }`}
             />
 
-            {/* ---------- Mobile drawer (outside header: backdrop-filter breaks position:fixed) ---------- */}
             <div
                 ref={mobileMenuRef}
                 id="mobile-menu"
@@ -895,7 +857,6 @@ export default function Navbar({
                         }}
                     />
 
-                    {/* drawer header */}
                     <div className="relative flex h-20 shrink-0 items-center justify-between border-b border-black/10 px-5">
                         <a
                             href={homeHref}
@@ -928,7 +889,6 @@ export default function Navbar({
                             <AudienceSwitch audience={audience} onChange={changeAudience} labels={labels} size="md" />
                         </div>
 
-                        {/* search */}
                         <form
                             onSubmit={handleSearchSubmit}
                             role="search"
@@ -955,7 +915,6 @@ export default function Navbar({
                             )}
                         </form>
 
-                        {/* links + accordions */}
                         <ul className="flex flex-col border-t border-black/10">
                             {links.map((link, i) => {
                                 const mega = link.mega;
@@ -1049,7 +1008,6 @@ export default function Navbar({
                             })}
                         </ul>
 
-                        {/* quick tools */}
                         <div className="mt-6 grid grid-cols-2 gap-3">
                             {[
                                 { href: favoritesHref, label: labels.favorites, icon: <Heart size={21} strokeWidth={1.7} /> },
@@ -1119,7 +1077,6 @@ export default function Navbar({
                         )}
                     </div>
 
-                    {/* sticky B2B CTA */}
                     {audience === "b2b" && (
                         <div className="relative shrink-0 border-t border-black/10 p-4">
                             <a

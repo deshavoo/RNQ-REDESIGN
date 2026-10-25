@@ -4,7 +4,6 @@ import type { LegalDoc } from "./legal-content";
 
 const goldLine = "linear-gradient(90deg,#d4af37,transparent)";
 
-/** الكلام قبل أول ":" بخط عريض (لو boldLead مفعّل) */
 function Bullet({ text, boldLead }: { text: string; boldLead?: boolean }) {
     const i = boldLead ? text.indexOf(":") : -1;
     return (
@@ -37,7 +36,6 @@ export default function LegalPage({ doc }: { doc: LegalDoc }) {
                     <span aria-hidden className="mt-5 block h-px w-40" style={{ backgroundImage: goldLine }} />
                 </header>
 
-                {/* RTL: the contents list sits on the right, the text on the left */}
                 <div className={showToc ? "grid gap-8 lg:grid-cols-[15rem_minmax(0,1fr)] lg:gap-14" : ""}>
                     {showToc && (
                         <nav

@@ -4,10 +4,6 @@ import { ArrowLeft, Award, MapPin, Users } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { goldFill, goldLine } from "./theme";
 
-/* ------------------------------------------------------------------ */
-/* Types + default content                                             */
-/* ------------------------------------------------------------------ */
-
 export interface AboutBrand {
     id: string;
     title: string;
@@ -29,7 +25,6 @@ export interface AboutFact {
     label: string;
 }
 
-/** الترتيب RTL: أول عنصر على اليمين. الصور الافتراضية هي نفس صور البيست سيلر، غيّرها بصور مخصوصة (يفضل 4:3) */
 const DEFAULT_BRANDS: AboutBrand[] = [
     {
         id: "barns",
@@ -51,7 +46,6 @@ const DEFAULT_BRANDS: AboutBrand[] = [
     },
 ];
 
-/** راجع النصوص دي وعدّلها بصوتكم. اكتب بس اللي تقدر تقوله بثقة */
 const DEFAULT_VALUES: AboutValue[] = [
     {
         title: "اختيار بعناية",
@@ -70,15 +64,11 @@ const DEFAULT_VALUES: AboutValue[] = [
     },
 ];
 
-
 interface AboutProps {
     brands?: AboutBrand[];
     values?: AboutValue[];
-    /** أرقام حقيقية فقط (سنة التأسيس، عدد العملاء...). لو مش موجودة الشريط مش بيظهر */
     facts?: AboutFact[];
-    /** صفحة التواصل. لو مش موجودة الزر مش بيظهر */
     contactHref?: string;
-    /** مثال: https://rnq.sa. لو اتمرر، بيتضاف Organization structured data للسيو */
     siteUrl?: string;
     id?: string;
     className?: string;
@@ -110,7 +100,6 @@ export default function About({
             dir="rtl"
             lang="ar"
             aria-labelledby={`${id}-title`}
-            /* below the fold: the browser skips rendering it until it's near the viewport */
             className={`relative scroll-mt-28 bg-black py-16 text-white [contain-intrinsic-size:auto_1400px] [content-visibility:auto] sm:py-24 ${className}`}
         >
             <span
@@ -120,7 +109,6 @@ export default function About({
             />
 
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                {/* ---------- statement ---------- */}
                 <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,2.4fr)] lg:gap-16">
                     <div>
                         <h2 id={`${id}-title`} className="text-3xl font-semibold sm:text-4xl">
@@ -151,7 +139,6 @@ export default function About({
                     </div>
                 </div>
 
-                {/* ---------- optional real numbers ---------- */}
                 {facts && facts.length > 0 && (
                     <dl className="mt-14 grid grid-cols-2 gap-8 border-y border-gold/25 py-8 sm:grid-cols-4">
                         {facts.map((f) => (
@@ -163,7 +150,6 @@ export default function About({
                     </dl>
                 )}
 
-                {/* ---------- the two brands ---------- */}
                 <ul className="mt-14 grid gap-5 sm:mt-16 md:grid-cols-2 lg:gap-8">
                     {brands.map((b) => (
                         <li key={b.id} className="flex">
@@ -199,7 +185,6 @@ export default function About({
                     ))}
                 </ul>
 
-                {/* ---------- what we stand for ---------- */}
                 <ul className="mt-14 grid gap-8 border-t border-gold/25 pt-10 sm:mt-16 md:grid-cols-3 md:gap-10">
                     {values.map(({ title, description, icon: Icon }) => (
                         <li key={title} className="flex items-start gap-4">

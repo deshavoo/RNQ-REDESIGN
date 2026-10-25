@@ -2,13 +2,8 @@ import Link from "next/link";
 import { ArrowLeft, MessageCircle, Plus } from "lucide-react";
 import { goldFill } from "./theme";
 
-/* ------------------------------------------------------------------ */
-/* Types + default content                                             */
-/* ------------------------------------------------------------------ */
-
 export interface FaqItem {
     question: string;
-    /** نص عادي بس (بيتحط كمان في structured data) */
     answer: string;
 }
 const DEFAULT_FAQS: FaqItem[] = [
@@ -38,16 +33,9 @@ const DEFAULT_FAQS: FaqItem[] = [
     },
 ];
 
-
-/* ------------------------------------------------------------------ */
-/* Section                                                             */
-/* ------------------------------------------------------------------ */
-
 interface FaqProps {
     faqs?: FaqItem[];
-    /** صفحة التواصل. لو مفيش contactHref ولا whatsappHref كارت المساعدة مش بيظهر */
     contactHref?: string;
-    /** رابط واتساب كامل (https://wa.me/...) */
     whatsappHref?: string;
     id?: string;
     className?: string;
@@ -77,12 +65,10 @@ export default function Faq({
             dir="rtl"
             lang="ar"
             aria-labelledby={`${id}-title`}
-            /* below the fold: the browser skips rendering it until it's near the viewport */
             className={`relative scroll-mt-28 bg-white py-16 text-black [contain-intrinsic-size:auto_800px] [content-visibility:auto] sm:py-24 ${className}`}
         >
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.7fr)] lg:gap-20">
-                    {/* ---------- heading + help card ---------- */}
                     <div className="lg:sticky lg:top-28 lg:self-start">
                         <h2 id={`${id}-title`} className="text-3xl font-semibold sm:text-4xl">
                             أسئلة شائعة
@@ -130,7 +116,6 @@ export default function Faq({
                         )}
                     </div>
 
-                    {/* ---------- accordion: native <details>, no JS ---------- */}
                     <ul className="border-t border-black/10">
                         {faqs.map((f) => (
                             <li key={f.question} className="border-b border-black/10">

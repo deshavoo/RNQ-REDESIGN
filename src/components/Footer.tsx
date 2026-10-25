@@ -5,10 +5,6 @@ import type { ReactNode } from "react";
 import { BRANDS } from "./brands";
 import { goldFill, goldLine } from "./theme";
 
-/* ------------------------------------------------------------------ */
-/* Types + defaults (غيّر البيانات هنا أو ابعتها كـ props)             */
-/* ------------------------------------------------------------------ */
-
 export interface FooterLink {
     label: string;
     href: string;
@@ -24,7 +20,6 @@ export interface FooterContact {
     phone: string;
     email: string;
     address: string;
-    /** رقم واتساب بالصيغة الدولية من غير + أو مسافات، مثال: 966500000000 */
     whatsapp?: string;
 }
 
@@ -38,7 +33,6 @@ interface FooterProps {
 
 const DEFAULT_LOGO = { src: "/MyLogo.png", alt: "شعار مجموعة RNQ للتجارة", width: 180, height: 70 };
 
-/** بيانات تجريبية: استبدلها ببيانات التواصل الحقيقية */
 const DEFAULT_CONTACT: FooterContact = {
     phone: "+966 50 000 0000",
     email: "info@example.com",
@@ -61,10 +55,6 @@ const LEGAL_LINKS: FooterLink[] = [
     { label: "الاستبدال والاسترجاع", href: "/legal/returns" },
     { label: "الشحن والتوصيل", href: "/legal/shipping" },
 ];
-
-/* ------------------------------------------------------------------ */
-/* Social icons (SVG بسيطة، من غير مكتبات إضافية)                       */
-/* ------------------------------------------------------------------ */
 
 const svgProps = {
     width: 18,
@@ -98,17 +88,11 @@ const TikTokIcon = (
     </svg>
 );
 
-/** روابط تجريبية: ضع حساباتك الحقيقية */
 const DEFAULT_SOCIALS: FooterSocial[] = [
     { label: "إنستجرام", href: "https://instagram.com/", icon: InstagramIcon },
     { label: "إكس", href: "https://x.com/", icon: XIcon },
     { label: "تيك توك", href: "https://tiktok.com/", icon: TikTokIcon },
 ];
-
-/* ------------------------------------------------------------------ */
-/* Shared classes                                                      */
-/* ------------------------------------------------------------------ */
-
 
 const linkClass =
     "inline-flex min-h-9 items-center text-sm text-white/70 transition-colors duration-300 hover:text-[#f5e3a1] focus:outline-none focus-visible:text-[#f5e3a1] focus-visible:underline";
@@ -119,10 +103,6 @@ const iconCircle =
 function ColumnTitle({ children }: { children: ReactNode }) {
     return <h2 className="mb-4 text-sm font-semibold text-gold">{children}</h2>;
 }
-
-/* ------------------------------------------------------------------ */
-/* Component                                                           */
-/* ------------------------------------------------------------------ */
 
 export default function Footer({
     logo = DEFAULT_LOGO,
@@ -136,13 +116,11 @@ export default function Footer({
 
     return (
         <footer dir="rtl" lang="ar" className={`relative mt-auto overflow-hidden bg-black text-white ${className}`}>
-            {/* gold hairline on top */}
             <span
                 aria-hidden
                 className="absolute inset-x-0 top-0 h-px"
                 style={{ backgroundImage: goldLine }}
             />
-            {/* soft gold light behind the quote band */}
             <span
                 aria-hidden
                 className="pointer-events-none absolute -top-40 left-1/2 h-80 w-[min(110vw,70rem)] -translate-x-1/2 rounded-full blur-3xl"
@@ -153,7 +131,6 @@ export default function Footer({
             />
 
             <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                {/* ---------- B2B quote band ---------- */}
                 <div className="border-b border-white/10 py-12 sm:py-14">
                     <div className="flex flex-col items-start justify-between gap-6 rounded-3xl border border-gold/30 bg-white/3 p-7 sm:flex-row sm:items-center sm:p-10">
                         <div className="max-w-xl">
@@ -175,9 +152,7 @@ export default function Footer({
                     </div>
                 </div>
 
-                {/* ---------- Columns ---------- */}
                 <div className="grid gap-12 py-12 sm:grid-cols-2 lg:grid-cols-12 lg:gap-8 lg:py-16">
-                    {/* brand */}
                     <div className="sm:col-span-2 lg:col-span-4">
                         <Link
                             href="/"
@@ -227,7 +202,6 @@ export default function Footer({
                         </ul>
                     </div>
 
-                    {/* quick links */}
                     <nav aria-label="روابط سريعة" className="lg:col-span-2">
                         <ColumnTitle>روابط سريعة</ColumnTitle>
                         <ul className="flex flex-col">
@@ -241,7 +215,6 @@ export default function Footer({
                         </ul>
                     </nav>
 
-                    {/* products per brand (built from the same data as the products pages) */}
                     <nav aria-label="المنتجات" className="lg:col-span-3">
                         <ColumnTitle>المنتجات</ColumnTitle>
                         <div className="flex flex-col gap-6">
@@ -267,7 +240,6 @@ export default function Footer({
                         </div>
                     </nav>
 
-                    {/* contact */}
                     <div className="lg:col-span-3">
                         <ColumnTitle>تواصل معنا</ColumnTitle>
                         <ul className="flex flex-col gap-4 text-sm text-white/70">
@@ -298,7 +270,6 @@ export default function Footer({
                     </div>
                 </div>
 
-                {/* ---------- Bottom bar ---------- */}
                 <div className="flex flex-col items-start justify-between gap-4 border-t border-white/10 py-6 sm:flex-row sm:items-center">
                     <p className="text-xs text-white/50">
                         © {year} مجموعة RNQ للتجارة. جميع الحقوق محفوظة.

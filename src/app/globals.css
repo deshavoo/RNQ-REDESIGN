@@ -16,7 +16,6 @@
   --color-gold-deep: #8a6a1f;
 }
 
-/* حركات صفحات الحساب (الدخول والتسجيل وحسابي) */
 @theme {
   --animate-fade-up: fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
   --animate-float: float 10s ease-in-out infinite;

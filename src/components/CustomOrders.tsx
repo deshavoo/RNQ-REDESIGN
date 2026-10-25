@@ -160,7 +160,6 @@ export default function CustomOrders({
                     </div>
                 </div>
 
-                {/* ---------- steps: a real sequence, so numbering is meaningful ---------- */}
                 <div className="mt-16 rounded-3xl border border-gold/25 bg-[#faf7ee] p-6 sm:mt-20 sm:p-10">
                     <h3 className="text-xl font-semibold sm:text-2xl">كيف يتم طلبك؟</h3>
                     <ol className="mt-8 grid gap-8 lg:grid-cols-4 lg:gap-6">

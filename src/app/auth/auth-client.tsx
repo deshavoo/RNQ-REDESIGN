@@ -17,10 +17,6 @@ import type { FieldErrors } from "@/lib/validation";
 
 export type AuthView = "login" | "individual" | "business";
 
-/* ------------------------------------------------------------------ */
-/* المحتوى اللي بيتغير في اللوحة الدهبي حسب الفورم                      */
-/* ------------------------------------------------------------------ */
-
 const PANEL: Record<AuthView, { title: string; text: string; perks: { icon: LucideIcon; text: string }[] }> = {
     login: {
         title: "أهلاً بعودتك",
@@ -51,10 +47,6 @@ const PANEL: Record<AuthView, { title: string; text: string; perks: { icon: Luci
         ],
     },
 };
-
-/* ------------------------------------------------------------------ */
-/* Fields                                                              */
-/* ------------------------------------------------------------------ */
 
 const inputCls =
     "w-full rounded-xl border border-black/15 bg-white px-4 py-3 text-black placeholder:text-black/35 outline-none transition " +
@@ -135,10 +127,6 @@ function FormError({ message }: { message: string | null }) {
         </p>
     );
 }
-
-/* ------------------------------------------------------------------ */
-/* Forms                                                               */
-/* ------------------------------------------------------------------ */
 
 interface FormProps {
     onDone: () => void;
@@ -309,10 +297,6 @@ function BusinessForm({ onDone }: FormProps) {
     );
 }
 
-/* ------------------------------------------------------------------ */
-/* Page                                                                */
-/* ------------------------------------------------------------------ */
-
 function Segmented<T extends string>({
     label,
     value,
@@ -353,7 +337,6 @@ export default function AuthClient({ initialView, callbackUrl }: { initialView: 
     const panel = PANEL[view];
     const mode = view === "login" ? "login" : "register";
 
-    /* الرابط بيتحدث من غير إعادة تحميل، عشان لو عمل refresh يفضل على نفس الفورم */
     const go = (v: AuthView) => {
         setView(v);
         const q = v === "login" ? "" : `?mode=register${v === "business" ? "&type=business" : ""}`;
@@ -368,7 +351,6 @@ export default function AuthClient({ initialView, callbackUrl }: { initialView: 
     return (
         <main dir="rtl" lang="ar" className="bg-[#faf7ef] px-4 py-10 sm:py-16">
             <div className="mx-auto grid max-w-6xl overflow-hidden rounded-3xl border border-gold/30 bg-white shadow-[0_30px_80px_-40px_rgba(138,106,31,0.45)] lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
-                {/* ---------- اللوحة الدهبي (يمين في RTL) ---------- */}
                 <aside className="relative isolate overflow-hidden bg-linear-to-bl from-[#1c170b] via-black to-black p-8 text-white sm:p-10 lg:p-12">
                     <div aria-hidden className="pointer-events-none absolute -inset-s-20 -top-24 -z-10 h-80 w-80 animate-float rounded-full bg-gold/25 blur-3xl motion-reduce:animate-none" />
                     <div aria-hidden className="pointer-events-none absolute -bottom-28 inset-e-0 -z-10 h-72 w-72 animate-float-slow rounded-full bg-gold/15 blur-3xl motion-reduce:animate-none" />
@@ -395,7 +377,6 @@ export default function AuthClient({ initialView, callbackUrl }: { initialView: 
                     </div>
                 </aside>
 
-                {/* ---------- الفورم (شمال في RTL) ---------- */}
                 <section aria-label={mode === "login" ? "تسجيل الدخول" : "إنشاء حساب"} className="p-6 sm:p-10 lg:p-12">
                     <Segmented
                         label="الدخول أو إنشاء حساب"

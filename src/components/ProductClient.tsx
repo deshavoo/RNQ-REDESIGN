@@ -1,31 +1,16 @@
 "use client";
 
-/**
- * كل مكونات صفحة المنتج التفاعلية في ملف واحد (Client Components):
- *  - QuickViewModal: النافذة السريعة (<dialog> الأصلي)
- *  - ProductGallery: معرض الصور (لما المنتج عنده أكتر من صورة)
- *  - ProductActions: الكمية + إضافة للسلة
- * ProductDetails.tsx (Server Component) بيستوردهم من هنا.
- */
-
 import { useEffect, useRef, useState } from "react";
 import type { ReactNode } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Check, Minus, Plus, ShoppingBag, X } from "lucide-react";
-import { formatPrice } from "./brands";
-import type { Product } from "./brands";
+import { cart } from "./cart/cart-store";
+import { formatPrice, productKey } from "./brands";
+import type { BrandId, Product } from "./brands";
+import { MAX_QTY } from "@/lib/shop";
 import { goldFill } from "./theme";
 
-/* ------------------------------------------------------------------ */
-/* QuickViewModal                                                      */
-/* ------------------------------------------------------------------ */
-
-/**
- * نافذة المعاينة السريعة على <dialog> الأصلي:
- * الفوكس بيتحبس جواها، وESC بيقفلها، والخلفية بتبقى inert تلقائياً.
- * القفل = router.back() فبيرجع لقائمة المنتجات بنفس الفلاتر والسكرول.
- */
 export function QuickViewModal({ labelledBy, children }: { labelledBy: string; children: ReactNode }) {
     const ref = useRef<HTMLDialogElement>(null);
     const router = useRouter();
@@ -53,7 +38,7 @@ export function QuickViewModal({ labelledBy, children }: { labelledBy: string; c
                 close();
             }}
             onClick={(e) => {
-                if (e.target === e.currentTarget) close(); // الضغط على الخلفية
+                if (e.target === e.currentTarget) close();
             }}
             className="m-0 mt-auto max-h-[92dvh] w-full max-w-none overflow-y-auto overscroll-contain rounded-t-3xl bg-white p-0 text-black transition-[opacity,transform] duration-300 backdrop:bg-black/70 starting:open:translate-y-6 starting:open:opacity-0 motion-reduce:transition-none sm:m-auto sm:max-w-5xl sm:rounded-3xl"
         >
@@ -72,19 +57,14 @@ export function QuickViewModal({ labelledBy, children }: { labelledBy: string; c
     );
 }
 
-/* ------------------------------------------------------------------ */
-/* ProductGallery                                                      */
-/* ------------------------------------------------------------------ */
-
-/** بيتستخدم بس لما المنتج عنده أكتر من صورة. صورة واحدة بتتعرض من السيرفر من غير JS */
 export function ProductGallery({
     images,
     name,
-    priority = false,
+    preload = false,
 }: {
     images: string[];
     name: string;
-    priority?: boolean;
+    preload?: boolean;
 }) {
     const [i, setI] = useState(0);
 
@@ -96,7 +76,7 @@ export function ProductGallery({
                     src={images[i]}
                     alt={`${name} - صورة ${i + 1}`}
                     fill
-                    priority={priority && i === 0}
+                    preload={preload && i === 0}
                     sizes="(min-width:1024px) 512px, 100vw"
                     className="object-cover"
                 />
@@ -121,19 +101,7 @@ export function ProductGallery({
     );
 }
 
-/* ------------------------------------------------------------------ */
-/* ProductActions                                                      */
-/* ------------------------------------------------------------------ */
-
-const MAX_QTY = 20;
-
-/**
- * الكمية + زر الإضافة للسلة.
- * لسه مفيش سلة في المشروع، فالزر بيبعت حدث عام على window:
- *   window.addEventListener("rnq:add-to-cart", (e) => { const { product, quantity } = e.detail; ... })
- * اربط السلة (Context/Zustand/...) بالحدث ده، أو بدّل dispatchEvent باستدعاء مباشر.
- */
-export function ProductActions({ product }: { product: Product }) {
+export function ProductActions({ brandId, product }: { brandId: BrandId; product: Product }) {
     const [qty, setQty] = useState(1);
     const [added, setAdded] = useState(false);
     const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -146,7 +114,7 @@ export function ProductActions({ product }: { product: Product }) {
     );
 
     const add = () => {
-        window.dispatchEvent(new CustomEvent("rnq:add-to-cart", { detail: { product, quantity: qty } }));
+        cart.add(brandId, productKey(product), qty);
         setAdded(true);
         if (timer.current) clearTimeout(timer.current);
         timer.current = setTimeout(() => setAdded(false), 2200);

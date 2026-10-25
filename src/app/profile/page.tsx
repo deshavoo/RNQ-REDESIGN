@@ -10,9 +10,9 @@ import ProfileClient from "./profile-client";
 import type { TabId } from "./profile-client";
 
 export const metadata: Metadata = {
-    title: "حسابي | RNQ",
+    title: "حسابي",
     description: "إدارة تفاصيل الحساب والطلبات السابقة والعناوين وقائمة المفضلة في مجموعة RNQ للتجارة.",
-    robots: { index: false },
+    robots: { index: false, follow: false },
 };
 
 const TAB_IDS: TabId[] = ["orders", "addresses", "account", "wishlist"];
@@ -32,7 +32,6 @@ export default async function ProfilePage({ searchParams }: { searchParams: Prom
             wishlist: { orderBy: { createdAt: "desc" } },
         },
     });
-    /* الحساب اتمسح والجلسة لسه موجودة */
     if (!dbUser) redirect("/auth");
 
     const { tab } = await searchParams;
@@ -64,7 +63,6 @@ export default async function ProfilePage({ searchParams }: { searchParams: Prom
         items: o.items.map((i) => ({ brand: i.brand, productId: i.productId, name: i.name, qty: i.qty, price: i.price.toNumber() })),
     }));
 
-    /* المنتجات ثابتة في brands.ts؛ أي منتج اتشال من الكتالوج بيختفي من المفضلة */
     const wishlist: ClientWishItem[] = dbUser.wishlist.flatMap((w) => {
         if (!isBrandId(w.brand)) return [];
         const p = findProduct(w.brand, w.productId);

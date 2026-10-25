@@ -4,33 +4,20 @@ import { BadgeCheck, MapPin, PartyPopper, Gift, Sparkles } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { GOLD } from "./theme";
 
-/* ------------------------------------------------------------------ */
-/* Types                                                               */
-/* ------------------------------------------------------------------ */
-
 export interface MarqueeItem {
   text: string;
   icon?: LucideIcon;
-  /** لو موجود، النص بيتحول لرابط */
   href?: string;
 }
 
 export interface AnnouncementMarqueeProps {
   items?: MarqueeItem[];
-  /** مدة اللفة الكاملة بالثواني: كل ما زادت كل ما كان أبطأ */
   duration?: number;
-  /** يعكس اتجاه الحركة */
   reverse?: boolean;
-  /** عدد مرات تكرار القائمة في كل نصف (زوّده لو القائمة قصيرة والشاشة عريضة) */
   repeat?: number;
-  /** وصف للقارئات الصوتية */
   ariaLabel?: string;
   className?: string;
 }
-
-/* ------------------------------------------------------------------ */
-/* Defaults (نصوص مؤقتة: عدّلها بالنصوص المعتمدة)                       */
-/* ------------------------------------------------------------------ */
 
 const DEFAULT_ITEMS: MarqueeItem[] = [
   { text: "وكيل معتمد لقهوة بارنيز", icon: BadgeCheck },
@@ -40,11 +27,6 @@ const DEFAULT_ITEMS: MarqueeItem[] = [
   { text: "هدايا وضيافة للشركات", icon: Gift },
   { text: "طلبات خاصة حسب الطلب", icon: Sparkles },
 ];
-
-
-/* ------------------------------------------------------------------ */
-/* Component                                                           */
-/* ------------------------------------------------------------------ */
 
 function Entry({ item, primary }: { item: MarqueeItem; primary: boolean }) {
   const Icon = item.icon;
@@ -69,7 +51,6 @@ function Entry({ item, primary }: { item: MarqueeItem; primary: boolean }) {
       ) : (
         <span className={base}>{content}</span>
       )}
-      {/* gold diamond separator */}
       <span aria-hidden className="h-1.5 w-1.5 shrink-0 rotate-45 bg-[#d4af37]" />
     </li>
   );
@@ -83,8 +64,6 @@ export default function AnnouncementMarquee({
   ariaLabel = "مميزات المجموعة",
   className = "",
 }: AnnouncementMarqueeProps) {
-  // one "half" = the list repeated; the track renders two identical halves for a seamless loop
-  // only the very first copy is announced and focusable; every other copy is decoration
   const makeHalf = (isFirstHalf: boolean) =>
     Array.from({ length: repeat }, (_, r) =>
       items.map((item, i) => (
@@ -106,7 +85,6 @@ export default function AnnouncementMarquee({
         @media (prefers-reduced-motion: reduce) { .rnq-marquee-track { animation: none } }
       `}</style>
 
-      {/* LTR on purpose: keeps the translateX math simple; each item sets its own RTL */}
       <div
         dir="ltr"
         className="h-10 mask-[linear-gradient(to_right,transparent,#000_8%,#000_92%,transparent)]"
@@ -125,7 +103,6 @@ export default function AnnouncementMarquee({
         </ul>
       </div>
 
-      {/* gold hairline */}
       <span
         aria-hidden
         className="pointer-events-none absolute inset-x-0 bottom-0 h-px"

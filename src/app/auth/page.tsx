@@ -5,7 +5,8 @@ import AuthClient from "./auth-client";
 import type { AuthView } from "./auth-client";
 
 export const metadata: Metadata = {
-    title: "تسجيل الدخول | RNQ",
+    title: "تسجيل الدخول",
+    robots: { index: false, follow: true },
     description: "سجّل دخولك أو افتح حساب جديد للأفراد أو للشركات في مجموعة RNQ للتجارة.",
 };
 

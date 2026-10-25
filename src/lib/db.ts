@@ -1,7 +1,6 @@
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "@/generated/prisma/client";
 
-/* نسخة واحدة بس من الـ client، حتى مع الـ hot reload وقت التطوير */
 const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient };
 
 function createClient() {

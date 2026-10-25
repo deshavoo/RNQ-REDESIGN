@@ -1,8 +1,6 @@
 import type { Address } from "@/generated/prisma/client";
 import type { AddressKind, CompanyStatus, OrderStatus } from "@/generated/prisma/enums";
 
-/* أشكال البيانات اللي بتتبعت من السيرفر لصفحة الحساب (من غير Decimal ولا Date) */
-
 export interface ClientAddress {
     id: string;
     label: string;
@@ -44,7 +42,6 @@ export interface ProfileUser {
     name: string;
     email: string;
     phone: string;
-    /** YYYY-MM-DD أو "" */
     birthday: string;
     joined: string;
     points: number;
@@ -63,10 +60,6 @@ export const toClientAddress = (a: Address): ClientAddress => ({
     phone: a.phone,
     isDefault: a.isDefault,
 });
-
-/* ------------------------------------------------------------------ */
-/* مستويات العضوية                                                     */
-/* ------------------------------------------------------------------ */
 
 const TIERS = [
     { name: "العضوية البرونزية", from: 0 },

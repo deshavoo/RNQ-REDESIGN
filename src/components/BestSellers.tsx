@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { BRANDS, SAMPLE_PRODUCTS, productPath } from "./brands";
+import { BRANDS, SAMPLE_PRODUCTS } from "./brands";
 import type { BrandId, Product } from "./brands";
 import ProductCard from "./ProductCard";
 import { goldFill } from "./theme";
@@ -15,7 +15,6 @@ export interface SideImageData {
     caption: string;
 }
 
-/** الصور الافتراضية هي نفس صور الهيرو. غيّرها بصورتين مخصوصين للسكشن (يفضل طوليتين 4:5) */
 const DEFAULT_RIGHT: SideImageData = {
     src: "/images/best-barns.jpg",
     alt: "قهوة بارنيز المختصة",
@@ -54,11 +53,9 @@ function SideImage({ img, className = "" }: { img: SideImageData; className?: st
 }
 
 interface BestSellersProps {
-    /** المنتجات الأكثر طلباً لكل براند. الافتراضي أول 6 من البيانات التجريبية */
     products?: Partial<Record<BrandId, Product[]>>;
     rightImage?: SideImageData;
     leftImage?: SideImageData;
-    onAddToCart?: (product: Product) => void;
     id?: string;
     className?: string;
 }
@@ -67,7 +64,6 @@ export default function BestSellers({
     products,
     rightImage = DEFAULT_RIGHT,
     leftImage = DEFAULT_LEFT,
-    onAddToCart,
     id = "best-sellers",
     className = "",
 }: BestSellersProps) {
@@ -85,22 +81,18 @@ export default function BestSellers({
             className={`scroll-mt-28 bg-white py-14 sm:py-20 ${className}`}
         >
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                {/* mobile: the two images sit side by side above the content */}
                 <div className="mb-8 grid grid-cols-2 gap-3 lg:hidden">
                     <SideImage img={rightImage} className="aspect-4/5" />
                     <SideImage img={leftImage} className="aspect-4/5" />
                 </div>
 
-                {/* RTL: first column = RIGHT image, last column = LEFT image */}
                 <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.7fr)_minmax(0,1fr)] lg:gap-10">
-                    {/* sticky right image */}
                     <div className="hidden lg:block">
                         <div className="sticky top-28 h-[calc(100svh-8rem)] max-h-176 min-h-96">
                             <SideImage img={rightImage} className="h-full w-full" />
                         </div>
                     </div>
 
-                    {/* content */}
                     <div>
                         <header className="mb-6 text-center sm:mb-8">
                             <h2 id={`${id}-title`} className="text-3xl font-semibold text-black sm:text-4xl">
@@ -139,11 +131,10 @@ export default function BestSellers({
                                 <li key={p.id} className="flex">
                                     <ProductCard
                                         product={p}
-                                        href={productPath(brandId, p)}
+                                        brand={brandId}
                                         keepScroll
                                         mark={brand.mark}
                                         categoryLabel={categoryLabel(p.category)}
-                                        onAddToCart={onAddToCart}
                                     />
                                 </li>
                             ))}
@@ -159,7 +150,6 @@ export default function BestSellers({
                         </div>
                     </div>
 
-                    {/* sticky left image */}
                     <div className="hidden lg:block">
                         <div className="sticky top-28 h-[calc(100svh-8rem)] max-h-176 min-h-96">
                             <SideImage img={leftImage} className="h-full w-full" />

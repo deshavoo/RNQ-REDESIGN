@@ -3,7 +3,8 @@ import LegalPage from "@/components/LegalPage";
 import { RETURNS } from "@/components/legal-content";
 
 export const metadata: Metadata = {
-  title: `${RETURNS.title} | RNQ`,
+  title: RETURNS.title,
+  alternates: { canonical: "/legal/returns" },
   description: RETURNS.description,
 };
 

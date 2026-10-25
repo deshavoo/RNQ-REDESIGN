@@ -3,8 +3,6 @@ import ProductDetails from "@/components/ProductDetails";
 import { QuickViewModal } from "@/components/ProductClient";
 import { findProduct, isBrandId, productStaticParams } from "@/components/brands";
 
-/* بيتعرض لما تضغط على منتج من داخل الموقع (تنقل سريع). فتح الرابط مباشرة بيعرض الصفحة الكاملة */
-
 export const dynamicParams = false;
 
 export function generateStaticParams() {

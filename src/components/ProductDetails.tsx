@@ -4,28 +4,23 @@ import type { BrandId, Product } from "./brands";
 import { ProductActions, ProductGallery } from "./ProductClient";
 import { goldFill } from "./theme";
 
-
 interface ProductDetailsProps {
     brandId: BrandId;
     product: Product;
-    /** page: صفحة كاملة (h1) | modal: داخل النافذة السريعة (h2 + رابط للصفحة الكاملة) */
     variant: "page" | "modal";
 }
 
-/** Server Component: المحتوى واحد في الصفحة والنافذة، والتفاعل بس في ProductActions و ProductGallery */
 export default function ProductDetails({ brandId, product: p, variant }: ProductDetailsProps) {
     const brand = BRANDS[brandId];
     const Heading = variant === "page" ? "h1" : "h2";
     const categoryLabel = brand.categories.find((c) => c.id === p.category)?.label;
     const images = p.images?.length ? p.images : p.image ? [p.image] : [];
-    const priority = true; // أول شيء ظاهر في الصفحة والنافذة
 
     return (
         <div className="grid gap-8 lg:grid-cols-2 lg:gap-12">
-            {/* ---------- image (right in RTL) ---------- */}
             <div>
                 {images.length > 1 ? (
-                    <ProductGallery images={images} name={p.name} priority={priority} />
+                    <ProductGallery images={images} name={p.name} preload />
                 ) : (
                     <div className="relative aspect-square overflow-hidden rounded-3xl bg-[#f6f1e4] ring-1 ring-gold/30">
                         {images[0] ? (
@@ -33,7 +28,7 @@ export default function ProductDetails({ brandId, product: p, variant }: Product
                                 src={images[0]}
                                 alt={p.name}
                                 fill
-                                priority={priority}
+                                preload
                                 sizes="(min-width:1024px) 512px, 100vw"
                                 className="object-cover"
                             />
@@ -53,7 +48,6 @@ export default function ProductDetails({ brandId, product: p, variant }: Product
                 )}
             </div>
 
-            {/* ---------- info (left in RTL) ---------- */}
             <div className="flex flex-col">
                 <div className="flex flex-wrap items-center gap-3">
                     <p className="text-sm font-semibold text-gold-deep">{brand.title}</p>
@@ -99,11 +93,10 @@ export default function ProductDetails({ brandId, product: p, variant }: Product
                 )}
 
                 <div className="mt-8">
-                    <ProductActions product={p} />
+                    <ProductActions brandId={brandId} product={p} />
                 </div>
 
                 {variant === "modal" && (
-                    /* <a> عادي (مش Link) عشان يفتح الصفحة الكاملة بدل ما النافذة تتفتح تاني */
                     <a
                         href={productPath(brandId, p)}
                         className="mt-6 inline-flex min-h-11 items-center self-start text-sm font-bold text-gold-deep underline-offset-4 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-gold"

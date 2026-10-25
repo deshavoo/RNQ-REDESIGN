@@ -5,14 +5,8 @@ import { db } from "@/lib/db";
 import { businessSchema, fieldErrorsOf, individualSchema } from "@/lib/validation";
 import type { ActionResult } from "@/lib/validation";
 
-/*
- * التسجيل بس هنا. الدخول نفسه بيتم من الكلاينت بـ signIn("credentials") من next-auth/react
- * عشان الجلسة في النافبار تتحدث على طول من غير reload.
- */
-
 const HASH_ROUNDS = 12;
 
-/** لو اتنين سجلوا بنفس البيانات في نفس اللحظة، القيد الـ unique في القاعدة هو اللي بيمسك */
 const isUniqueViolation = (e: unknown) =>
     typeof e === "object" && e !== null && "code" in e && (e as { code: unknown }).code === "P2002";
 
@@ -56,7 +50,6 @@ export async function registerBusiness(input: unknown): Promise<ActionResult> {
         };
     }
 
-    /* المستخدم والشركة في عملية واحدة؛ الشركة بتبدأ PENDING لحد ما الإدارة توافق */
     try {
         await db.user.create({
             data: {

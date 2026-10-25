@@ -5,11 +5,8 @@ import { ChevronLeft } from "lucide-react";
 import ProductCard from "@/components/ProductCard";
 import ProductDetails from "@/components/ProductDetails";
 import { BRANDS, SAMPLE_PRODUCTS, findProduct, isBrandId, productPath, productStaticParams } from "@/components/brands";
+import { HAS_SITE_URL, absoluteUrl } from "@/lib/site";
 
-/* مثال: NEXT_PUBLIC_SITE_URL=https://rnq.sa  (من غيره بنسيب الـ JSON-LD) */
-const SITE = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
-
-/* كل صفحات المنتجات بتتولّد وقت الـ build، وأي رابط تاني بيرجع 404 */
 export const dynamicParams = false;
 
 export function generateStaticParams() {
@@ -29,7 +26,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
     const description = product.description ?? product.details ?? b.blurb;
 
     return {
-        title: `${product.name} | ${b.title} | RNQ`,
+        title: `${product.name} | ${b.title}`,
         description,
         alternates: { canonical: path },
         openGraph: {
@@ -52,7 +49,6 @@ export default async function ProductPage({ params }: { params: Params }) {
     const category = brand.categories.find((c) => c.id === product.category);
     const categoryLabel = (id: string) => brand.categories.find((c) => c.id === id)?.label;
 
-    /* منتجات من نفس القسم أولاً، وبعدين باقي البراند، لحد 4 */
     const all = SAMPLE_PRODUCTS[brandId].filter((p) => p.id !== product.id);
     const related = [
         ...all.filter((p) => p.category === product.category),
@@ -66,7 +62,7 @@ export default async function ProductPage({ params }: { params: Params }) {
         { name: product.name, href: productPath(brandId, product) },
     ];
 
-    const jsonLd = SITE
+    const jsonLd = HAS_SITE_URL
         ? [
             {
                 "@context": "https://schema.org",
@@ -74,18 +70,17 @@ export default async function ProductPage({ params }: { params: Params }) {
                 name: product.name,
                 description: product.description ?? product.details,
                 image: product.images?.length
-                    ? product.images.map((i) => `${SITE}${i}`)
+                    ? product.images.map((i) => absoluteUrl(i))
                     : product.image
-                        ? [`${SITE}${product.image}`]
+                        ? [absoluteUrl(product.image)]
                         : undefined,
                 sku: product.id,
                 brand: { "@type": "Brand", name: brand.title },
                 offers: {
                     "@type": "Offer",
-                    url: `${SITE}${productPath(brandId, product)}`,
+                    url: absoluteUrl(productPath(brandId, product)),
                     price: product.price,
                     priceCurrency: "SAR",
-                    /* غيّرها لما يبقى عندكم تتبع مخزون حقيقي */
                     availability: "https://schema.org/InStock",
                 },
             },
@@ -96,7 +91,7 @@ export default async function ProductPage({ params }: { params: Params }) {
                     "@type": "ListItem",
                     position: i + 1,
                     name: c.name,
-                    item: `${SITE}${c.href}`,
+                    item: absoluteUrl(c.href),
                 })),
             },
         ]
@@ -147,10 +142,9 @@ export default async function ProductPage({ params }: { params: Params }) {
                         <ul className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
                             {related.map((r) => (
                                 <li key={r.id} className="flex">
-                                    {/* hardNav: عشان الضغط هنا يفتح صفحة كاملة مش نافذة فوق الصفحة دي */}
                                     <ProductCard
                                         product={r}
-                                        href={productPath(brandId, r)}
+                                        brand={brandId}
                                         hardNav
                                         mark={brand.mark}
                                         categoryLabel={categoryLabel(r.category)}

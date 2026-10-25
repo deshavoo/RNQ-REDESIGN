@@ -4,7 +4,6 @@ import bcrypt from "bcryptjs";
 import { db } from "@/lib/db";
 import { loginSchema } from "@/lib/validation";
 
-/* hash ثابت بنقارن بيه لو الإيميل مش موجود، عشان وقت الرد يبقى واحد ومحدش يعرف الإيميلات المسجلة */
 const DUMMY_HASH = "$2b$12$Sp66TsrL2uNOOr6/x1lIK.BvRviQ1KIcYkhbZ2wFkLLzRDbx1BAL6";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
@@ -31,7 +30,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                 token.id = user.id;
                 token.accountType = user.accountType;
             }
-            /* useSession().update({ name }) بعد تعديل الاسم في صفحة الحساب */
             if (trigger === "update" && typeof session?.name === "string") token.name = session.name;
             return token;
         },

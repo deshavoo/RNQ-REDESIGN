@@ -5,7 +5,8 @@ import type { BrandId } from "@/components/brands";
 import { goldLine } from "@/components/theme";
 
 export const metadata: Metadata = {
-    title: "كل المنتجات | RNQ",
+    title: "كل المنتجات",
+    alternates: { canonical: "/products" },
     description: `${BRANDS.barns.title} و${BRANDS.saadeddin.title} في مكان واحد.`,
 };
 

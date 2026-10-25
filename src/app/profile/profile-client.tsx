@@ -12,13 +12,10 @@ import {
 } from "lucide-react";
 import { deleteAddress, removeFromWishlist, saveAddress, updatePassword, updateProfile } from "@/actions/user-actions";
 import { findProduct, formatPrice, isBrandId } from "@/components/brands";
+import { cart } from "@/components/cart/cart-store";
 import { goldFill } from "@/components/theme";
 import type { ActionResult, FieldErrors } from "@/lib/validation";
 import type { ClientAddress, ClientOrder, ClientWishItem, ProfileUser } from "@/lib/profile";
-
-/* ------------------------------------------------------------------ */
-/* Constants                                                           */
-/* ------------------------------------------------------------------ */
 
 const STATUS: Record<ClientOrder["status"], { label: string; cls: string }> = {
     PROCESSING: { label: "قيد التنفيذ", cls: "bg-amber-50 text-amber-800 ring-amber-200" },
@@ -52,18 +49,11 @@ const btnGhost =
     "inline-flex items-center justify-center gap-2 rounded-full border border-gold/50 bg-white px-4 py-2.5 text-sm font-semibold text-black " +
     "transition-colors hover:border-gold hover:text-gold-deep focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold";
 
-/** إضافة للسلة بنفس الحدث اللي بيستخدمه زر صفحة المنتج (ProductActions) */
 function addToCart(brand: string, productId: string, quantity: number) {
-    if (!isBrandId(brand)) return false;
-    const product = findProduct(brand, productId);
-    if (!product) return false;
-    window.dispatchEvent(new CustomEvent("rnq:add-to-cart", { detail: { product, quantity } }));
+    if (!isBrandId(brand) || !findProduct(brand, productId)) return false;
+    cart.add(brand, productId, quantity);
     return true;
 }
-
-/* ------------------------------------------------------------------ */
-/* UI helpers                                                          */
-/* ------------------------------------------------------------------ */
 
 function Field({ label, icon, error, children }: { label: string; icon?: ReactNode; error?: string; children: ReactNode }) {
     return (
@@ -133,16 +123,11 @@ function Toast({ toast, onDone }: { toast: ToastState | null; onDone: () => void
 
 type Notify = (t: ToastState) => void;
 
-/** بيعرض رسالة الرد في Toast ويرجّع true لو العملية نجحت */
 function report(res: ActionResult, notify: Notify) {
     if (res.success) notify({ type: "success", message: res.success });
     else notify({ type: "error", message: res.error ?? Object.values(res.fieldErrors ?? {})[0]?.[0] ?? "تعذّر حفظ التغييرات" });
     return !!res.success;
 }
-
-/* ------------------------------------------------------------------ */
-/* Header                                                              */
-/* ------------------------------------------------------------------ */
 
 const COMPANY_STATUS = {
     PENDING: { label: "قيد المراجعة", text: "نراجع بيانات منشأتك الآن، وتُفعّل أسعار الجملة بعد الموافقة.", icon: Clock, cls: "bg-amber-400/15 text-amber-200 ring-amber-300/40" },
@@ -226,10 +211,6 @@ function ProfileHeader({ user }: { user: ProfileUser }) {
         </section>
     );
 }
-
-/* ------------------------------------------------------------------ */
-/* Tabs                                                                */
-/* ------------------------------------------------------------------ */
 
 function EmptyState({ text }: { text: string }) {
     return (
@@ -450,7 +431,7 @@ function AccountTab({ user, onUpdateUser, notify }: { user: ProfileUser; onUpdat
             setInfoErrors(res.fieldErrors ?? {});
             if (report(res, notify)) {
                 onUpdateUser(info);
-                await update({ name: info.name }); // الاسم في النافبار
+                await update({ name: info.name });
             }
         } catch {
             notify({ type: "error", message: "حدث خطأ غير متوقع" });
@@ -551,7 +532,7 @@ function WishlistTab({ wishlist, notify }: { wishlist: ClientWishItem[]; notify:
     const [items, setItems] = useState(wishlist);
 
     const remove = async (w: ClientWishItem) => {
-        setItems((s) => s.filter((x) => x !== w)); // بيختفي على طول، ويرجع لو الحذف فشل
+        setItems((s) => s.filter((x) => x !== w));
         try {
             const res = await removeFromWishlist(w.brand, w.productId);
             if (!report(res, notify)) setItems((s) => [w, ...s]);
@@ -595,10 +576,6 @@ function WishlistTab({ wishlist, notify }: { wishlist: ClientWishItem[]; notify:
         </div>
     );
 }
-
-/* ------------------------------------------------------------------ */
-/* Page                                                                */
-/* ------------------------------------------------------------------ */
 
 export default function ProfileClient({
     initialTab,

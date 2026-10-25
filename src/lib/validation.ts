@@ -1,8 +1,7 @@
 import { z } from "zod";
+import { MAX_QTY, SHIPPING_METHODS } from "./shop";
+import type { ShippingMethodId } from "./shop";
 
-/* نفس الـ schemas بتتستخدم في الفورم (تحقق سريع) وفي الـ server actions (التحقق الحقيقي) */
-
-/** 05XXXXXXXX أو +9665XXXXXXXX أو 9665XXXXXXXX، وبتتخزن دايماً بصيغة +9665XXXXXXXX */
 const saudiPhone = z
     .string()
     .trim()
@@ -12,7 +11,6 @@ const saudiPhone = z
 
 const email = z.string().trim().toLowerCase().pipe(z.email({ error: "صيغة البريد الإلكتروني غير صحيحة" }));
 
-/** bcrypt بيقرأ أول 72 بايت بس */
 const newPassword = z
     .string()
     .min(8, { error: "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل" })
@@ -90,7 +88,29 @@ export const addressSchema = z.object({
 
 export type FieldErrors = Record<string, string[] | undefined>;
 
-/** شكل الرد الموحد من كل الـ server actions */
 export type ActionResult = { success?: string; error?: string; fieldErrors?: FieldErrors };
 
 export const fieldErrorsOf = (err: z.ZodError): FieldErrors => z.flattenError(err).fieldErrors;
+
+export const checkoutSchema = z
+    .object({
+        items: z
+            .array(z.object({ brand: z.string(), productId: z.string(), qty: z.number().int().min(1).max(MAX_QTY, { error: `الحد الأقصى ${MAX_QTY} قطعة لكل منتج` }) }))
+            .min(1, { error: "السلة فارغة" })
+            .max(50),
+        shippingMethod: z.enum(SHIPPING_METHODS.map((m) => m.id) as [ShippingMethodId, ...ShippingMethodId[]], { error: "اختر طريقة الشحن" }),
+        addressId: z.string().optional(),
+        recipientName: name,
+        phone: saudiPhone,
+        city: z.string().trim().max(60),
+        street: z.string().trim().max(200),
+        saveAddress: z.boolean(),
+        notes: z.string().trim().max(500, { error: "الملاحظات طويلة جداً" }),
+    })
+    .superRefine((d, ctx) => {
+        if (d.addressId) return;
+        if (d.city.length < 2) ctx.addIssue({ code: "custom", path: ["city"], message: "أدخل المدينة" });
+        if (d.street.length < 3) ctx.addIssue({ code: "custom", path: ["street"], message: "أدخل العنوان بالتفصيل" });
+    });
+
+export type CheckoutInput = z.input<typeof checkoutSchema>;

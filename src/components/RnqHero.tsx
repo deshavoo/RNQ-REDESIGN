@@ -7,13 +7,11 @@ import Link from "next/link";
 import { ChevronLeft, ChevronRight, Pause, Play, Volume2, VolumeX } from "lucide-react";
 import { GOLD, goldFill } from "./theme";
 
-
 const goldBorder =
   "linear-gradient(135deg,rgba(245,227,161,.95),rgba(212,175,55,.55) 45%,rgba(138,106,31,.85))";
 
-
 export type HeroSlide =
-  | { type: "image"; src: string; alt: string; fit?: SlideFit; /** مثال: "50% 40%" */ position?: string }
+  | { type: "image"; src: string; alt: string; fit?: SlideFit;  position?: string }
   | { type: "video"; src: string; alt: string; fit?: SlideFit; poster?: string; position?: string };
 
 export type SlideFit = "contain" | "cover";
@@ -95,7 +93,7 @@ export default function RnqHero({ slides = DEFAULT_SLIDES, interval = 6000 }: Rn
   const hasMany = count > 1;
   const [index, setIndex] = useState(0);
   const [userPlaying, setUserPlaying] = useState<boolean | null>(null);
-  const [isHeld, setIsHeld] = useState(false); // hover / keyboard focus pauses the image timer
+  const [isHeld, setIsHeld] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const videoRefs = useRef<Record<number, HTMLVideoElement | null>>({});
   const fillRefs = useRef<Record<number, HTMLSpanElement | null>>({});
@@ -236,7 +234,7 @@ export default function RnqHero({ slides = DEFAULT_SLIDES, interval = 6000 }: Rn
                     src={slide.src}
                     alt={slide.alt}
                     fill
-                    priority={i === 0}
+                    preload={i === 0}
                     sizes="100vw"
                     draggable={false}
                     className={`select-none ${isContain(slide) ? "object-contain" : "object-cover"}`}
@@ -369,7 +367,6 @@ export default function RnqHero({ slides = DEFAULT_SLIDES, interval = 6000 }: Rn
             style={{ backgroundImage: goldBorder }}
           >
             <span className="relative isolate flex w-full items-center gap-3 overflow-hidden rounded-full bg-black/90 px-7 py-4 text-base font-semibold text-white backdrop-blur-xl transition-colors duration-500 group-hover:text-black sm:px-9 sm:text-lg">
-              {/* gold wipe from the right (inline-start in RTL) */}
               <span
                 aria-hidden
                 className="absolute inset-0 -z-10 origin-right scale-x-0 transition-transform duration-500 ease-out group-hover:scale-x-100 motion-reduce:transition-none"

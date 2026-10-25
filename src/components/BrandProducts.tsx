@@ -3,7 +3,7 @@
 import { useId, useMemo, useState } from "react";
 import { RotateCcw, SlidersHorizontal } from "lucide-react";
 import ProductCard from "./ProductCard";
-import { BRANDS, SAMPLE_PRODUCTS, formatPrice, productPath } from "./brands";
+import { BRANDS, SAMPLE_PRODUCTS, formatPrice } from "./brands";
 import type { BrandCategory, BrandId, Product } from "./brands";
 import { goldFill } from "./theme";
 
@@ -11,21 +11,13 @@ export type { BrandCategory, BrandConfig, BrandId, Product } from "./brands";
 
 const goldLine = "linear-gradient(90deg,#d4af37aa,transparent)";
 
-/* ------------------------------------------------------------------ */
-/* Component                                                           */
-/* ------------------------------------------------------------------ */
-
 type Sort = "default" | "asc" | "desc";
 
 interface BrandProductsProps {
     brand: BrandId;
     products?: Product[];
-    /** id السكشن للربط من الهيرو، الافتراضي هو اسم البراند: "barns" / "saadeddin" */
     id?: string;
-    /** فلتر مبدئي، مثال: "beans" */
     initialCategory?: string;
-    onAddToCart?: (product: Product) => void;
-    /** في صفحة منفصلة استخدم "h1"، وجوه صفحة فيها سكاشن تانية سيبها "h2" */
     headingAs?: "h1" | "h2";
     className?: string;
 }
@@ -35,7 +27,6 @@ export default function BrandProducts({
     products,
     id,
     initialCategory,
-    onAddToCart,
     headingAs: Heading = "h2",
     className = "",
 }: BrandProductsProps) {
@@ -51,7 +42,7 @@ export default function BrandProducts({
     }, [items]);
 
     const [category, setCategory] = useState<string>(initialCategory ?? "all");
-    const [priceCap, setPriceCap] = useState<number | null>(null); // null = بدون حد
+    const [priceCap, setPriceCap] = useState<number | null>(null);
     const [sort, setSort] = useState<Sort>("default");
     const [filtersOpen, setFiltersOpen] = useState(false);
 
@@ -94,7 +85,6 @@ export default function BrandProducts({
             className={`relative scroll-mt-28 py-14 sm:py-20 ${brand.tinted ? "bg-[#fbf8ef]" : "bg-white"} ${className}`}
         >
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                {/* ---------- Heading ---------- */}
                 <header className="mb-8 sm:mb-10">
                     <Heading id={headingId} className="text-3xl font-semibold text-black sm:text-4xl">
                         {brand.title}
@@ -107,7 +97,6 @@ export default function BrandProducts({
                     />
                 </header>
 
-                {/* mobile: filter toggle */}
                 <button
                     type="button"
                     onClick={() => setFiltersOpen((o) => !o)}
@@ -122,9 +111,7 @@ export default function BrandProducts({
                     )}
                 </button>
 
-                {/* RTL grid: first child (filters) sits on the RIGHT, the cards on the LEFT */}
                 <div className="grid gap-8 lg:grid-cols-[17rem_minmax(0,1fr)] lg:gap-10">
-                    {/* ---------- Filters (right) ---------- */}
                     <aside
                         id={panelId}
                         aria-label={`فلاتر ${brand.title}`}
@@ -227,7 +214,6 @@ export default function BrandProducts({
                         </div>
                     </aside>
 
-                    {/* ---------- Cards (left) ---------- */}
                     <div>
                         <p aria-live="polite" className="mb-4 text-sm text-black/55">
                             {visible.length} منتج
@@ -252,11 +238,10 @@ export default function BrandProducts({
                                     <li key={p.id} className="flex">
                                         <ProductCard
                                             product={p}
-                                            href={productPath(brandId, p)}
+                                            brand={brandId}
                                             keepScroll
                                             mark={brand.mark}
                                             categoryLabel={categoryLabel(p.category)}
-                                            onAddToCart={onAddToCart}
                                         />
                                     </li>
                                 ))}

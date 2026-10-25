@@ -3,7 +3,8 @@ import LegalPage from "@/components/LegalPage";
 import { PRIVACY } from "@/components/legal-content";
 
 export const metadata: Metadata = {
-  title: `${PRIVACY.title} | RNQ`,
+  title: PRIVACY.title,
+  alternates: { canonical: "/legal/privacy" },
   description: PRIVACY.description,
 };
 
