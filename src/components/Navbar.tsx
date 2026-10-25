@@ -86,7 +86,7 @@ export interface NavbarProps {
 }
 
 const DEFAULT_LOGO: NavbarLogo = {
-    src: "/MyLogo.png",
+    src: "/rnq-logo.png",
     alt: "شعار الموقع",
     width: 180,
     height: 70,

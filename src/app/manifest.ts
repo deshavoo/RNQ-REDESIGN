@@ -12,6 +12,6 @@ export default function manifest(): MetadataRoute.Manifest {
         display: "standalone",
         background_color: "#ffffff",
         theme_color: "#000000",
-        icons: [{ src: "/MyLogo.png", sizes: "any", type: "image/png" }],
+        icons: [{ src: "/rnq-logo.png", sizes: "any", type: "image/png" }],
     };
 }

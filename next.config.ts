@@ -11,7 +11,7 @@ const nextConfig: NextConfig = {
     return [
       { source: "/images/:path*", headers: [staticCache] },
       { source: "/videos/:path*", headers: [staticCache] },
-      { source: "/MyLogo.png", headers: [staticCache] },
+      { source: "/rnq-logo.png", headers: [staticCache] },
       {
         source: "/:path*",
         headers: [

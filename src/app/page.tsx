@@ -18,7 +18,7 @@ const jsonLd = [
     "@type": "Organization",
     name: SITE_NAME,
     url: absoluteUrl("/"),
-    logo: absoluteUrl("/MyLogo.png"),
+    logo: absoluteUrl("/rnq-logo.png"),
     description: SITE_DESCRIPTION,
     brand: Object.values(BRANDS).map((b) => ({ "@type": "Brand", name: b.title })),
   },

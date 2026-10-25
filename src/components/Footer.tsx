@@ -31,7 +31,7 @@ interface FooterProps {
     className?: string;
 }
 
-const DEFAULT_LOGO = { src: "/MyLogo.png", alt: "شعار مجموعة RNQ للتجارة", width: 180, height: 70 };
+const DEFAULT_LOGO = { src: "/rnq-logo.png", alt: "شعار مجموعة RNQ للتجارة", width: 180, height: 70 };
 
 const DEFAULT_CONTACT: FooterContact = {
     phone: "+966 50 000 0000",

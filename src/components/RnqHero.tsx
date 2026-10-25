@@ -17,9 +17,9 @@ export type HeroSlide =
 export type SlideFit = "contain" | "cover";
 const isContain = (slide: { fit?: SlideFit }) => slide.fit === "contain";
 const DEFAULT_SLIDES: HeroSlide[] = [
-  { type: "image", src: "/images/hero-1.jpg", alt: "مجموعة RNQ للتجارة: قهوة بارنيز وحلويات سعد الدين", position: "50% 45%" },
-  { type: "image", src: "/images/hero-2-1.jpg", alt: "قهوة بارنيز المختصة" },
-  { type: "image", src: "/images/hero-3.jpg", alt: "حلويات وتمور سعد الدين" },
+  { type: "image", src: "/images/hero-1.png", alt: "مجموعة RNQ للتجارة: قهوة بارنيز وحلويات سعد الدين", position: "50% 45%" },
+  { type: "image", src: "/images/hero-2.png", alt: "قهوة بارنيز المختصة" },
+  { type: "image", src: "/images/hero-3.png", alt: "حلويات وتمور سعد الدين" },
   { type: "video", src: "/videos/hero.mp4", alt: "فيديو تعريفي بمجموعة RNQ" },
 ];
 const iconProps = {

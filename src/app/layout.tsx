@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   },
   description: SITE_DESCRIPTION,
   applicationName: SITE_NAME,
-  icons: { icon: "/MyLogo.png", apple: "/MyLogo.png" },
+  icons: { icon: "/rnq-logo.png", apple: "/rnq-logo.png" },
   openGraph: {
     type: "website",
     locale: "ar_SA",
