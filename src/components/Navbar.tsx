@@ -86,10 +86,10 @@ export interface NavbarProps {
 }
 
 const DEFAULT_LOGO: NavbarLogo = {
-    src: "/rnq-logo.png",
+    src: "/rnq-logo-wide.png",
     alt: "شعار الموقع",
-    width: 180,
-    height: 70,
+    width: 780,
+    height: 388,
 };
 
 const DEFAULT_LABELS = {
@@ -562,12 +562,12 @@ export default function Navbar({
                         <Image
                             src={logo.src}
                             alt={logo.alt ?? ""}
-                            width={logo.width ?? 180}
-                            height={logo.height ?? 70}
+                            width={logo.width ?? 780}
+                            height={logo.height ?? 388}
                             preload
                             className={
                                 logo.className ??
-                                "h-12 w-auto max-w-[42vw] object-contain sm:h-14 lg:h-18 lg:max-w-64"
+                                "h-11 w-auto max-w-[42vw] object-contain sm:h-12 lg:h-16 lg:max-w-64"
                             }
                         />
                     </a>
@@ -866,8 +866,8 @@ export default function Navbar({
                             <Image
                                 src={logo.src}
                                 alt={logo.alt ?? ""}
-                                width={logo.width ?? 180}
-                                height={logo.height ?? 70}
+                                width={logo.width ?? 780}
+                                height={logo.height ?? 388}
                                 className="h-12 w-auto max-w-48 object-contain"
                             />
                         </a>

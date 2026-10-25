@@ -31,7 +31,7 @@ interface FooterProps {
     className?: string;
 }
 
-const DEFAULT_LOGO = { src: "/rnq-logo.png", alt: "شعار مجموعة RNQ للتجارة", width: 180, height: 70 };
+const DEFAULT_LOGO = { src: "/rnq-logo-wide.png", alt: "شعار مجموعة RNQ للتجارة", width: 780, height: 388 };
 
 const DEFAULT_CONTACT: FooterContact = {
     phone: "+966 50 000 0000",
@@ -162,9 +162,9 @@ export default function Footer({
                             <Image
                                 src={logo.src}
                                 alt={logo.alt ?? ""}
-                                width={logo.width ?? 180}
-                                height={logo.height ?? 70}
-                                className="h-16 w-auto max-w-56 object-contain"
+                                width={logo.width ?? 780}
+                                height={logo.height ?? 388}
+                                className="h-14 w-auto max-w-56 object-contain"
                             />
                         </Link>
                         <p className="mt-5 max-w-sm text-sm leading-loose text-white/65">
