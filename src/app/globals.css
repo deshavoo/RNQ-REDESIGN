@@ -16,6 +16,34 @@
   --color-gold-deep: #8a6a1f;
 }
 
+/* حركات صفحات الحساب (الدخول والتسجيل وحسابي) */
+@theme {
+  --animate-fade-up: fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-float: float 10s ease-in-out infinite;
+  --animate-float-slow: float 14s ease-in-out -4s infinite reverse;
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    50% {
+      transform: translate3d(0, -22px, 0) scale(1.08);
+    }
+  }
+}
+
 body {
   background: var(--background);
   color: var(--foreground);

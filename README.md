@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# RNQ: موقع مجموعة RNQ للتجارة
 
-## Getting Started
+متجر قهوة بارنيز وحلويات سعد الدين، للأفراد وللشركات.
 
-First, run the development server:
+**التقنيات:** Next.js 16 (App Router + Turbopack)، React 19، Tailwind CSS 4، Auth.js v5، Prisma 7، PostgreSQL (Neon).
+
+## التشغيل لأول مرة
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+cp .env.example .env        # واملأ القيم (شوف تحت)
+npm run db:deploy           # يعمل جداول قاعدة البيانات
+npm run dev                 # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### متغيرات `.env`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| المتغير | الوصف |
+|---|---|
+| `DATABASE_URL` | رابط قاعدة البيانات اللي الموقع بيستخدمه (في Neon: الرابط اللي فيه `-pooler`) |
+| `DIRECT_URL` | الاتصال المباشر للـ migrations (نفس الرابط من غير `-pooler`) |
+| `AUTH_SECRET` | مفتاح تشفير الجلسات: `node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"` |
+| `NEXT_PUBLIC_SITE_URL` | رابط الموقع، بيستخدم في JSON-LD (اختياري) |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## الأوامر
 
-## Learn More
+| الأمر | الوظيفة |
+|---|---|
+| `npm run dev` | تشغيل وقت التطوير |
+| `npm run build` / `npm start` | بناء وتشغيل نسخة الإنتاج |
+| `npm run lint` | فحص الكود |
+| `npm run db:migrate` | عمل migration جديدة بعد تعديل `prisma/schema.prisma` |
+| `npm run db:deploy` | تطبيق الـ migrations على القاعدة (الإنتاج) |
+| `npm run db:studio` | فتح Prisma Studio (مثلاً للموافقة على حسابات الشركات) |
 
-To learn more about Next.js, take a look at the following resources:
+## هيكل المشروع
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+src/
+  app/
+    page.tsx                      الرئيسية
+    products/                     كل المنتجات، صفحة البراند، صفحة المنتج
+    @modal/(.)products/...        نافذة المعاينة السريعة للمنتج
+    auth/                         الدخول والتسجيل (أفراد + شركات)
+    profile/                      حسابي
+    legal/                        الشروط والخصوصية والشحن والاسترجاع
+    api/auth/[...nextauth]/       Auth.js
+  actions/                        Server Actions (التسجيل، الحساب، العناوين...)
+  components/
+    brands.ts                     البراندات والمنتجات (بيانات ثابتة حالياً)
+    theme.ts                      ألوان الهوية الدهبي
+  lib/                            قاعدة البيانات، التحقق (zod)، أنواع صفحة الحساب
+  auth.ts                         إعدادات Auth.js
+prisma/                           schema + migrations
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## حسابات الشركات
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+التسجيل بيعمل الحساب بحالة `PENDING`. للموافقة: `npm run db:studio` ← جدول `Company` ← غيّر `status` لـ `APPROVED`.

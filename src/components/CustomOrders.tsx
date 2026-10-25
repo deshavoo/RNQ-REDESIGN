@@ -2,11 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, Gift, MessageCircle, Package, Palette, PenLine } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-
-/* ------------------------------------------------------------------ */
-/* Types + default content                                             */
-/* ------------------------------------------------------------------ */
-
+import { goldFill, goldLine } from "./theme";
 export interface CustomImage {
     src: string;
     alt: string;
@@ -22,13 +18,10 @@ export interface CustomStep {
     title: string;
     description: string;
 }
-
-/** صورة طولية 4:5 (يفضل 1200×1500) تتعرض بقوس أعلى */
 const DEFAULT_MAIN: CustomImage = {
     src: "/images/custom-main.jpg",
     alt: "علبة هدايا مخصصة من القهوة والحلويات بتغليف فاخر وبطاقة مكتوبة بخط اليد",
 };
-/** صورة مربعة (يفضل 800×800) تتداخل مع الأولى */
 const DEFAULT_DETAIL: CustomImage = {
     src: "/images/custom-detail.jpg",
     alt: "تفصيل لشريط ذهبي وختم وبطاقة على علبة هدية",
@@ -47,24 +40,13 @@ const DEFAULT_STEPS: CustomStep[] = [
     { title: "تعتمد ونجهّز", description: "نبدأ التجهيز بعد موافقتك على التفاصيل." },
     { title: "يصلك طلبك", description: "يخرج من الرياض إليك مغلّفاً كما اتفقنا." },
 ];
-
-const goldFill = "linear-gradient(135deg,#f5e3a1,#d4af37 55%,#b8891f)";
-const goldLine = "linear-gradient(90deg,transparent,#d4af37,transparent)";
-
-/* ------------------------------------------------------------------ */
-/* Section                                                             */
-/* ------------------------------------------------------------------ */
-
 interface CustomOrdersProps {
     mainImage?: CustomImage;
     detailImage?: CustomImage;
     options?: CustomOption[];
     steps?: CustomStep[];
-    /** صفحة الطلب المخصص */
     ctaHref?: string;
-    /** رابط واتساب كامل (https://wa.me/...). لو مش موجود، الزر التاني مش بيظهر */
     whatsappHref?: string;
-    /** مثال: https://rnq.sa. لو اتمرر، بيتضاف Service structured data للسيو */
     siteUrl?: string;
     id?: string;
     className?: string;
@@ -98,12 +80,10 @@ export default function CustomOrders({
             dir="rtl"
             lang="ar"
             aria-labelledby={`${id}-title`}
-            /* below the fold: the browser skips rendering it until it's near the viewport */
             className={`relative scroll-mt-28 bg-white py-16 text-black [contain-intrinsic-size:auto_1500px] [content-visibility:auto] sm:py-24 ${className}`}
         >
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="grid items-center gap-14 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-20">
-                    {/* ---------- content (right in RTL) ---------- */}
                     <div>
                         <h2 id={`${id}-title`} className="text-4xl font-semibold leading-tight sm:text-5xl">
                             حسب الطلب
@@ -151,7 +131,6 @@ export default function CustomOrders({
                         </div>
                     </div>
 
-                    {/* ---------- collage (left in RTL): arch image + gold frame + overlapping detail ---------- */}
                     <div className="relative mx-auto w-full max-w-md pb-10 lg:max-w-none">
                         <div className="relative isolate">
                             <span

@@ -5,6 +5,7 @@ import Image from "next/image";
 import type { FormEvent, MouseEvent } from "react";
 import { Globe, Search, Menu, X, ShoppingBag, User, LogOut, Heart, ArrowLeft, ChevronDown, Coffee, Cookie, Gift, Truck, FileText, Building2, Package, Briefcase, } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import { GOLD, goldFill } from "./theme";
 export interface MegaItem {
     label: string;
     href: string;
@@ -191,8 +192,6 @@ const DEFAULT_LINKS: NavLink[] = [
 /* Design tokens: white / black / gold                                 */
 /* ------------------------------------------------------------------ */
 
-const GOLD = "#d4af37";
-const goldFill = "linear-gradient(135deg,#f5e3a1,#d4af37 55%,#b8891f)";
 const goldLine = `linear-gradient(90deg,transparent,${GOLD}aa,transparent)`;
 
 /* ------------------------------------------------------------------ */

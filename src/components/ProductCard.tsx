@@ -1,12 +1,12 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { ShoppingBag } from "lucide-react";
+import { formatPrice } from "./brands";
 import type { Product } from "./brands";
+import { goldFill } from "./theme";
 
-const goldFill = "linear-gradient(135deg,#f5e3a1,#d4af37 55%,#b8891f)";
-
-export const formatPrice = (n: number) => `${n.toLocaleString("en-US")} ر.س`;
 
 interface ProductCardProps {
     product: Product;
@@ -14,11 +14,36 @@ interface ProductCardProps {
     mark: string;
     categoryLabel?: string;
     onAddToCart?: (product: Product) => void;
+    /** رابط صفحة المنتج. لو مش موجود بيستخدم product.href */
+    href?: string;
+    /**
+     * تحميل كامل للصفحة بدل التنقل السريع. استخدمه للكروت اللي جوه صفحة المنتج نفسها،
+     * عشان الـ Intercepting Route ما يفتحش نافذة فوق صفحة كاملة.
+     */
+    hardNav?: boolean;
+    /**
+     * true: الصفحة تفضل في مكانها وراء النافذة السريعة (استخدمه في أي قائمة بتفتح النافذة).
+     * false (الافتراضي): الصفحة الجديدة تفتح من فوق.
+     */
+    keepScroll?: boolean;
 }
 
-export default function ProductCard({ product: p, mark, categoryLabel, onAddToCart }: ProductCardProps) {
+export default function ProductCard({
+    product: p,
+    mark,
+    categoryLabel,
+    onAddToCart,
+    href,
+    hardNav = false,
+    keepScroll = false,
+}: ProductCardProps) {
+    const target = href ?? p.href;
+    /* الرابط على الاسم بيتمدد على الكارت كله، وزر السلة فوقه (z-10) فيفضل قابل للضغط */
+    const linkClass =
+        "after:absolute after:inset-0 after:rounded-2xl after:content-[''] focus:outline-none focus-visible:after:ring-2 focus-visible:after:ring-gold";
+
     return (
-        <article className="group flex h-full w-full flex-col overflow-hidden rounded-2xl border border-black/10 bg-white transition-[border-color,box-shadow] duration-300 hover:border-gold/60 hover:shadow-[0_18px_40px_-26px_rgba(138,106,31,0.55)]">
+        <article className="group relative flex h-full w-full flex-col overflow-hidden rounded-2xl border border-black/10 bg-white transition-[border-color,box-shadow] duration-300 hover:border-gold/60 hover:shadow-[0_18px_40px_-26px_rgba(138,106,31,0.55)]">
             <div className="relative aspect-square overflow-hidden bg-[#f6f1e4]">
                 {p.image ? (
                     <Image
@@ -53,10 +78,16 @@ export default function ProductCard({ product: p, mark, categoryLabel, onAddToCa
             <div className="flex flex-1 flex-col p-3 sm:p-4">
                 {categoryLabel && <p className="text-xs text-gold-deep">{categoryLabel}</p>}
                 <h3 className="mt-1 text-[15px] font-semibold leading-snug text-black sm:text-base">
-                    {p.href ? (
-                        <a href={p.href} className="focus:outline-none focus-visible:underline">
-                            {p.name}
-                        </a>
+                    {target ? (
+                        hardNav ? (
+                            <a href={target} className={linkClass}>
+                                {p.name}
+                            </a>
+                        ) : (
+                            <Link href={target} scroll={!keepScroll} className={linkClass}>
+                                {p.name}
+                            </Link>
+                        )
                     ) : (
                         p.name
                     )}
@@ -71,7 +102,7 @@ export default function ProductCard({ product: p, mark, categoryLabel, onAddToCa
                         type="button"
                         onClick={() => onAddToCart?.(p)}
                         aria-label={`أضف ${p.name} إلى السلة`}
-                        className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-black text-gold-soft transition-colors duration-300 hover:text-black focus:outline-none focus-visible:ring-2 focus-visible:ring-gold hover:bg-[linear-gradient(135deg,#f5e3a1,#d4af37_55%,#b8891f)]"
+                        className="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-black text-gold-soft transition-colors duration-300 hover:text-black focus:outline-none focus-visible:ring-2 focus-visible:ring-gold hover:bg-[linear-gradient(135deg,#f5e3a1,#d4af37_55%,#b8891f)]"
                     >
                         <ShoppingBag size={18} strokeWidth={1.8} aria-hidden />
                     </button>

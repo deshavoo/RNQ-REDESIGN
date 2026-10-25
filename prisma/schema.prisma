@@ -1,0 +1,116 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum AccountType {
+  INDIVIDUAL
+  BUSINESS
+}
+
+/// حالة حساب الشركة: بيتعمل PENDING ولازم الإدارة توافق عليه
+enum CompanyStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum OrderStatus {
+  PROCESSING
+  DELIVERED
+  CANCELLED
+}
+
+enum AddressKind {
+  HOME
+  WORK
+  OTHER
+}
+
+model User {
+  id           String      @id @default(cuid())
+  name         String
+  email        String      @unique
+  phone        String?
+  passwordHash String
+  birthday     DateTime?   @db.Date
+  accountType  AccountType @default(INDIVIDUAL)
+  points       Int         @default(0)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  company   Company?
+  orders    Order[]
+  addresses Address[]
+  wishlist  WishlistItem[]
+}
+
+model Company {
+  id           String        @id @default(cuid())
+  userId       String        @unique
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name         String
+  /// رقم السجل التجاري (10 أرقام)
+  crNumber     String        @unique
+  /// الرقم الضريبي (15 رقم)، اختياري
+  vatNumber    String?
+  businessType String
+  city         String
+  status       CompanyStatus @default(PENDING)
+  createdAt    DateTime      @default(now())
+  reviewedAt   DateTime?
+}
+
+model Order {
+  id        String      @id @default(cuid())
+  userId    String
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  total     Decimal     @db.Decimal(10, 2)
+  status    OrderStatus @default(PROCESSING)
+  createdAt DateTime    @default(now())
+  items     OrderItem[]
+
+  @@index([userId, createdAt])
+}
+
+/// المنتجات لسه ثابتة في brands.ts، فبنحفظ brand + productId والاسم والسعر وقت الطلب
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  brand     String
+  productId String
+  name      String
+  qty       Int
+  price     Decimal @db.Decimal(10, 2)
+}
+
+model Address {
+  id        String      @id @default(cuid())
+  userId    String
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  label     String
+  kind      AddressKind @default(OTHER)
+  city      String
+  street    String
+  phone     String
+  isDefault Boolean     @default(false)
+  createdAt DateTime    @default(now())
+
+  @@index([userId])
+}
+
+model WishlistItem {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  brand     String
+  productId String
+  createdAt DateTime @default(now())
+
+  @@unique([userId, brand, productId])
+}

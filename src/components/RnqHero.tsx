@@ -4,36 +4,26 @@ import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "
 import type { KeyboardEvent, MouseEvent, PointerEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Noto_Kufi_Arabic } from "next/font/google";
 import { ChevronLeft, ChevronRight, Pause, Play, Volume2, VolumeX } from "lucide-react";
+import { GOLD, goldFill } from "./theme";
 
 
-const arabic = Noto_Kufi_Arabic({ subsets: ["arabic"], weight: ["400", "500", "600"] });
-const GOLD = "#d4af37";
 const goldBorder =
   "linear-gradient(135deg,rgba(245,227,161,.95),rgba(212,175,55,.55) 45%,rgba(138,106,31,.85))";
-const goldFill = "linear-gradient(135deg,#f5e3a1,#d4af37 55%,#b8891f)";
 
 
 export type HeroSlide =
   | { type: "image"; src: string; alt: string; fit?: SlideFit; /** مثال: "50% 40%" */ position?: string }
   | { type: "video"; src: string; alt: string; fit?: SlideFit; poster?: string; position?: string };
 
-/** cover (الافتراضي): الصورة تاخد العرض كله وتتقص لو لزم | contain: الصورة كاملة وممكن يظهر فراغ جنبها */
 export type SlideFit = "contain" | "cover";
 const isContain = (slide: { fit?: SlideFit }) => slide.fit === "contain";
-
-/** ملفات مؤقتة: حط ملفاتك في public بنفس الأسماء أو غيّر المسارات */
 const DEFAULT_SLIDES: HeroSlide[] = [
   { type: "image", src: "/images/hero-1.jpg", alt: "مجموعة RNQ للتجارة: قهوة بارنيز وحلويات سعد الدين", position: "50% 45%" },
   { type: "image", src: "/images/hero-2-1.jpg", alt: "قهوة بارنيز المختصة" },
   { type: "image", src: "/images/hero-3.jpg", alt: "حلويات وتمور سعد الدين" },
-  { type: "video", src: "/videos/hero.mp4", poster: "/images/hero-video-poster.jpg", alt: "فيديو تعريفي بمجموعة RNQ" },
+  { type: "video", src: "/videos/hero.mp4", alt: "فيديو تعريفي بمجموعة RNQ" },
 ];
-
-/* ------------------------------------------------------------------ */
-/* Icons for the CTAs                                                  */
-/* ------------------------------------------------------------------ */
 const iconProps = {
   width: 22,
   height: 22,
@@ -69,13 +59,10 @@ const ArrowIcon = () => (
 );
 
 const ctas = [
-  // dir="rtl": first item renders on the RIGHT, second on the LEFT
-  // target = id السكشن في نفس الصفحة (<BrandProducts brand="..." />)، و href هو الصفحة البديلة لو السكشن مش موجود
   { href: "/products/barns", target: "barns", label: "تصفح منتجات بارنيز", Icon: CoffeeIcon },
   { href: "/products/saadeddin", target: "saadeddin", label: "تصفح منتجات سعد الدين", Icon: SweetIcon },
 ];
 
-/** لو السكشن موجود في الصفحة: سكرول ناعم ليه. لو لأ: الرابط بيشتغل عادي */
 function scrollToSection(e: MouseEvent<HTMLAnchorElement>, target: string) {
   const el = document.getElementById(target);
   if (!el) return;
@@ -85,12 +72,8 @@ function scrollToSection(e: MouseEvent<HTMLAnchorElement>, target: string) {
   history.replaceState(null, "", `#${target}`);
 }
 
-/* ------------------------------------------------------------------ */
-/* Component                                                           */
-/* ------------------------------------------------------------------ */
 interface RnqHeroProps {
   slides?: HeroSlide[];
-  /** مدة ظهور كل صورة بالمللي ثانية (الفيديو بيكمل لحد ما يخلص) */
   interval?: number;
 }
 
@@ -110,30 +93,22 @@ const glassBtn =
 export default function RnqHero({ slides = DEFAULT_SLIDES, interval = 6000 }: RnqHeroProps) {
   const count = slides.length;
   const hasMany = count > 1;
-
   const [index, setIndex] = useState(0);
-  // null = follow the OS preference; true/false = the visitor pressed the play/pause button
   const [userPlaying, setUserPlaying] = useState<boolean | null>(null);
   const [isHeld, setIsHeld] = useState(false); // hover / keyboard focus pauses the image timer
   const [isMuted, setIsMuted] = useState(true);
-
   const videoRefs = useRef<Record<number, HTMLVideoElement | null>>({});
   const fillRefs = useRef<Record<number, HTMLSpanElement | null>>({});
   const elapsedRef = useRef(0);
   const pointerStartX = useRef<number | null>(null);
-
   const goNext = useCallback(() => setIndex((i) => (i + 1) % count), [count]);
   const goPrev = useCallback(() => setIndex((i) => (i - 1 + count) % count), [count]);
-
-  /* respect "reduce motion": no autoplay unless the visitor presses play */
   const prefersReducedMotion = useSyncExternalStore(
     subscribeReducedMotion,
     getReducedMotion,
     getServerReducedMotion
   );
   const isPlaying = userPlaying ?? !prefersReducedMotion;
-
-  /* new slide: restart the progress bar */
   useEffect(() => {
     elapsedRef.current = 0;
     Object.values(fillRefs.current).forEach((el) => {
@@ -141,7 +116,6 @@ export default function RnqHero({ slides = DEFAULT_SLIDES, interval = 6000 }: Rn
     });
   }, [index]);
 
-  /* image slides: one rAF loop drives both the timer and the progress bar */
   useEffect(() => {
     if (!hasMany || !isPlaying || isHeld || slides[index]?.type === "video") return;
     let raf = 0;
@@ -162,7 +136,6 @@ export default function RnqHero({ slides = DEFAULT_SLIDES, interval = 6000 }: Rn
     return () => cancelAnimationFrame(raf);
   }, [index, isPlaying, isHeld, interval, hasMany, slides, goNext]);
 
-  /* video slides: play only while active */
   useEffect(() => {
     slides.forEach((_, i) => {
       const v = videoRefs.current[i];
@@ -178,7 +151,6 @@ export default function RnqHero({ slides = DEFAULT_SLIDES, interval = 6000 }: Rn
   }, [index, isPlaying, slides]);
 
   const onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
-    // RTL: the left arrow goes forward
     if (e.key === "ArrowLeft") {
       e.preventDefault();
       goNext();
@@ -193,7 +165,6 @@ export default function RnqHero({ slides = DEFAULT_SLIDES, interval = 6000 }: Rn
     const dx = e.clientX - pointerStartX.current;
     pointerStartX.current = null;
     if (Math.abs(dx) < 50) return;
-    // RTL: dragging right brings the next slide in from the left
     if (dx > 0) goNext();
     else goPrev();
   };
@@ -213,7 +184,6 @@ export default function RnqHero({ slides = DEFAULT_SLIDES, interval = 6000 }: Rn
         @media (prefers-reduced-motion: reduce) { .rnq-fade { animation: none } }
       `}</style>
 
-      {/* soft gold light behind the quote and buttons */}
       <div aria-hidden className="absolute inset-0 -z-10">
         <div
           className="absolute bottom-0 left-1/2 h-[45vmin] w-[110vmin] -translate-x-1/2 translate-y-1/3 rounded-full blur-3xl"
@@ -227,8 +197,6 @@ export default function RnqHero({ slides = DEFAULT_SLIDES, interval = 6000 }: Rn
       <h1 id="rnq-title" className="sr-only">
         مجموعة RNQ للتجارة
       </h1>
-
-      {/* ---------- Full-bleed carousel ---------- */}
       <div
         role="region"
         aria-roledescription="carousel"
@@ -246,9 +214,8 @@ export default function RnqHero({ slides = DEFAULT_SLIDES, interval = 6000 }: Rn
         onPointerCancel={() => {
           pointerStartX.current = null;
         }}
-        className="rnq-fade relative aspect-4/3 w-full touch-pan-y overflow-hidden bg-black focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#d4af37] sm:aspect-auto sm:h-[min(56.25vw,calc(100svh-7.5rem))]"
+        className="rnq-fade relative aspect-4/3 w-full touch-pan-y overflow-hidden bg-black focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-gold sm:aspect-auto sm:h-[min(56.25vw,calc(100svh-7.5rem))]"
       >
-        {/* track: RTL, so slide 1 sits on the right and "next" slides in from the left */}
         <div
           aria-live={isPlaying ? "off" : "polite"}
           className="flex h-full w-full transition-transform duration-700 ease-[cubic-bezier(.22,.8,.3,1)] motion-reduce:transition-none"
@@ -306,8 +273,6 @@ export default function RnqHero({ slides = DEFAULT_SLIDES, interval = 6000 }: Rn
             </div>
           ))}
         </div>
-
-        {/* legibility gradient + gold hairline */}
         <div
           aria-hidden
           className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-linear-to-t from-black/60 to-transparent"
@@ -320,7 +285,6 @@ export default function RnqHero({ slides = DEFAULT_SLIDES, interval = 6000 }: Rn
 
         {hasMany && (
           <>
-            {/* arrows: previous on the right, next on the left (RTL) */}
             <button
               type="button"
               onClick={goPrev}
@@ -337,8 +301,6 @@ export default function RnqHero({ slides = DEFAULT_SLIDES, interval = 6000 }: Rn
             >
               <ChevronLeft size={22} />
             </button>
-
-            {/* progress indicators */}
             <div className="absolute inset-x-0 bottom-4 z-10 flex justify-center gap-1.5 sm:bottom-6">
               {slides.map((slide, i) => (
                 <button
@@ -366,8 +328,6 @@ export default function RnqHero({ slides = DEFAULT_SLIDES, interval = 6000 }: Rn
             </div>
           </>
         )}
-
-        {/* play/pause + sound */}
         <div className="absolute bottom-3 left-3 z-10 flex gap-2 sm:bottom-5 sm:left-5">
           {current?.type === "video" && (
             <button
@@ -392,17 +352,13 @@ export default function RnqHero({ slides = DEFAULT_SLIDES, interval = 6000 }: Rn
           )}
         </div>
       </div>
-
-      {/* ---------- Quote ---------- */}
       <p
-        className={`mt-10 max-w-xl px-4 text-center text-lg leading-loose text-black/70 sm:text-xl ${arabic.className}`}
+        className="mt-10 max-w-xl px-4 text-center text-lg leading-loose text-black/70 sm:text-xl"
       >
         قهوة مختصة وحلويات فاخرة، تصلك من الرياض بجودة تليق بضيافتك.
       </p>
-
-      {/* ---------- CTAs (unchanged) ---------- */}
       <div
-        className={`mt-8 flex w-full flex-col items-stretch gap-5 px-4 sm:w-auto sm:flex-row sm:items-center sm:gap-8 sm:px-0 ${arabic.className}`}
+        className="mt-8 flex w-full flex-col items-stretch gap-5 px-4 sm:w-auto sm:flex-row sm:items-center sm:gap-8 sm:px-0"
       >
         {ctas.map(({ href, target, label, Icon }) => (
           <Link
@@ -419,7 +375,7 @@ export default function RnqHero({ slides = DEFAULT_SLIDES, interval = 6000 }: Rn
                 className="absolute inset-0 -z-10 origin-right scale-x-0 transition-transform duration-500 ease-out group-hover:scale-x-100 motion-reduce:transition-none"
                 style={{ backgroundImage: goldFill }}
               />
-              <span className="text-[#d4af37] transition-colors duration-500 group-hover:text-black">
+              <span className="text-gold transition-colors duration-500 group-hover:text-black">
                 <Icon />
               </span>
               <span className="whitespace-nowrap">{label}</span>

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowLeft, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import type { ReactNode } from "react";
 import { BRANDS } from "./brands";
+import { goldFill, goldLine } from "./theme";
 
 /* ------------------------------------------------------------------ */
 /* Types + defaults (غيّر البيانات هنا أو ابعتها كـ props)             */
@@ -108,8 +109,6 @@ const DEFAULT_SOCIALS: FooterSocial[] = [
 /* Shared classes                                                      */
 /* ------------------------------------------------------------------ */
 
-const goldFill = "linear-gradient(135deg,#f5e3a1,#d4af37 55%,#b8891f)";
-const goldLine = "linear-gradient(90deg,transparent,#d4af37,transparent)";
 
 const linkClass =
     "inline-flex min-h-9 items-center text-sm text-white/70 transition-colors duration-300 hover:text-[#f5e3a1] focus:outline-none focus-visible:text-[#f5e3a1] focus-visible:underline";

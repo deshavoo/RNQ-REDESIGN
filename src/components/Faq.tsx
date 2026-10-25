@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowLeft, MessageCircle, Plus } from "lucide-react";
+import { goldFill } from "./theme";
 
 /* ------------------------------------------------------------------ */
 /* Types + default content                                             */
@@ -37,7 +38,6 @@ const DEFAULT_FAQS: FaqItem[] = [
     },
 ];
 
-const goldFill = "linear-gradient(135deg,#f5e3a1,#d4af37 55%,#b8891f)";
 
 /* ------------------------------------------------------------------ */
 /* Section                                                             */

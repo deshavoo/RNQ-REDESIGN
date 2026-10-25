@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, Award, MapPin, Users } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import { goldFill, goldLine } from "./theme";
 
 /* ------------------------------------------------------------------ */
 /* Types + default content                                             */
@@ -69,12 +70,6 @@ const DEFAULT_VALUES: AboutValue[] = [
     },
 ];
 
-const goldFill = "linear-gradient(135deg,#f5e3a1,#d4af37 55%,#b8891f)";
-const goldLine = "linear-gradient(90deg,transparent,#d4af37,transparent)";
-
-/* ------------------------------------------------------------------ */
-/* Section                                                             */
-/* ------------------------------------------------------------------ */
 
 interface AboutProps {
     brands?: AboutBrand[];

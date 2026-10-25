@@ -3,9 +3,10 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { BRANDS, SAMPLE_PRODUCTS } from "./brands";
+import { BRANDS, SAMPLE_PRODUCTS, productPath } from "./brands";
 import type { BrandId, Product } from "./brands";
 import ProductCard from "./ProductCard";
+import { goldFill } from "./theme";
 
 export interface SideImageData {
     src: string;
@@ -18,18 +19,17 @@ export interface SideImageData {
 const DEFAULT_RIGHT: SideImageData = {
     src: "/images/best-barns.jpg",
     alt: "قهوة بارنيز المختصة",
-    href: "/images/best-barns.jpg",
+    href: "/products/barns",
     caption: BRANDS.barns.title,
 };
 const DEFAULT_LEFT: SideImageData = {
     src: "/images/best-saadeddin.jpg",
     alt: "حلويات وتمور سعد الدين",
-    href: "/images/best-saadeddin.jpg",
+    href: "/products/saadeddin",
     caption: BRANDS.saadeddin.title,
 };
 
 const BRAND_ORDER: BrandId[] = ["barns", "saadeddin"];
-const goldFill = "linear-gradient(135deg,#f5e3a1,#d4af37 55%,#b8891f)";
 
 function SideImage({ img, className = "" }: { img: SideImageData; className?: string }) {
     return (
@@ -139,6 +139,8 @@ export default function BestSellers({
                                 <li key={p.id} className="flex">
                                     <ProductCard
                                         product={p}
+                                        href={productPath(brandId, p)}
+                                        keepScroll
                                         mark={brand.mark}
                                         categoryLabel={categoryLabel(p.category)}
                                         onAddToCart={onAddToCart}

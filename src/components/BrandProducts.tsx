@@ -1,17 +1,14 @@
 "use client";
 
 import { useId, useMemo, useState } from "react";
-import { Noto_Kufi_Arabic } from "next/font/google";
 import { RotateCcw, SlidersHorizontal } from "lucide-react";
-import ProductCard, { formatPrice } from "./ProductCard";
-import { BRANDS, SAMPLE_PRODUCTS } from "./brands";
+import ProductCard from "./ProductCard";
+import { BRANDS, SAMPLE_PRODUCTS, formatPrice, productPath } from "./brands";
 import type { BrandCategory, BrandId, Product } from "./brands";
+import { goldFill } from "./theme";
 
 export type { BrandCategory, BrandConfig, BrandId, Product } from "./brands";
 
-const arabic = Noto_Kufi_Arabic({ subsets: ["arabic"], weight: ["400", "500", "600"] });
-
-const goldFill = "linear-gradient(135deg,#f5e3a1,#d4af37 55%,#b8891f)";
 const goldLine = "linear-gradient(90deg,#d4af37aa,transparent)";
 
 /* ------------------------------------------------------------------ */
@@ -94,7 +91,7 @@ export default function BrandProducts({
             dir="rtl"
             lang="ar"
             aria-labelledby={headingId}
-            className={`relative scroll-mt-28 py-14 sm:py-20 ${brand.tinted ? "bg-[#fbf8ef]" : "bg-white"} ${arabic.className} ${className}`}
+            className={`relative scroll-mt-28 py-14 sm:py-20 ${brand.tinted ? "bg-[#fbf8ef]" : "bg-white"} ${className}`}
         >
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 {/* ---------- Heading ---------- */}
@@ -255,6 +252,8 @@ export default function BrandProducts({
                                     <li key={p.id} className="flex">
                                         <ProductCard
                                             product={p}
+                                            href={productPath(brandId, p)}
+                                            keepScroll
                                             mark={brand.mark}
                                             categoryLabel={categoryLabel(p.category)}
                                             onAddToCart={onAddToCart}

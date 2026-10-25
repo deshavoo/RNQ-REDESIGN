@@ -2,6 +2,7 @@ import type * as React from "react";
 import type { ReactNode } from "react";
 import { BadgeCheck, MapPin, PartyPopper, Gift, Sparkles } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import { GOLD } from "./theme";
 
 /* ------------------------------------------------------------------ */
 /* Types                                                               */
@@ -40,7 +41,6 @@ const DEFAULT_ITEMS: MarqueeItem[] = [
   { text: "طلبات خاصة حسب الطلب", icon: Sparkles },
 ];
 
-const GOLD = "#d4af37";
 
 /* ------------------------------------------------------------------ */
 /* Component                                                           */
