@@ -3,12 +3,19 @@ import { PrismaClient } from "@/generated/prisma/client";
 
 const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient };
 
-function createClient() {
+function client() {
+    if (globalForPrisma.prisma) return globalForPrisma.prisma;
     const connectionString = process.env.DATABASE_URL;
-    if (!connectionString) throw new Error("DATABASE_URL مش متعرّف في ملف .env");
-    return new PrismaClient({ adapter: new PrismaPg({ connectionString }) });
+    if (!connectionString) throw new Error("DATABASE_URL is not set");
+    const instance = new PrismaClient({ adapter: new PrismaPg({ connectionString }) });
+    globalForPrisma.prisma = instance;
+    return instance;
 }
 
-export const db = globalForPrisma.prisma ?? createClient();
-
-if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = db;
+export const db = new Proxy({} as PrismaClient, {
+    get(_, prop) {
+        const c = client();
+        const value = Reflect.get(c, prop);
+        return typeof value === "function" ? value.bind(c) : value;
+    },
+});
