@@ -540,7 +540,7 @@ export default function Navbar({
                 <nav
                     dir="rtl"
                     aria-label={labels.mainNav}
-                    className="mx-auto flex h-20 w-full max-w-7xl items-center gap-6 px-4 sm:px-6 lg:h-24 lg:gap-8 lg:px-8"
+                    className="mx-auto flex h-24 w-full max-w-7xl items-center gap-6 px-4 sm:px-6 lg:h-28 lg:gap-5 lg:px-8 xl:gap-8"
                 >
                     <button
                         ref={menuButtonRef}
@@ -568,22 +568,22 @@ export default function Navbar({
                             preload
                             className={
                                 logo.className ??
-                                "h-16 w-auto object-contain lg:h-20"
+                                "h-20 w-auto object-contain xl:h-24"
                             }
                         />
                     </a>
 
-                    <ul className="hidden h-full flex-1 items-center gap-1 lg:flex">
+                    <ul className="hidden h-full flex-1 items-center gap-0.5 lg:flex xl:gap-1">
                         {links.map((link, i) => {
                             const mega = link.mega;
                             const isOpen = activeMega === i;
                             const panelId = `mega-panel-${i}`;
                             const linkClass =
-                                "group relative flex h-10 items-center gap-1.5 rounded-full px-4 text-sm font-bold text-black/85 transition-colors duration-300 hover:text-brand focus:outline-none focus-visible:ring-2 focus-visible:ring-brand";
+                                "group relative flex h-10 items-center gap-1.5 whitespace-nowrap rounded-full px-3 text-sm font-bold text-black/85 transition-colors duration-300 hover:text-brand focus:outline-none focus-visible:ring-2 focus-visible:ring-brand";
                             const underline = (
                                 <span
                                     aria-hidden="true"
-                                    className={`absolute inset-x-4 -bottom-0.5 h-px origin-center transition-transform duration-300 ${isOpen ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
+                                    className={`absolute inset-x-3 -bottom-0.5 h-px origin-center transition-transform duration-300 ${isOpen ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
                                         }`}
                                     style={{ backgroundImage: brandLine }}
                                 />
@@ -787,7 +787,7 @@ export default function Navbar({
                                     className={brandPill}
                                 >
                                     <User size={17} strokeWidth={2} className="shrink-0" />
-                                    <span className="hidden max-w-30 truncate sm:inline-block">{firstName}</span>
+                                    <span className="hidden max-w-30 truncate sm:inline-block lg:hidden xl:inline-block">{firstName}</span>
                                 </a>
                                 {onLogout && (
                                     <button
@@ -810,7 +810,7 @@ export default function Navbar({
                                 className={brandPill}
                             >
                                 <User size={17} strokeWidth={2} className="shrink-0" />
-                                <span className="hidden sm:inline-block">{labels.login}</span>
+                                <span className="hidden sm:inline-block lg:hidden xl:inline-block">{labels.login}</span>
                             </a>
                         )}
                     </div>
@@ -871,7 +871,7 @@ export default function Navbar({
                                 alt={logo.alt ?? ""}
                                 width={logo.width ?? 1200}
                                 height={logo.height ?? 686}
-                                className="h-14 w-auto object-contain"
+                                className="h-16 w-auto object-contain"
                             />
                         </a>
                         <button

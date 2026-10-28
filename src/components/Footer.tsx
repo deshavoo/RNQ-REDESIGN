@@ -162,7 +162,7 @@ export default function Footer({
                                 alt={logo.alt ?? ""}
                                 width={logo.width ?? 1200}
                                 height={logo.height ?? 686}
-                                className="h-36 w-auto object-contain sm:h-40"
+                                className="h-40 w-auto object-contain sm:h-48"
                             />
                         </Link>
                         <p className="mt-5 max-w-sm text-sm leading-loose text-white/65">

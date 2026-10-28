@@ -12,12 +12,12 @@ export interface GiftRecipient {
 }
 
 const DEFAULT_RECIPIENTS: GiftRecipient[] = [
-    { id: "father", label: "للأب", href: "/products/barns", image: "/images/products/saudicoffe.jpg", alt: "قهوة سعودية بالهيل" },
-    { id: "mother", label: "للأم", href: "/products/saadeddin?type=gifts", image: "/images/products/tamrbox.webp", alt: "علبة تمور فاخرة" },
-    { id: "friends", label: "للأصدقاء", href: "/products/saadeddin?type=sweets", image: "/images/products/mamoultamr.webp", alt: "معمول بالتمر" },
-    { id: "colleagues", label: "للزملاء", href: "/products/barns?type=beans", image: "/images/products/colombiacoffe.jpg", alt: "حبوب قهوة كولومبيا" },
-    { id: "kids", label: "للأطفال", href: "/products/saadeddin?type=cakes", image: "/images/products/rochercake.jpeg", alt: "كيك روشيه صغيرة" },
-    { id: "companies", label: "للشركات", href: "/business/register", image: "/images/occasion-corporate.jpg", alt: "علب هدايا الشركات" },
+    { id: "father", label: "للأب", href: "/products/barns", image: "/images/gifts/father.webp", alt: "أب وابنه يتشاركان علبة شوكولاتة" },
+    { id: "mother", label: "للأم", href: "/products/saadeddin?type=gifts", image: "/images/gifts/mother.webp", alt: "ابنة تقبّل والدتها بجانب علبة شوكولاتة سعد الدين" },
+    { id: "friends", label: "للأصدقاء", href: "/products/saadeddin?type=sweets", image: "/images/gifts/friends.webp", alt: "صديقتان تتبادلان علبة تمر بالشوكولاتة" },
+    { id: "colleagues", label: "للزملاء", href: "/products/barns?type=beans", image: "/images/gifts/colleagues.webp", alt: "زميلتان في المكتب مع علبة تمر بالشوكولاتة" },
+    { id: "kids", label: "للأطفال", href: "/products/saadeddin?type=cakes", image: "/images/gifts/kids.webp", alt: "طفلة تفتح علبة شوكولاتة على شكل دبدوب" },
+    { id: "companies", label: "للشركات", href: "/business/register", image: "/images/gifts/companies.webp", alt: "علب شوكولاتة سعد الدين لهدايا الشركات" },
 ];
 
 interface GiftFinderProps {
