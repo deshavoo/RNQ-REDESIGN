@@ -26,6 +26,12 @@ enum OrderStatus {
 
 enum PaymentMethod {
   CASH_ON_DELIVERY
+  CARD
+}
+
+enum Country {
+  SA
+  EG
 }
 
 enum AddressKind {
@@ -76,6 +82,12 @@ model Order {
   status         OrderStatus   @default(PROCESSING)
   shippingMethod String
   paymentMethod  PaymentMethod @default(CASH_ON_DELIVERY)
+  country        Country       @default(SA)
+  currency       String        @default("SAR")
+  isGift         Boolean       @default(false)
+  senderName     String?
+  senderPhone    String?
+  giftMessage    String?
   recipientName  String
   phone          String
   city           String
@@ -104,6 +116,7 @@ model Address {
   user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   label     String
   kind      AddressKind @default(OTHER)
+  country   Country     @default(SA)
   city      String
   street    String
   phone     String

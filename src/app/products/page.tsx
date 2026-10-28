@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import BrandProducts from "@/components/BrandProducts";
 import { BRANDS } from "@/components/brands";
 import type { BrandId } from "@/components/brands";
-import { goldLine } from "@/components/theme";
+import { brandLine } from "@/components/theme";
 
 export const metadata: Metadata = {
     title: "كل المنتجات",
@@ -20,7 +20,7 @@ export default function ProductsPage() {
                 <p className="mx-auto mt-3 max-w-xl text-base leading-loose text-black/65">
                     قهوة مختصة وحلويات فاخرة، تصلك من الرياض بجودة تليق بضيافتك.
                 </p>
-                <span aria-hidden className="mx-auto mt-5 block h-px w-40" style={{ backgroundImage: goldLine }} />
+                <span aria-hidden className="mx-auto mt-5 block h-px w-40" style={{ backgroundImage: brandLine }} />
             </header>
             {BRAND_ORDER.map((b) => (
                 <BrandProducts key={b} brand={b} />

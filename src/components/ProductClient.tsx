@@ -6,10 +6,11 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Check, Minus, Plus, ShoppingBag, X } from "lucide-react";
 import { cart } from "./cart/cart-store";
-import { formatPrice, productKey } from "./brands";
+import { formatPrice, priceOf, productKey } from "./brands";
+import { useRegion } from "./region/region-store";
 import type { BrandId, Product } from "./brands";
 import { MAX_QTY } from "@/lib/shop";
-import { goldFill } from "./theme";
+import { brandFill } from "./theme";
 
 export function QuickViewModal({ labelledBy, children }: { labelledBy: string; children: ReactNode }) {
     const ref = useRef<HTMLDialogElement>(null);
@@ -47,7 +48,7 @@ export function QuickViewModal({ labelledBy, children }: { labelledBy: string; c
                     type="button"
                     onClick={close}
                     aria-label="إغلاق"
-                    className="absolute left-3 top-3 flex h-11 w-11 items-center justify-center rounded-full bg-black text-white transition-colors hover:bg-[linear-gradient(135deg,#f5e3a1,#d4af37_55%,#b8891f)] hover:text-black focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
+                    className="absolute left-3 top-3 flex h-11 w-11 items-center justify-center rounded-full bg-brand text-white transition-colors hover:bg-brand-deep hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
                 >
                     <X size={20} aria-hidden />
                 </button>
@@ -70,7 +71,7 @@ export function ProductGallery({
 
     return (
         <div>
-            <div className="relative aspect-square overflow-hidden rounded-3xl bg-[#f6f1e4] ring-1 ring-gold/30">
+            <div className="relative aspect-square overflow-hidden rounded-3xl bg-[#fef8eb] ring-1 ring-brand/30">
                 <Image
                     key={images[i]}
                     src={images[i]}
@@ -89,7 +90,7 @@ export function ProductGallery({
                             onClick={() => setI(n)}
                             aria-label={`عرض الصورة ${n + 1}`}
                             aria-current={n === i}
-                            className={`relative block aspect-square w-full overflow-hidden rounded-xl bg-[#f6f1e4] ring-1 transition-shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-gold ${n === i ? "ring-2 ring-gold" : "ring-black/10 hover:ring-gold/60"
+                            className={`relative block aspect-square w-full overflow-hidden rounded-xl bg-[#fef8eb] ring-1 transition-shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-brand ${n === i ? "ring-2 ring-brand" : "ring-black/10 hover:ring-brand/60"
                                 }`}
                         >
                             <Image src={src} alt="" fill sizes="96px" className="object-cover" />
@@ -102,6 +103,7 @@ export function ProductGallery({
 }
 
 export function ProductActions({ brandId, product }: { brandId: BrandId; product: Product }) {
+    const region = useRegion();
     const [qty, setQty] = useState(1);
     const [added, setAdded] = useState(false);
     const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -121,7 +123,7 @@ export function ProductActions({ brandId, product }: { brandId: BrandId; product
     };
 
     const stepBtn =
-        "flex h-12 w-12 items-center justify-center text-black transition-colors hover:text-gold-deep focus:outline-none focus-visible:ring-2 focus-visible:ring-gold disabled:cursor-not-allowed disabled:opacity-35";
+        "flex h-12 w-12 items-center justify-center text-black transition-colors hover:text-brand-deep focus:outline-none focus-visible:ring-2 focus-visible:ring-brand disabled:cursor-not-allowed disabled:opacity-35";
 
     return (
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -156,11 +158,11 @@ export function ProductActions({ brandId, product }: { brandId: BrandId; product
             <button
                 type="button"
                 onClick={add}
-                className="inline-flex min-h-13 flex-1 items-center justify-center gap-3 rounded-full px-8 text-base font-bold text-black transition-shadow duration-500 hover:shadow-[0_0_40px_-6px_rgba(212,175,55,0.6)] focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
-                style={{ backgroundImage: goldFill }}
+                className="inline-flex min-h-13 flex-1 items-center justify-center gap-3 rounded-full px-8 text-base font-bold text-white transition-shadow duration-500 hover:shadow-[0_0_40px_-6px_rgba(0,84,48,0.6)] focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
+                style={{ backgroundImage: brandFill }}
             >
                 {added ? <Check size={19} aria-hidden /> : <ShoppingBag size={19} aria-hidden />}
-                {added ? "تمت الإضافة" : `أضف إلى السلة · ${formatPrice(product.price * qty)}`}
+                {added ? "تمت الإضافة" : `أضف إلى السلة · ${formatPrice(priceOf(product, region) * qty, region)}`}
             </button>
 
             <span role="status" className="sr-only">

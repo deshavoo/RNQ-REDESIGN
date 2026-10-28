@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, Award, MapPin, Users } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { goldFill, goldLine } from "./theme";
 
 export interface AboutBrand {
     id: string;
@@ -100,12 +99,12 @@ export default function About({
             dir="rtl"
             lang="ar"
             aria-labelledby={`${id}-title`}
-            className={`relative scroll-mt-28 bg-black py-16 text-white [contain-intrinsic-size:auto_1400px] [content-visibility:auto] sm:py-24 ${className}`}
+            className={`relative scroll-mt-28 bg-brand py-16 text-white [contain-intrinsic-size:auto_1400px] [content-visibility:auto] sm:py-24 ${className}`}
         >
             <span
                 aria-hidden
                 className="absolute inset-x-0 top-0 h-px"
-                style={{ backgroundImage: goldLine }}
+                style={{ backgroundImage: "linear-gradient(90deg,transparent,#c9ddd0,transparent)" }}
             />
 
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -114,7 +113,7 @@ export default function About({
                         <h2 id={`${id}-title`} className="text-3xl font-semibold sm:text-4xl">
                             من نحن
                         </h2>
-                        <span aria-hidden className="mt-5 block h-px w-24" style={{ backgroundImage: goldLine }} />
+                        <span aria-hidden className="mt-5 block h-px w-24" style={{ backgroundImage: "linear-gradient(90deg,transparent,#c9ddd0,transparent)" }} />
                     </div>
 
                     <div>
@@ -129,8 +128,7 @@ export default function About({
                         {contactHref && (
                             <Link
                                 href={contactHref}
-                                className="mt-8 inline-flex min-h-12 items-center gap-3 rounded-full px-7 text-sm font-bold text-black transition-shadow duration-500 hover:shadow-[0_0_40px_-6px_rgba(212,175,55,0.6)] focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-black sm:text-base"
-                                style={{ backgroundImage: goldFill }}
+                                className="mt-8 inline-flex min-h-12 items-center gap-3 rounded-full px-7 text-sm font-bold bg-white text-brand transition-shadow duration-500 hover:shadow-[0_0_40px_-6px_rgba(201,221,208,0.6)] focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-brand sm:text-base"
                             >
                                 تواصل معنا
                                 <ArrowLeft size={18} aria-hidden />
@@ -140,11 +138,11 @@ export default function About({
                 </div>
 
                 {facts && facts.length > 0 && (
-                    <dl className="mt-14 grid grid-cols-2 gap-8 border-y border-gold/25 py-8 sm:grid-cols-4">
+                    <dl className="mt-14 grid grid-cols-2 gap-8 border-y border-brand-soft/25 py-8 sm:grid-cols-4">
                         {facts.map((f) => (
                             <div key={f.label}>
                                 <dt className="text-sm text-white/60">{f.label}</dt>
-                                <dd className="mt-1 text-3xl font-semibold text-gold sm:text-4xl">{f.value}</dd>
+                                <dd className="mt-1 text-3xl font-semibold text-brand-soft sm:text-4xl">{f.value}</dd>
                             </div>
                         ))}
                     </dl>
@@ -155,9 +153,9 @@ export default function About({
                         <li key={b.id} className="flex">
                             <Link
                                 href={b.href}
-                                className="group flex w-full flex-col overflow-hidden rounded-3xl border border-gold/25 bg-white/3 transition-colors duration-500 hover:border-gold focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                                className="group flex w-full flex-col overflow-hidden rounded-3xl border border-brand-soft/25 bg-white/3 transition-colors duration-500 hover:border-brand focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-brand"
                             >
-                                <span className="relative block aspect-4/3 w-full overflow-hidden bg-[#1a1a1a]">
+                                <span className="relative block aspect-4/3 w-full overflow-hidden bg-brand">
                                     <Image
                                         src={b.image}
                                         alt={b.alt}
@@ -171,7 +169,7 @@ export default function About({
                                     <p className="max-w-sm text-base leading-loose text-white/70">{b.description}</p>
                                     <span
                                         aria-hidden
-                                        className="mt-auto inline-flex items-center gap-2 text-sm font-bold text-gold"
+                                        className="mt-auto inline-flex items-center gap-2 text-sm font-bold text-brand-soft"
                                     >
                                         {b.cta}
                                         <ArrowLeft
@@ -185,10 +183,10 @@ export default function About({
                     ))}
                 </ul>
 
-                <ul className="mt-14 grid gap-8 border-t border-gold/25 pt-10 sm:mt-16 md:grid-cols-3 md:gap-10">
+                <ul className="mt-14 grid gap-8 border-t border-brand-soft/25 pt-10 sm:mt-16 md:grid-cols-3 md:gap-10">
                     {values.map(({ title, description, icon: Icon }) => (
                         <li key={title} className="flex items-start gap-4">
-                            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-gold/40 text-gold">
+                            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-brand-soft/40 text-brand-soft">
                                 <Icon size={20} strokeWidth={1.6} aria-hidden />
                             </span>
                             <span>

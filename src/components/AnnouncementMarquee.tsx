@@ -2,7 +2,7 @@ import type * as React from "react";
 import type { ReactNode } from "react";
 import { BadgeCheck, MapPin, PartyPopper, Gift, Sparkles } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { GOLD } from "./theme";
+import { BRAND } from "./theme";
 
 export interface MarqueeItem {
   text: string;
@@ -32,7 +32,7 @@ function Entry({ item, primary }: { item: MarqueeItem; primary: boolean }) {
   const Icon = item.icon;
   const content: ReactNode = (
     <>
-      {Icon && <Icon size={15} strokeWidth={1.8} className="shrink-0 text-[#d4af37]" aria-hidden />}
+      {Icon && <Icon size={15} strokeWidth={1.8} className="shrink-0 text-brand-soft" aria-hidden />}
       <span>{item.text}</span>
     </>
   );
@@ -44,14 +44,14 @@ function Entry({ item, primary }: { item: MarqueeItem; primary: boolean }) {
         <a
           href={item.href}
           tabIndex={primary ? undefined : -1}
-          className={`${base} transition-colors hover:text-[#d4af37] focus:outline-none focus-visible:text-[#d4af37]`}
+          className={`${base} transition-colors hover:text-brand-soft focus:outline-none focus-visible:text-brand-soft`}
         >
           {content}
         </a>
       ) : (
         <span className={base}>{content}</span>
       )}
-      <span aria-hidden className="h-1.5 w-1.5 shrink-0 rotate-45 bg-[#d4af37]" />
+      <span aria-hidden className="h-1.5 w-1.5 shrink-0 rotate-45 bg-brand-soft" />
     </li>
   );
 }
@@ -75,7 +75,7 @@ export default function AnnouncementMarquee({
     <div
       role="region"
       aria-label={ariaLabel}
-      className={`rnq-marquee relative w-full overflow-hidden bg-black text-white motion-reduce:overflow-x-auto ${className}`}
+      className={`rnq-marquee relative w-full overflow-hidden bg-brand text-white motion-reduce:overflow-x-auto ${className}`}
     >
       <style>{`
         @keyframes rnq-marquee { from { transform: translateX(0) } to { transform: translateX(-50%) } }
@@ -106,7 +106,7 @@ export default function AnnouncementMarquee({
       <span
         aria-hidden
         className="pointer-events-none absolute inset-x-0 bottom-0 h-px"
-        style={{ backgroundImage: `linear-gradient(90deg,transparent,${GOLD}aa,transparent)` }}
+        style={{ backgroundImage: `linear-gradient(90deg,transparent,${BRAND}aa,transparent)` }}
       />
     </div>
   );

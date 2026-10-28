@@ -3,7 +3,6 @@ import Link from "next/link";
 import { ArrowLeft, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import type { ReactNode } from "react";
 import { BRANDS } from "./brands";
-import { goldFill, goldLine } from "./theme";
 
 export interface FooterLink {
     label: string;
@@ -31,7 +30,7 @@ interface FooterProps {
     className?: string;
 }
 
-const DEFAULT_LOGO = { src: "/rnq-logo-wide.png", alt: "شعار مجموعة RNQ للتجارة", width: 780, height: 388 };
+const DEFAULT_LOGO = { src: "/rnq-logo-light.png", alt: "شعار مجموعة RNQ للتجارة", width: 1200, height: 686 };
 
 const DEFAULT_CONTACT: FooterContact = {
     phone: "+966 50 000 0000",
@@ -95,13 +94,13 @@ const DEFAULT_SOCIALS: FooterSocial[] = [
 ];
 
 const linkClass =
-    "inline-flex min-h-9 items-center text-sm text-white/70 transition-colors duration-300 hover:text-[#f5e3a1] focus:outline-none focus-visible:text-[#f5e3a1] focus-visible:underline";
+    "inline-flex min-h-9 items-center text-sm text-white/70 transition-colors duration-300 hover:text-brand-soft focus:outline-none focus-visible:text-brand-soft focus-visible:underline";
 
 const iconCircle =
-    "flex h-10 w-10 items-center justify-center rounded-full border border-[#d4af37]/40 text-[#f5e3a1] transition-all duration-300 hover:border-transparent hover:text-black focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] hover:[background-image:linear-gradient(135deg,#f5e3a1,#d4af37_55%,#b8891f)]";
+    "flex h-10 w-10 items-center justify-center rounded-full border border-brand-soft/40 text-brand-soft transition-all duration-300 hover:border-transparent hover:bg-white hover:text-brand focus:outline-none focus-visible:ring-2 focus-visible:ring-white";
 
 function ColumnTitle({ children }: { children: ReactNode }) {
-    return <h2 className="mb-4 text-sm font-semibold text-gold">{children}</h2>;
+    return <h2 className="mb-4 text-sm font-semibold text-brand-soft">{children}</h2>;
 }
 
 export default function Footer({
@@ -115,24 +114,24 @@ export default function Footer({
     const brands = Object.values(BRANDS);
 
     return (
-        <footer dir="rtl" lang="ar" className={`relative mt-auto overflow-hidden bg-black text-white ${className}`}>
+        <footer dir="rtl" lang="ar" className={`relative mt-auto overflow-hidden bg-brand text-white ${className}`}>
             <span
                 aria-hidden
                 className="absolute inset-x-0 top-0 h-px"
-                style={{ backgroundImage: goldLine }}
+                style={{ backgroundImage: "linear-gradient(90deg,transparent,#c9ddd0,transparent)" }}
             />
             <span
                 aria-hidden
                 className="pointer-events-none absolute -top-40 left-1/2 h-80 w-[min(110vw,70rem)] -translate-x-1/2 rounded-full blur-3xl"
                 style={{
                     background:
-                        "radial-gradient(closest-side,rgba(212,175,55,.22),rgba(212,175,55,.06) 60%,transparent)",
+                        "radial-gradient(closest-side,rgba(201,221,208,.22),rgba(201,221,208,.06) 60%,transparent)",
                 }}
             />
 
             <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="border-b border-white/10 py-12 sm:py-14">
-                    <div className="flex flex-col items-start justify-between gap-6 rounded-3xl border border-gold/30 bg-white/3 p-7 sm:flex-row sm:items-center sm:p-10">
+                    <div className="flex flex-col items-start justify-between gap-6 rounded-3xl border border-brand-soft/30 bg-white/3 p-7 sm:flex-row sm:items-center sm:p-10">
                         <div className="max-w-xl">
                             <p className="text-xl font-semibold leading-snug sm:text-2xl">
                                 تحتاج توريداً لشركتك أو فندقك؟
@@ -143,8 +142,7 @@ export default function Footer({
                         </div>
                         <Link
                             href={quoteHref}
-                            className="inline-flex min-h-12 shrink-0 items-center gap-3 rounded-full px-8 text-sm font-bold text-black shadow-[0_0_40px_-10px_rgba(212,175,55,0.8)] transition-[filter] duration-300 hover:brightness-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black sm:text-base"
-                            style={{ backgroundImage: goldFill }}
+                            className="inline-flex min-h-12 shrink-0 items-center gap-3 rounded-full px-8 text-sm font-bold bg-white text-brand shadow-[0_0_40px_-10px_rgba(201,221,208,0.8)] transition-[filter] duration-300 hover:brightness-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-brand sm:text-base"
                         >
                             اطلب عرض سعر
                             <ArrowLeft size={18} aria-hidden />
@@ -157,14 +155,14 @@ export default function Footer({
                         <Link
                             href="/"
                             aria-label={logo.alt ?? "الصفحة الرئيسية"}
-                            className="inline-block focus:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+                            className="inline-block focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
                         >
                             <Image
                                 src={logo.src}
                                 alt={logo.alt ?? ""}
-                                width={logo.width ?? 780}
-                                height={logo.height ?? 388}
-                                className="h-14 w-auto max-w-56 object-contain"
+                                width={logo.width ?? 1200}
+                                height={logo.height ?? 686}
+                                className="h-36 w-auto object-contain sm:h-40"
                             />
                         </Link>
                         <p className="mt-5 max-w-sm text-sm leading-loose text-white/65">
@@ -222,7 +220,7 @@ export default function Footer({
                                 <div key={b.id}>
                                     <Link
                                         href={`/products/${b.id}`}
-                                        className="inline-flex min-h-9 items-center text-sm font-semibold text-white transition-colors duration-300 hover:text-gold-soft focus:outline-none focus-visible:text-gold-soft focus-visible:underline"
+                                        className="inline-flex min-h-9 items-center text-sm font-semibold text-white transition-colors duration-300 hover:text-brand-soft focus:outline-none focus-visible:text-brand-soft focus-visible:underline"
                                     >
                                         {b.title}
                                     </Link>
@@ -244,26 +242,26 @@ export default function Footer({
                         <ColumnTitle>تواصل معنا</ColumnTitle>
                         <ul className="flex flex-col gap-4 text-sm text-white/70">
                             <li className="flex items-start gap-3">
-                                <Phone size={18} strokeWidth={1.6} className="mt-0.5 shrink-0 text-gold" aria-hidden />
+                                <Phone size={18} strokeWidth={1.6} className="mt-0.5 shrink-0 text-brand-soft" aria-hidden />
                                 <a
                                     href={`tel:${contact.phone.replace(/\s/g, "")}`}
                                     dir="ltr"
-                                    className="transition-colors duration-300 hover:text-gold-soft focus:outline-none focus-visible:text-gold-soft focus-visible:underline"
+                                    className="transition-colors duration-300 hover:text-brand-soft focus:outline-none focus-visible:text-brand-soft focus-visible:underline"
                                 >
                                     {contact.phone}
                                 </a>
                             </li>
                             <li className="flex items-start gap-3">
-                                <Mail size={18} strokeWidth={1.6} className="mt-0.5 shrink-0 text-gold" aria-hidden />
+                                <Mail size={18} strokeWidth={1.6} className="mt-0.5 shrink-0 text-brand-soft" aria-hidden />
                                 <a
                                     href={`mailto:${contact.email}`}
-                                    className="break-all transition-colors duration-300 hover:text-gold-soft focus:outline-none focus-visible:text-gold-soft focus-visible:underline"
+                                    className="break-all transition-colors duration-300 hover:text-brand-soft focus:outline-none focus-visible:text-brand-soft focus-visible:underline"
                                 >
                                     {contact.email}
                                 </a>
                             </li>
                             <li className="flex items-start gap-3">
-                                <MapPin size={18} strokeWidth={1.6} className="mt-0.5 shrink-0 text-gold" aria-hidden />
+                                <MapPin size={18} strokeWidth={1.6} className="mt-0.5 shrink-0 text-brand-soft" aria-hidden />
                                 <span className="leading-relaxed">{contact.address}</span>
                             </li>
                         </ul>
@@ -280,7 +278,7 @@ export default function Footer({
                                 <li key={l.label}>
                                     <Link
                                         href={l.href}
-                                        className="inline-flex min-h-9 items-center text-xs text-white/50 transition-colors duration-300 hover:text-gold-soft focus:outline-none focus-visible:text-gold-soft focus-visible:underline"
+                                        className="inline-flex min-h-9 items-center text-xs text-white/50 transition-colors duration-300 hover:text-brand-soft focus:outline-none focus-visible:text-brand-soft focus-visible:underline"
                                     >
                                         {l.label}
                                     </Link>

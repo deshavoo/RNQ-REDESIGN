@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ShoppingBag } from "lucide-react";
-import { goldFill } from "@/components/theme";
+import { brandFill } from "@/components/theme";
 
 export function CartSkeleton() {
     return (
@@ -17,16 +17,16 @@ export function CartSkeleton() {
 
 export function EmptyCart() {
     return (
-        <div className="mx-auto max-w-md animate-fade-up rounded-3xl border border-dashed border-gold/50 bg-white px-6 py-14 text-center">
-            <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-black text-gold">
+        <div className="mx-auto max-w-md animate-fade-up rounded-3xl border border-dashed border-brand/50 bg-white px-6 py-14 text-center">
+            <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-brand text-brand-soft">
                 <ShoppingBag size={28} aria-hidden />
             </span>
             <p className="mt-5 text-lg font-semibold text-black">سلتك فارغة</p>
             <p className="mt-2 text-sm text-black/60">تصفّح قهوة بارنيز وحلويات سعد الدين وأضف ما يعجبك.</p>
             <Link
                 href="/products"
-                className="mt-6 inline-flex min-h-12 items-center justify-center rounded-full px-8 font-bold text-black focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
-                style={{ backgroundImage: goldFill }}
+                className="mt-6 inline-flex min-h-12 items-center justify-center rounded-full px-8 font-bold text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
+                style={{ backgroundImage: brandFill }}
             >
                 تصفح المنتجات
             </Link>

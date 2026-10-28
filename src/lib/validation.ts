@@ -1,13 +1,20 @@
 import { z } from "zod";
-import { MAX_QTY, SHIPPING_METHODS } from "./shop";
-import type { ShippingMethodId } from "./shop";
+import { MAX_QTY } from "./shop";
+import { REGIONS, REGION_IDS, SHIPPING_METHOD_IDS, normalizePhone, phoneRegion } from "./regions";
+import type { RegionId } from "./regions";
 
-const saudiPhone = z
+const PHONE_ERROR = "رقم جوال غير صحيح (سعودي 05XXXXXXXX أو مصري 01XXXXXXXXX)";
+
+const phone = z
     .string()
     .trim()
-    .transform((v) => v.replace(/[\s-]/g, ""))
-    .refine((v) => /^(?:\+?966|0)5\d{8}$/.test(v), { error: "رقم جوال سعودي غير صحيح (مثال: 05XXXXXXXX)" })
-    .transform((v) => `+966${v.replace(/^(?:\+?966|0)/, "")}`);
+    .refine((v) => phoneRegion(v) !== null, { error: PHONE_ERROR })
+    .transform((v) => normalizePhone(v, phoneRegion(v)!)!);
+
+const country = z.enum(REGION_IDS as [RegionId, ...RegionId[]], { error: "اختر دولة التوصيل" });
+
+const phoneErrorFor = (region: RegionId) =>
+    `رقم جوال غير صحيح في ${REGIONS[region].name} (مثال: ${REGIONS[region].phoneExample})`;
 
 const email = z.string().trim().toLowerCase().pipe(z.email({ error: "صيغة البريد الإلكتروني غير صحيحة" }));
 
@@ -27,7 +34,7 @@ export const individualSchema = z
     .object({
         name,
         email,
-        phone: saudiPhone,
+        phone,
         password: newPassword,
         confirm: z.string(),
     })
@@ -55,7 +62,7 @@ export const businessSchema = z
         city: z.string().trim().min(2, { error: "أدخل المدينة" }).max(60),
         name,
         email,
-        phone: saudiPhone,
+        phone,
         password: newPassword,
         confirm: z.string(),
         terms: z.literal(true, { error: "يجب الموافقة على الشروط والأحكام" }),
@@ -64,7 +71,7 @@ export const businessSchema = z
 
 export const profileSchema = z.object({
     name,
-    phone: saudiPhone,
+    phone,
     birthday: z
         .string()
         .refine((v) => v === "" || !Number.isNaN(Date.parse(v)), { error: "تاريخ غير صحيح" })
@@ -82,9 +89,14 @@ export const addressSchema = z.object({
     kind: z.enum(["HOME", "WORK", "OTHER"]),
     city: z.string().trim().min(2, { error: "أدخل المدينة" }).max(60),
     street: z.string().trim().min(3, { error: "أدخل العنوان بالتفصيل" }).max(200),
-    phone: saudiPhone,
+    phone: z.string().trim(),
+    country,
     isDefault: z.boolean(),
-});
+})
+    .superRefine((d, ctx) => {
+        if (!normalizePhone(d.phone, d.country)) ctx.addIssue({ code: "custom", path: ["phone"], message: phoneErrorFor(d.country) });
+    })
+    .transform((d) => ({ ...d, phone: normalizePhone(d.phone, d.country)! }));
 
 export type FieldErrors = Record<string, string[] | undefined>;
 
@@ -98,19 +110,41 @@ export const checkoutSchema = z
             .array(z.object({ brand: z.string(), productId: z.string(), qty: z.number().int().min(1).max(MAX_QTY, { error: `الحد الأقصى ${MAX_QTY} قطعة لكل منتج` }) }))
             .min(1, { error: "السلة فارغة" })
             .max(50),
-        shippingMethod: z.enum(SHIPPING_METHODS.map((m) => m.id) as [ShippingMethodId, ...ShippingMethodId[]], { error: "اختر طريقة الشحن" }),
+        country,
+        shippingMethod: z.enum(SHIPPING_METHOD_IDS, { error: "اختر طريقة الشحن" }),
+        paymentMethod: z.enum(["CASH_ON_DELIVERY", "CARD"]),
         addressId: z.string().optional(),
         recipientName: name,
-        phone: saudiPhone,
+        phone: z.string().trim(),
         city: z.string().trim().max(60),
         street: z.string().trim().max(200),
         saveAddress: z.boolean(),
         notes: z.string().trim().max(500, { error: "الملاحظات طويلة جداً" }),
+        isGift: z.boolean(),
+        senderName: z.string().trim().max(80),
+        senderPhone: z.string().trim(),
+        giftMessage: z.string().trim().max(300, { error: "رسالة الإهداء طويلة جداً" }),
     })
     .superRefine((d, ctx) => {
+        if (d.paymentMethod === "CARD") ctx.addIssue({ code: "custom", path: ["paymentMethod"], message: "الدفع بالبطاقة غير متاح حالياً" });
+        if (!normalizePhone(d.phone, d.country)) ctx.addIssue({ code: "custom", path: ["phone"], message: phoneErrorFor(d.country) });
+        if (d.isGift) {
+            if (d.senderName.length < 2) ctx.addIssue({ code: "custom", path: ["senderName"], message: "أدخل اسم المرسل" });
+            if (!phoneRegion(d.senderPhone)) ctx.addIssue({ code: "custom", path: ["senderPhone"], message: PHONE_ERROR });
+        }
         if (d.addressId) return;
         if (d.city.length < 2) ctx.addIssue({ code: "custom", path: ["city"], message: "أدخل المدينة" });
         if (d.street.length < 3) ctx.addIssue({ code: "custom", path: ["street"], message: "أدخل العنوان بالتفصيل" });
+    })
+    .transform((d) => {
+        const senderRegion = d.isGift ? phoneRegion(d.senderPhone) : null;
+        return {
+            ...d,
+            phone: normalizePhone(d.phone, d.country)!,
+            senderName: d.isGift ? d.senderName : "",
+            senderPhone: senderRegion ? normalizePhone(d.senderPhone, senderRegion)! : "",
+            giftMessage: d.isGift ? d.giftMessage : "",
+        };
     });
 
 export type CheckoutInput = z.input<typeof checkoutSchema>;

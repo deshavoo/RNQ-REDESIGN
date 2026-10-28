@@ -2,7 +2,7 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #0f2a1f;
   color-scheme: light;
 }
 
@@ -11,9 +11,13 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-kufi);
 
-  --color-gold: #d4af37;
-  --color-gold-soft: #f5e3a1;
-  --color-gold-deep: #8a6a1f;
+  --color-black: #0f2a1f;
+
+  --color-brand: #005430;
+  --color-brand-soft: #c9ddd0;
+  --color-brand-deep: #003d23;
+  --color-cream: #fef8eb;
+  --color-sage: #bbcfcd;
 }
 
 @theme {

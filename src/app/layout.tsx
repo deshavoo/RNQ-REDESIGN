@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   },
   description: SITE_DESCRIPTION,
   applicationName: SITE_NAME,
-  icons: { icon: "/rnq-logo.png", apple: "/rnq-logo.png" },
+  icons: { icon: "/rnq-icon.png", apple: "/rnq-apple-icon.png" },
   openGraph: {
     type: "website",
     locale: "ar_SA",
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#000000",
+  themeColor: "#005430",
 };
 
 export default function RootLayout({ children, modal }: LayoutProps<"/">) {

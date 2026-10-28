@@ -6,7 +6,7 @@ import Link from "next/link";
 import { BRANDS, SAMPLE_PRODUCTS } from "./brands";
 import type { BrandId, Product } from "./brands";
 import ProductCard from "./ProductCard";
-import { goldFill } from "./theme";
+import { brandFill } from "./theme";
 
 export interface SideImageData {
     src: string;
@@ -34,7 +34,7 @@ function SideImage({ img, className = "" }: { img: SideImageData; className?: st
     return (
         <Link
             href={img.href}
-            className={`group relative block overflow-hidden rounded-3xl bg-[#f6f1e4] focus:outline-none focus-visible:ring-2 focus-visible:ring-gold ${className}`}
+            className={`group relative block overflow-hidden rounded-3xl bg-cream focus:outline-none focus-visible:ring-2 focus-visible:ring-brand ${className}`}
         >
             <Image
                 src={img.src}
@@ -105,7 +105,7 @@ export default function BestSellers({
                             <div
                                 role="group"
                                 aria-label="اختر البراند"
-                                className="mt-6 inline-flex rounded-full border border-gold/30 bg-black/3 p-0.5"
+                                className="mt-6 inline-flex rounded-full border border-brand/30 bg-black/3 p-0.5"
                             >
                                 {BRAND_ORDER.map((b) => {
                                     const active = brandId === b;
@@ -115,9 +115,9 @@ export default function BestSellers({
                                             type="button"
                                             aria-pressed={active}
                                             onClick={() => setBrandId(b)}
-                                            className={`min-h-10 rounded-full px-5 text-sm font-semibold transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-black ${active ? "text-black" : "text-black/60 hover:text-black"
+                                            className={`min-h-10 rounded-full px-5 text-sm font-semibold transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-black ${active ? "text-white" : "text-black/60 hover:text-black"
                                                 }`}
-                                            style={active ? { backgroundImage: goldFill } : undefined}
+                                            style={active ? { backgroundImage: brandFill } : undefined}
                                         >
                                             {BRANDS[b].title}
                                         </button>
@@ -143,7 +143,7 @@ export default function BestSellers({
                         <div className="mt-8 text-center sm:mt-10">
                             <Link
                                 href={`/products/${brandId}`}
-                                className="inline-flex min-h-12 items-center gap-3 rounded-full border border-gold/60 px-7 text-sm font-bold text-black transition-colors duration-300 hover:border-transparent hover:bg-[linear-gradient(135deg,#f5e3a1,#d4af37_55%,#b8891f)] focus:outline-none focus-visible:ring-2 focus-visible:ring-black sm:text-base"
+                                className="inline-flex min-h-12 items-center gap-3 rounded-full border border-brand/60 px-7 text-sm font-bold text-black transition-colors duration-300 hover:border-transparent hover:text-white hover:bg-[linear-gradient(135deg,#1f7a52,#005430_55%,#003d23)] focus:outline-none focus-visible:ring-2 focus-visible:ring-black sm:text-base"
                             >
                                 عرض كل منتجات {brand.title}
                             </Link>

@@ -5,10 +5,10 @@ import type { KeyboardEvent, MouseEvent, PointerEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight, Pause, Play, Volume2, VolumeX } from "lucide-react";
-import { GOLD, goldFill } from "./theme";
+import { BRAND, brandFill } from "./theme";
 
-const goldBorder =
-  "linear-gradient(135deg,rgba(245,227,161,.95),rgba(212,175,55,.55) 45%,rgba(138,106,31,.85))";
+const brandBorder =
+  "linear-gradient(135deg,rgba(187,207,205,.95),rgba(0,84,48,.55) 45%,rgba(0,61,35,.85))";
 
 export type HeroSlide =
   | { type: "image"; src: string; alt: string; fit?: SlideFit;  position?: string }
@@ -86,7 +86,7 @@ const getReducedMotion = () => window.matchMedia(REDUCED_MOTION_QUERY).matches;
 const getServerReducedMotion = () => false;
 
 const glassBtn =
-  "flex h-11 w-11 items-center justify-center rounded-full border border-[#d4af37]/60 bg-black/35 text-white backdrop-blur-md transition-colors duration-300 hover:border-transparent hover:bg-[#d4af37] hover:text-black focus:outline-none focus-visible:ring-2 focus-visible:ring-white";
+  "flex h-11 w-11 items-center justify-center rounded-full border border-brand-soft/60 bg-brand/40 text-white backdrop-blur-md transition-colors duration-300 hover:border-transparent hover:bg-brand hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white";
 
 export default function RnqHero({ slides = DEFAULT_SLIDES, interval = 6000 }: RnqHeroProps) {
   const count = slides.length;
@@ -187,7 +187,7 @@ export default function RnqHero({ slides = DEFAULT_SLIDES, interval = 6000 }: Rn
           className="absolute bottom-0 left-1/2 h-[45vmin] w-[110vmin] -translate-x-1/2 translate-y-1/3 rounded-full blur-3xl"
           style={{
             background:
-              "radial-gradient(closest-side,rgba(245,227,161,.5),rgba(212,175,55,.12) 55%,transparent 75%)",
+              "radial-gradient(closest-side,rgba(187,207,205,.5),rgba(0,84,48,.12) 55%,transparent 75%)",
           }}
         />
       </div>
@@ -212,7 +212,7 @@ export default function RnqHero({ slides = DEFAULT_SLIDES, interval = 6000 }: Rn
         onPointerCancel={() => {
           pointerStartX.current = null;
         }}
-        className="rnq-fade relative aspect-4/3 w-full touch-pan-y overflow-hidden bg-black focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-gold sm:aspect-auto sm:h-[min(56.25vw,calc(100svh-7.5rem))]"
+        className="rnq-fade relative aspect-4/3 w-full touch-pan-y overflow-hidden bg-brand focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand sm:aspect-auto sm:h-[min(56.25vw,calc(100svh-7.5rem))]"
       >
         <div
           aria-live={isPlaying ? "off" : "polite"}
@@ -278,7 +278,7 @@ export default function RnqHero({ slides = DEFAULT_SLIDES, interval = 6000 }: Rn
         <span
           aria-hidden
           className="pointer-events-none absolute inset-x-0 bottom-0 h-px"
-          style={{ backgroundImage: `linear-gradient(90deg,transparent,${GOLD},transparent)` }}
+          style={{ backgroundImage: `linear-gradient(90deg,transparent,${BRAND},transparent)` }}
         />
 
         {hasMany && (
@@ -318,7 +318,7 @@ export default function RnqHero({ slides = DEFAULT_SLIDES, interval = 6000 }: Rn
                         fillRefs.current[i] = el;
                       }}
                       className="absolute inset-0 origin-right rounded-full"
-                      style={{ backgroundImage: goldFill, transform: "scaleX(0)" }}
+                      style={{ backgroundImage: brandFill, transform: "scaleX(0)" }}
                     />
                   </span>
                 </button>
@@ -363,16 +363,15 @@ export default function RnqHero({ slides = DEFAULT_SLIDES, interval = 6000 }: Rn
             key={href}
             href={href}
             onClick={(e) => scrollToSection(e, target)}
-            className="group relative inline-flex rounded-full p-px transition-shadow duration-500 hover:shadow-[0_0_44px_-6px_rgba(212,175,55,0.55)] focus-visible:outline focus-visible:outline-offset-4 focus-visible:outline-black"
-            style={{ backgroundImage: goldBorder }}
+            className="group relative inline-flex rounded-full p-px transition-shadow duration-500 hover:shadow-[0_0_44px_-6px_rgba(0,84,48,0.55)] focus-visible:outline focus-visible:outline-offset-4 focus-visible:outline-black"
+            style={{ backgroundImage: brandBorder }}
           >
-            <span className="relative isolate flex w-full items-center gap-3 overflow-hidden rounded-full bg-black/90 px-7 py-4 text-base font-semibold text-white backdrop-blur-xl transition-colors duration-500 group-hover:text-black sm:px-9 sm:text-lg">
+            <span className="relative isolate flex w-full items-center gap-3 overflow-hidden rounded-full bg-brand/90 px-7 py-4 text-base font-semibold text-white backdrop-blur-xl transition-colors duration-500 group-hover:text-brand sm:px-9 sm:text-lg">
               <span
                 aria-hidden
-                className="absolute inset-0 -z-10 origin-right scale-x-0 transition-transform duration-500 ease-out group-hover:scale-x-100 motion-reduce:transition-none"
-                style={{ backgroundImage: goldFill }}
+                className="absolute inset-0 -z-10 origin-right scale-x-0 transition-transform duration-500 ease-out group-hover:scale-x-100 motion-reduce:transition-none bg-white"
               />
-              <span className="text-gold transition-colors duration-500 group-hover:text-black">
+              <span className="text-brand-soft transition-colors duration-500 group-hover:text-brand">
                 <Icon />
               </span>
               <span className="whitespace-nowrap">{label}</span>

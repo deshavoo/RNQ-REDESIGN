@@ -1,8 +1,9 @@
 import Image from "next/image";
-import { BRANDS, formatPrice, productPath } from "./brands";
+import { BRANDS, productPath } from "./brands";
+import Price from "./region/Price";
 import type { BrandId, Product } from "./brands";
 import { ProductActions, ProductGallery } from "./ProductClient";
-import { goldFill } from "./theme";
+import { brandFill } from "./theme";
 
 interface ProductDetailsProps {
     brandId: BrandId;
@@ -22,7 +23,7 @@ export default function ProductDetails({ brandId, product: p, variant }: Product
                 {images.length > 1 ? (
                     <ProductGallery images={images} name={p.name} preload />
                 ) : (
-                    <div className="relative aspect-square overflow-hidden rounded-3xl bg-[#f6f1e4] ring-1 ring-gold/30">
+                    <div className="relative aspect-square overflow-hidden rounded-3xl bg-[#fef8eb] ring-1 ring-brand/30">
                         {images[0] ? (
                             <Image
                                 src={images[0]}
@@ -35,10 +36,10 @@ export default function ProductDetails({ brandId, product: p, variant }: Product
                         ) : (
                             <span
                                 aria-hidden
-                                className="absolute inset-0 flex items-center justify-center text-9xl font-semibold text-gold/45"
+                                className="absolute inset-0 flex items-center justify-center text-9xl font-semibold text-brand/25"
                                 style={{
                                     background:
-                                        "radial-gradient(ellipse at 70% 20%,rgba(245,227,161,.55),transparent 65%),#f6f1e4",
+                                        "radial-gradient(ellipse at 70% 20%,rgba(187,207,205,.55),transparent 65%),#fef8eb",
                                 }}
                             >
                                 {brand.mark}
@@ -50,7 +51,7 @@ export default function ProductDetails({ brandId, product: p, variant }: Product
 
             <div className="flex flex-col">
                 <div className="flex flex-wrap items-center gap-3">
-                    <p className="text-sm font-semibold text-gold-deep">{brand.title}</p>
+                    <p className="text-sm font-semibold text-brand-deep">{brand.title}</p>
                     {categoryLabel && (
                         <>
                             <span aria-hidden className="h-1 w-1 rounded-full bg-black/25" />
@@ -59,8 +60,8 @@ export default function ProductDetails({ brandId, product: p, variant }: Product
                     )}
                     {p.badge && (
                         <span
-                            className="rounded-full px-3 py-1 text-xs font-bold text-black"
-                            style={{ backgroundImage: goldFill }}
+                            className="rounded-full px-3 py-1 text-xs font-bold text-white"
+                            style={{ backgroundImage: brandFill }}
                         >
                             {p.badge}
                         </span>
@@ -71,11 +72,11 @@ export default function ProductDetails({ brandId, product: p, variant }: Product
                     {p.name}
                 </Heading>
 
-                <p className="mt-4 text-3xl font-semibold text-black">{formatPrice(p.price)}</p>
+                <p className="mt-4 text-3xl font-semibold text-black"><Price product={p} /></p>
                 <span
                     aria-hidden
                     className="mt-5 block h-px w-32"
-                    style={{ backgroundImage: "linear-gradient(90deg,#d4af37,transparent)" }}
+                    style={{ backgroundImage: "linear-gradient(90deg,#005430,transparent)" }}
                 />
 
                 {p.description && <p className="mt-6 text-lg leading-loose text-black/75">{p.description}</p>}
@@ -99,7 +100,7 @@ export default function ProductDetails({ brandId, product: p, variant }: Product
                 {variant === "modal" && (
                     <a
                         href={productPath(brandId, p)}
-                        className="mt-6 inline-flex min-h-11 items-center self-start text-sm font-bold text-gold-deep underline-offset-4 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+                        className="mt-6 inline-flex min-h-11 items-center self-start text-sm font-bold text-brand-deep underline-offset-4 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-brand"
                     >
                         عرض صفحة المنتج كاملة
                     </a>

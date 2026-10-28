@@ -76,7 +76,7 @@ function OccasionCard({
     return (
         <Link
             href={occasion.href}
-            className="group relative block h-full w-full overflow-hidden rounded-3xl bg-[#1a1a1a] focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+            className="group relative block h-full w-full overflow-hidden rounded-3xl bg-brand focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-brand"
         >
             <Image
                 src={occasion.image}
@@ -110,7 +110,7 @@ function OccasionCard({
                     </p>
                 </span>
 
-                <span className="inline-flex min-h-11 items-center gap-2 rounded-full border border-gold/60 bg-black/40 px-5 text-sm font-bold text-white transition-[background-color,color,border-color] duration-300 ease-out group-hover:border-transparent group-hover:bg-[linear-gradient(135deg,#f5e3a1,#d4af37_55%,#b8891f)] group-hover:text-black motion-reduce:transition-none">
+                <span className="inline-flex min-h-11 items-center gap-2 rounded-full border border-brand-soft/60 bg-black/40 px-5 text-sm font-bold text-white transition-[background-color,color,border-color] duration-300 ease-out group-hover:border-transparent group-hover:bg-white group-hover:text-brand motion-reduce:transition-none">
                     {occasion.cta}
 
                     <ArrowLeft
@@ -159,14 +159,14 @@ export default function Occasions({
             dir="rtl"
             lang="ar"
             aria-labelledby={`${id}-title`}
-            className={`relative scroll-mt-28 bg-black py-16 text-white [contain-intrinsic-size:auto_1100px] [content-visibility:auto] sm:py-24 ${className}`}
+            className={`relative scroll-mt-28 bg-brand py-16 text-white [contain-intrinsic-size:auto_1100px] [content-visibility:auto] sm:py-24 ${className}`}
         >
             <span
                 aria-hidden="true"
                 className="pointer-events-none absolute inset-x-0 top-0 h-px"
                 style={{
                     backgroundImage:
-                        "linear-gradient(90deg,transparent,#d4af37,transparent)",
+                        "linear-gradient(90deg,transparent,#c9ddd0,transparent)",
                 }}
             />
 
@@ -175,7 +175,7 @@ export default function Occasions({
                 className="pointer-events-none absolute inset-x-0 bottom-0 h-px"
                 style={{
                     backgroundImage:
-                        "linear-gradient(90deg,transparent,#d4af37,transparent)",
+                        "linear-gradient(90deg,transparent,#c9ddd0,transparent)",
                 }}
             />
 
@@ -198,7 +198,7 @@ export default function Occasions({
                         className="mx-auto mt-6 block h-px w-24"
                         style={{
                             backgroundImage:
-                                "linear-gradient(90deg,transparent,#d4af37,transparent)",
+                                "linear-gradient(90deg,transparent,#c9ddd0,transparent)",
                         }}
                     />
                 </header>
@@ -224,7 +224,7 @@ export default function Occasions({
 
                     <Link
                         href="/custom-orders"
-                        className="mt-4 inline-flex min-h-12 items-center gap-3 rounded-full border border-gold/60 px-7 text-sm font-bold text-white transition-[background-color,color,border-color] duration-300 ease-out hover:border-transparent hover:bg-[linear-gradient(135deg,#f5e3a1,#d4af37_55%,#b8891f)] hover:text-black focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-black motion-reduce:transition-none sm:text-base"
+                        className="mt-4 inline-flex min-h-12 items-center gap-3 rounded-full border border-brand-soft/60 px-7 text-sm font-bold text-white transition-[background-color,color,border-color] duration-300 ease-out hover:border-transparent hover:bg-white hover:text-brand focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-brand motion-reduce:transition-none sm:text-base"
                     >
                         صمّم طلبك الخاص
                     </Link>

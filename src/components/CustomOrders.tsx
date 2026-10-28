@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, Gift, MessageCircle, Package, Palette, PenLine } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { goldFill, goldLine } from "./theme";
+import { brandFill, brandLine } from "./theme";
 export interface CustomImage {
     src: string;
     alt: string;
@@ -88,7 +88,7 @@ export default function CustomOrders({
                         <h2 id={`${id}-title`} className="text-4xl font-semibold leading-tight sm:text-5xl">
                             حسب الطلب
                         </h2>
-                        <span aria-hidden className="mt-5 block h-px w-24" style={{ backgroundImage: goldLine }} />
+                        <span aria-hidden className="mt-5 block h-px w-24" style={{ backgroundImage: brandLine }} />
                         <p className="mt-6 max-w-lg text-lg leading-loose text-black/70 sm:text-xl">
                             اصنع هديتك كما تتخيلها. نجهّز القهوة والحلويات والتمور بتغليف ورسالة وتشكيلة تخصّك وحدك.
                         </p>
@@ -96,7 +96,7 @@ export default function CustomOrders({
                         <ul className="mt-9 grid gap-x-8 gap-y-6 sm:grid-cols-2">
                             {options.map(({ title, description, icon: Icon }) => (
                                 <li key={title} className="flex items-start gap-4">
-                                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-gold/40 bg-black/3 text-gold-deep">
+                                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-brand/40 bg-black/3 text-brand-deep">
                                         <Icon size={20} strokeWidth={1.6} aria-hidden />
                                     </span>
                                     <span>
@@ -110,8 +110,8 @@ export default function CustomOrders({
                         <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
                             <Link
                                 href={ctaHref}
-                                className="inline-flex min-h-13 items-center justify-center gap-3 rounded-full px-8 text-base font-bold text-black transition-shadow duration-500 hover:shadow-[0_0_40px_-6px_rgba(212,175,55,0.6)] focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
-                                style={{ backgroundImage: goldFill }}
+                                className="inline-flex min-h-13 items-center justify-center gap-3 rounded-full px-8 text-base font-bold text-white transition-shadow duration-500 hover:shadow-[0_0_40px_-6px_rgba(0,84,48,0.6)] focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
+                                style={{ backgroundImage: brandFill }}
                             >
                                 ابدأ طلبك الخاص
                                 <ArrowLeft size={18} aria-hidden />
@@ -121,7 +121,7 @@ export default function CustomOrders({
                                     href={whatsappHref}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="inline-flex min-h-13 items-center justify-center gap-3 rounded-full border border-black/25 px-8 text-base font-bold text-black transition-colors duration-300 hover:border-gold hover:text-gold-deep focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
+                                    className="inline-flex min-h-13 items-center justify-center gap-3 rounded-full border border-black/25 px-8 text-base font-bold text-black transition-colors duration-300 hover:border-brand hover:text-brand-deep focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
                                 >
                                     <MessageCircle size={18} aria-hidden />
                                     تحدّث معنا على واتساب
@@ -135,9 +135,9 @@ export default function CustomOrders({
                         <div className="relative isolate">
                             <span
                                 aria-hidden
-                                className="absolute inset-0 -z-10 -translate-x-3 translate-y-3 rounded-t-[50%/28%] rounded-b-3xl border border-gold/60 lg:-translate-x-5 lg:translate-y-5"
+                                className="absolute inset-0 -z-10 -translate-x-3 translate-y-3 rounded-t-[50%/28%] rounded-b-3xl border border-brand/60 lg:-translate-x-5 lg:translate-y-5"
                             />
-                            <div className="relative aspect-4/5 overflow-hidden rounded-t-[50%/28%] rounded-b-3xl bg-[#f6f1e4]">
+                            <div className="relative aspect-4/5 overflow-hidden rounded-t-[50%/28%] rounded-b-3xl bg-cream">
                                 <Image
                                     src={mainImage.src}
                                     alt={mainImage.alt}
@@ -148,7 +148,7 @@ export default function CustomOrders({
                             </div>
                         </div>
 
-                        <div className="absolute bottom-0 right-3 aspect-square w-[36%] overflow-hidden rounded-3xl bg-[#f6f1e4] ring-8 ring-white sm:-right-4">
+                        <div className="absolute bottom-0 right-3 aspect-square w-[36%] overflow-hidden rounded-3xl bg-cream ring-8 ring-white sm:-right-4">
                             <Image
                                 src={detailImage.src}
                                 alt={detailImage.alt}
@@ -160,7 +160,7 @@ export default function CustomOrders({
                     </div>
                 </div>
 
-                <div className="mt-16 rounded-3xl border border-gold/25 bg-[#faf7ee] p-6 sm:mt-20 sm:p-10">
+                <div className="mt-16 rounded-3xl border border-brand/25 bg-[#faf7ee] p-6 sm:mt-20 sm:p-10">
                     <h3 className="text-xl font-semibold sm:text-2xl">كيف يتم طلبك؟</h3>
                     <ol className="mt-8 grid gap-8 lg:grid-cols-4 lg:gap-6">
                         {steps.map((s, i) => (
@@ -168,8 +168,8 @@ export default function CustomOrders({
                                 <div className="flex items-center gap-3">
                                     <span
                                         aria-hidden
-                                        className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-base font-bold text-black"
-                                        style={{ backgroundImage: goldFill }}
+                                        className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-base font-bold text-white"
+                                        style={{ backgroundImage: brandFill }}
                                     >
                                         {i + 1}
                                     </span>
@@ -177,7 +177,7 @@ export default function CustomOrders({
                                         <span
                                             aria-hidden
                                             className="hidden h-px flex-1 lg:block"
-                                            style={{ backgroundImage: goldLine }}
+                                            style={{ backgroundImage: brandLine }}
                                         />
                                     )}
                                 </div>

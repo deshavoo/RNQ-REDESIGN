@@ -5,9 +5,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { Check, ShoppingBag } from "lucide-react";
 import { cart } from "./cart/cart-store";
-import { formatPrice, productKey, productPath } from "./brands";
+import { productKey, productPath } from "./brands";
 import type { BrandId, Product } from "./brands";
-import { goldFill } from "./theme";
+import { brandFill } from "./theme";
+import Price from "./region/Price";
 
 interface ProductCardProps {
     product: Product;
@@ -19,7 +20,7 @@ interface ProductCardProps {
 }
 
 const linkClass =
-    "after:absolute after:inset-0 after:rounded-2xl after:content-[''] focus:outline-none focus-visible:after:ring-2 focus-visible:after:ring-gold";
+    "after:absolute after:inset-0 after:rounded-2xl after:content-[''] focus:outline-none focus-visible:after:ring-2 focus-visible:after:ring-brand";
 
 export default function ProductCard({ product: p, brand, mark, categoryLabel, hardNav = false, keepScroll = false }: ProductCardProps) {
     const href = productPath(brand, p);
@@ -36,8 +37,8 @@ export default function ProductCard({ product: p, brand, mark, categoryLabel, ha
     };
 
     return (
-        <article className="group relative flex h-full w-full flex-col overflow-hidden rounded-2xl border border-black/10 bg-white transition-[border-color,box-shadow] duration-300 hover:border-gold/60 hover:shadow-[0_18px_40px_-26px_rgba(138,106,31,0.55)]">
-            <div className="relative aspect-square overflow-hidden bg-[#f6f1e4]">
+        <article className="group relative flex h-full w-full flex-col overflow-hidden rounded-2xl border border-black/10 bg-white transition-[border-color,box-shadow] duration-300 hover:border-brand/60 hover:shadow-[0_18px_40px_-26px_rgba(0,61,35,0.55)]">
+            <div className="relative aspect-square overflow-hidden bg-[#fef8eb]">
                 {p.image ? (
                     <Image
                         src={p.image}
@@ -49,21 +50,21 @@ export default function ProductCard({ product: p, brand, mark, categoryLabel, ha
                 ) : (
                     <span
                         aria-hidden
-                        className="absolute inset-0 flex items-center justify-center text-7xl font-semibold text-gold/45"
-                        style={{ background: "radial-gradient(ellipse at 70% 20%,rgba(245,227,161,.55),transparent 65%),#f6f1e4" }}
+                        className="absolute inset-0 flex items-center justify-center text-7xl font-semibold text-brand/25"
+                        style={{ background: "radial-gradient(ellipse at 70% 20%,rgba(187,207,205,.55),transparent 65%),#fef8eb" }}
                     >
                         {mark}
                     </span>
                 )}
                 {p.badge && (
-                    <span className="absolute right-3 top-3 rounded-full px-3 py-1 text-xs font-bold text-black" style={{ backgroundImage: goldFill }}>
+                    <span className="absolute right-3 top-3 rounded-full px-3 py-1 text-xs font-bold text-white" style={{ backgroundImage: brandFill }}>
                         {p.badge}
                     </span>
                 )}
             </div>
 
             <div className="flex flex-1 flex-col p-3 sm:p-4">
-                {categoryLabel && <p className="text-xs text-gold-deep">{categoryLabel}</p>}
+                {categoryLabel && <p className="text-xs text-brand-deep">{categoryLabel}</p>}
                 <h3 className="mt-1 text-[15px] font-semibold leading-snug text-black sm:text-base">
                     {hardNav ? (
                         <a href={href} className={linkClass}>{p.name}</a>
@@ -74,13 +75,13 @@ export default function ProductCard({ product: p, brand, mark, categoryLabel, ha
                 {p.description && <p className="mt-1 text-[13px] leading-relaxed text-black/55">{p.description}</p>}
 
                 <div className="mt-auto flex items-center justify-between gap-2 pt-4">
-                    <span className="text-base font-semibold text-black">{formatPrice(p.price)}</span>
+                    <span className="text-base font-semibold text-black"><Price product={p} /></span>
                     <button
                         type="button"
                         onClick={add}
                         aria-label={`أضف ${p.name} إلى السلة`}
-                        className={`relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold ${added ? "text-black" : "bg-black text-gold-soft hover:bg-[linear-gradient(135deg,#f5e3a1,#d4af37_55%,#b8891f)] hover:text-black"}`}
-                        style={added ? { backgroundImage: goldFill } : undefined}
+                        className={`relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand ${added ? "text-white" : "bg-brand text-brand-soft hover:bg-brand-deep hover:text-white"}`}
+                        style={added ? { backgroundImage: brandFill } : undefined}
                     >
                         {added ? <Check size={18} strokeWidth={2.2} aria-hidden /> : <ShoppingBag size={18} strokeWidth={1.8} aria-hidden />}
                     </button>

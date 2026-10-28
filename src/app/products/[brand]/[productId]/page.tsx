@@ -76,13 +76,15 @@ export default async function ProductPage({ params }: { params: Params }) {
                         : undefined,
                 sku: product.id,
                 brand: { "@type": "Brand", name: brand.title },
-                offers: {
+                offers: [
+                    { price: product.price, priceCurrency: "SAR", eligibleRegion: "SA" },
+                    { price: product.priceEg, priceCurrency: "EGP", eligibleRegion: "EG" },
+                ].map((o) => ({
                     "@type": "Offer",
                     url: absoluteUrl(productPath(brandId, product)),
-                    price: product.price,
-                    priceCurrency: "SAR",
+                    ...o,
                     availability: "https://schema.org/InStock",
-                },
+                })),
             },
             {
                 "@context": "https://schema.org",
@@ -112,7 +114,7 @@ export default async function ProductPage({ params }: { params: Params }) {
                                         </span>
                                     ) : (
                                         <>
-                                            <Link href={c.href} className="hover:text-gold-deep focus:outline-none focus-visible:underline">
+                                            <Link href={c.href} className="hover:text-brand-deep focus:outline-none focus-visible:underline">
                                                 {c.name}
                                             </Link>
                                             <ChevronLeft size={14} aria-hidden className="text-black/30" />
@@ -127,14 +129,14 @@ export default async function ProductPage({ params }: { params: Params }) {
                 <ProductDetails brandId={brandId} product={product} variant="page" />
 
                 {related.length > 0 && (
-                    <section aria-labelledby="related-title" className="mt-16 border-t border-gold/25 pt-12 sm:mt-24 sm:pt-16">
+                    <section aria-labelledby="related-title" className="mt-16 border-t border-brand/25 pt-12 sm:mt-24 sm:pt-16">
                         <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
                             <h2 id="related-title" className="text-2xl font-semibold sm:text-3xl">
                                 منتجات قد تعجبك
                             </h2>
                             <Link
                                 href={`/products/${brandId}`}
-                                className="text-sm font-bold text-gold-deep underline-offset-4 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+                                className="text-sm font-bold text-brand-deep underline-offset-4 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-brand"
                             >
                                 عرض كل منتجات {brand.title}
                             </Link>

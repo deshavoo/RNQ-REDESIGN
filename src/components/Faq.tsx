@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { ArrowLeft, MessageCircle, Plus } from "lucide-react";
-import { goldFill } from "./theme";
 
 export interface FaqItem {
     question: string;
@@ -76,14 +75,14 @@ export default function Faq({
                         <span
                             aria-hidden
                             className="mt-5 block h-px w-24"
-                            style={{ backgroundImage: "linear-gradient(90deg,transparent,#d4af37,transparent)" }}
+                            style={{ backgroundImage: "linear-gradient(90deg,transparent,#005430,transparent)" }}
                         />
                         <p className="mt-6 max-w-sm text-base leading-loose text-black/65">
                             إجابات سريعة عن أكثر ما يسألنا عنه عملاؤنا.
                         </p>
 
                         {showHelp && (
-                            <div className="mt-8 rounded-3xl border border-gold/40 bg-black p-6 text-white">
+                            <div className="mt-8 rounded-3xl border border-brand-soft/40 bg-brand p-6 text-white">
                                 <p className="text-lg font-semibold">لم تجد إجابتك؟</p>
                                 <p className="mt-2 text-sm leading-loose text-white/70">
                                     اكتب لنا وسنساعدك في اختيار الأنسب.
@@ -92,8 +91,7 @@ export default function Faq({
                                     {contactHref && (
                                         <Link
                                             href={contactHref}
-                                            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 text-sm font-bold text-black focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-black"
-                                            style={{ backgroundImage: goldFill }}
+                                            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-white px-6 text-sm font-bold text-brand focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-brand"
                                         >
                                             تواصل معنا
                                             <ArrowLeft size={16} aria-hidden />
@@ -104,7 +102,7 @@ export default function Faq({
                                             href={whatsappHref}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-gold/60 px-6 text-sm font-bold text-white transition-colors duration-300 hover:border-transparent hover:bg-[linear-gradient(135deg,#f5e3a1,#d4af37_55%,#b8891f)] hover:text-black focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                                            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-white/40 px-6 text-sm font-bold text-white transition-colors duration-300 hover:border-transparent hover:bg-white hover:text-brand focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-brand"
                                         >
                                             <MessageCircle size={16} aria-hidden />
                                             واتساب
@@ -120,9 +118,9 @@ export default function Faq({
                         {faqs.map((f) => (
                             <li key={f.question} className="border-b border-black/10">
                                 <details name={`${id}-group`} className="group">
-                                    <summary className="flex min-h-16 cursor-pointer list-none items-center justify-between gap-6 py-4 text-base font-semibold transition-colors duration-300 hover:text-gold-deep focus:outline-none focus-visible:ring-2 focus-visible:ring-gold group-open:text-gold-deep sm:text-lg [&::-webkit-details-marker]:hidden">
+                                    <summary className="flex min-h-16 cursor-pointer list-none items-center justify-between gap-6 py-4 text-base font-semibold transition-colors duration-300 hover:text-brand-deep focus:outline-none focus-visible:ring-2 focus-visible:ring-brand group-open:text-brand-deep sm:text-lg [&::-webkit-details-marker]:hidden">
                                         <span>{f.question}</span>
-                                        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-gold/50 text-gold-deep transition-transform duration-300 group-open:rotate-45 motion-reduce:transition-none">
+                                        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-brand/50 text-brand-deep transition-transform duration-300 group-open:rotate-45 motion-reduce:transition-none">
                                             <Plus size={18} aria-hidden />
                                         </span>
                                     </summary>

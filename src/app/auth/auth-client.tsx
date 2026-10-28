@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { registerBusiness, registerIndividual } from "@/actions/auth-actions";
-import { goldFill } from "@/components/theme";
+import { brandFill } from "@/components/theme";
 import { BUSINESS_TYPES, businessSchema, fieldErrorsOf, individualSchema, loginSchema } from "@/lib/validation";
 import type { FieldErrors } from "@/lib/validation";
 
@@ -50,7 +50,7 @@ const PANEL: Record<AuthView, { title: string; text: string; perks: { icon: Luci
 
 const inputCls =
     "w-full rounded-xl border border-black/15 bg-white px-4 py-3 text-black placeholder:text-black/35 outline-none transition " +
-    "focus:border-gold focus:ring-2 focus:ring-gold/40 aria-invalid:border-rose-500 aria-invalid:ring-rose-200";
+    "focus:border-brand focus:ring-2 focus:ring-brand/40 aria-invalid:border-rose-500 aria-invalid:ring-rose-200";
 
 interface FieldProps extends InputHTMLAttributes<HTMLInputElement> {
     label: string;
@@ -67,7 +67,7 @@ function Field({ label, name, icon: Icon, errors, hint, className = "", inputCla
     return (
         <div className={className}>
             <label htmlFor={id} className="mb-1.5 flex items-center gap-2 text-sm font-semibold text-black">
-                {Icon && <Icon size={15} className="text-gold-deep" aria-hidden />}
+                {Icon && <Icon size={15} className="text-brand-deep" aria-hidden />}
                 {label}
             </label>
             <input
@@ -96,7 +96,7 @@ function PasswordField(props: Omit<FieldProps, "type">) {
                 type="button"
                 onClick={() => setShow((s) => !s)}
                 aria-label={show ? "إخفاء كلمة المرور" : "إظهار كلمة المرور"}
-                className="absolute inset-e-2 top-8 flex h-9 w-9 items-center justify-center rounded-lg text-black/50 transition-colors hover:text-gold-deep focus:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+                className="absolute inset-e-2 top-8 flex h-9 w-9 items-center justify-center rounded-lg text-black/50 transition-colors hover:text-brand-deep focus:outline-none focus-visible:ring-2 focus-visible:ring-brand"
             >
                 {show ? <EyeOff size={18} aria-hidden /> : <Eye size={18} aria-hidden />}
             </button>
@@ -109,8 +109,8 @@ function SubmitButton({ pending, children }: { pending: boolean; children: React
         <button
             type="submit"
             disabled={pending}
-            className="inline-flex min-h-13 w-full items-center justify-center gap-2 rounded-full px-8 text-base font-bold text-black transition-shadow duration-500 hover:shadow-[0_0_40px_-6px_rgba(212,175,55,0.6)] focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 disabled:cursor-wait disabled:opacity-70"
-            style={{ backgroundImage: goldFill }}
+            className="inline-flex min-h-13 w-full items-center justify-center gap-2 rounded-full px-8 text-base font-bold text-white transition-shadow duration-500 hover:shadow-[0_0_40px_-6px_rgba(0,84,48,0.6)] focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 disabled:cursor-wait disabled:opacity-70"
+            style={{ backgroundImage: brandFill }}
         >
             {pending && <Loader2 size={18} className="animate-spin" aria-hidden />}
             {children}
@@ -205,7 +205,7 @@ function IndividualForm({ onDone }: FormProps) {
             <div className="sm:col-span-2"><FormError message={s.formError} /></div>
             <Field label="الاسم الكامل" name="name" autoComplete="name" icon={UserRound} errors={s.errors.name} className="sm:col-span-2" />
             <Field label="البريد الإلكتروني" name="email" type="email" dir="ltr" autoComplete="email" icon={Mail} errors={s.errors.email} />
-            <Field label="رقم الجوال" name="phone" type="tel" dir="ltr" autoComplete="tel" placeholder="05XXXXXXXX" icon={Phone} errors={s.errors.phone} />
+            <Field label="رقم الجوال" name="phone" type="tel" dir="ltr" autoComplete="tel" placeholder="05XXXXXXXX / 01XXXXXXXXX" icon={Phone} errors={s.errors.phone} />
             <PasswordField label="كلمة المرور" name="password" autoComplete="new-password" icon={Lock} errors={s.errors.password} hint="8 أحرف على الأقل" />
             <PasswordField label="تأكيد كلمة المرور" name="confirm" autoComplete="new-password" icon={Lock} errors={s.errors.confirm} />
             <div className="sm:col-span-2"><SubmitButton pending={s.pending}>إنشاء الحساب</SubmitButton></div>
@@ -238,7 +238,7 @@ function BusinessForm({ onDone }: FormProps) {
         s.setPending(false);
     };
 
-    const legend = "mb-4 flex items-center gap-2 text-sm font-bold text-gold-deep";
+    const legend = "mb-4 flex items-center gap-2 text-sm font-bold text-brand-deep";
 
     return (
         <form onSubmit={submit} noValidate className="space-y-6">
@@ -270,25 +270,25 @@ function BusinessForm({ onDone }: FormProps) {
                 <legend className={`${legend} float-start w-full`}><UserRound size={16} aria-hidden />بيانات المسؤول</legend>
                 <Field label="الاسم الكامل" name="name" autoComplete="name" errors={s.errors.name} className="sm:col-span-2" />
                 <Field label="البريد الإلكتروني للعمل" name="email" type="email" dir="ltr" autoComplete="email" icon={Mail} errors={s.errors.email} />
-                <Field label="رقم الجوال" name="phone" type="tel" dir="ltr" autoComplete="tel" placeholder="05XXXXXXXX" icon={Phone} errors={s.errors.phone} />
+                <Field label="رقم الجوال" name="phone" type="tel" dir="ltr" autoComplete="tel" placeholder="05XXXXXXXX / 01XXXXXXXXX" icon={Phone} errors={s.errors.phone} />
                 <PasswordField label="كلمة المرور" name="password" autoComplete="new-password" icon={Lock} errors={s.errors.password} hint="8 أحرف على الأقل" />
                 <PasswordField label="تأكيد كلمة المرور" name="confirm" autoComplete="new-password" icon={Lock} errors={s.errors.confirm} />
             </fieldset>
 
             <div>
                 <label className="flex items-start gap-3 text-sm text-black/75">
-                    <input type="checkbox" name="terms" className="mt-0.5 h-5 w-5 shrink-0 accent-gold" />
+                    <input type="checkbox" name="terms" className="mt-0.5 h-5 w-5 shrink-0 accent-brand" />
                     <span>
                         أوافق على{" "}
-                        <Link href="/legal/terms" target="_blank" className="font-semibold text-gold-deep underline-offset-4 hover:underline">الشروط والأحكام</Link>
+                        <Link href="/legal/terms" target="_blank" className="font-semibold text-brand-deep underline-offset-4 hover:underline">الشروط والأحكام</Link>
                         {" "}و{" "}
-                        <Link href="/legal/privacy" target="_blank" className="font-semibold text-gold-deep underline-offset-4 hover:underline">سياسة الخصوصية</Link>
+                        <Link href="/legal/privacy" target="_blank" className="font-semibold text-brand-deep underline-offset-4 hover:underline">سياسة الخصوصية</Link>
                     </span>
                 </label>
                 {s.errors.terms && <p className="mt-1.5 text-xs font-semibold text-rose-700">{s.errors.terms[0]}</p>}
             </div>
 
-            <p className="rounded-xl bg-gold/10 px-4 py-3 text-sm leading-relaxed text-black/70 ring-1 ring-gold/30">
+            <p className="rounded-xl bg-brand/10 px-4 py-3 text-sm leading-relaxed text-black/70 ring-1 ring-brand/30">
                 سنراجع بيانات المنشأة خلال يوم عمل. يمكنك الدخول إلى حسابك مباشرة، وتُفعّل أسعار الجملة بعد الموافقة.
             </p>
 
@@ -311,7 +311,7 @@ function Segmented<T extends string>({
     dark?: boolean;
 }) {
     return (
-        <div role="group" aria-label={label} className={`inline-flex w-full rounded-full border p-1 ${dark ? "border-black/10 bg-black/4" : "border-gold/30 bg-white"}`}>
+        <div role="group" aria-label={label} className={`inline-flex w-full rounded-full border p-1 ${dark ? "border-black/10 bg-black/4" : "border-brand/30 bg-white"}`}>
             {options.map((o) => {
                 const active = o.id === value;
                 return (
@@ -320,8 +320,8 @@ function Segmented<T extends string>({
                         type="button"
                         aria-pressed={active}
                         onClick={() => onChange(o.id)}
-                        className={`min-h-11 flex-1 rounded-full px-4 text-sm font-bold transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-black ${active ? (dark ? "bg-black text-gold-soft shadow" : "text-black shadow") : "text-black/55 hover:text-black"}`}
-                        style={active && !dark ? { backgroundImage: goldFill } : undefined}
+                        className={`min-h-11 flex-1 rounded-full px-4 text-sm font-bold transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-black ${active ? (dark ? "bg-brand text-brand-soft shadow" : "text-white shadow") : "text-black/55 hover:text-black"}`}
+                        style={active && !dark ? { backgroundImage: brandFill } : undefined}
                     >
                         {o.label}
                     </button>
@@ -349,25 +349,25 @@ export default function AuthClient({ initialView, callbackUrl }: { initialView: 
     };
 
     return (
-        <main dir="rtl" lang="ar" className="bg-[#faf7ef] px-4 py-10 sm:py-16">
-            <div className="mx-auto grid max-w-6xl overflow-hidden rounded-3xl border border-gold/30 bg-white shadow-[0_30px_80px_-40px_rgba(138,106,31,0.45)] lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
-                <aside className="relative isolate overflow-hidden bg-linear-to-bl from-[#1c170b] via-black to-black p-8 text-white sm:p-10 lg:p-12">
-                    <div aria-hidden className="pointer-events-none absolute -inset-s-20 -top-24 -z-10 h-80 w-80 animate-float rounded-full bg-gold/25 blur-3xl motion-reduce:animate-none" />
-                    <div aria-hidden className="pointer-events-none absolute -bottom-28 inset-e-0 -z-10 h-72 w-72 animate-float-slow rounded-full bg-gold/15 blur-3xl motion-reduce:animate-none" />
-                    <span aria-hidden className="pointer-events-none absolute -bottom-8 inset-s-4 -z-10 select-none text-[8rem] font-black leading-none text-gold/[0.07] sm:text-[11rem]">
+        <main dir="rtl" lang="ar" className="bg-[#fdfaf3] px-4 py-10 sm:py-16">
+            <div className="mx-auto grid max-w-6xl overflow-hidden rounded-3xl border border-brand/30 bg-white shadow-[0_30px_80px_-40px_rgba(0,61,35,0.45)] lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
+                <aside className="relative isolate overflow-hidden bg-linear-to-bl from-[#1f7a52] via-brand to-brand p-8 text-white sm:p-10 lg:p-12">
+                    <div aria-hidden className="pointer-events-none absolute -inset-s-20 -top-24 -z-10 h-80 w-80 animate-float rounded-full bg-white/10 blur-3xl motion-reduce:animate-none" />
+                    <div aria-hidden className="pointer-events-none absolute -bottom-28 inset-e-0 -z-10 h-72 w-72 animate-float-slow rounded-full bg-white/10 blur-3xl motion-reduce:animate-none" />
+                    <span aria-hidden className="pointer-events-none absolute -bottom-8 inset-s-4 -z-10 select-none text-[8rem] font-black leading-none text-brand-soft/[0.07] sm:text-[11rem]">
                         RNQ
                     </span>
 
                     <div key={view} className="flex h-full flex-col">
-                        <p className="animate-fade-up text-sm font-semibold text-gold-soft/80">مجموعة RNQ للتجارة</p>
+                        <p className="animate-fade-up text-sm font-semibold text-brand-soft/80">مجموعة RNQ للتجارة</p>
                         <h1 className="mt-3 animate-fade-up text-3xl font-semibold leading-tight [animation-delay:60ms] sm:text-4xl">{panel.title}</h1>
-                        <span aria-hidden className="mt-5 block h-px w-32 animate-fade-up [animation-delay:100ms]" style={{ backgroundImage: "linear-gradient(90deg,#d4af37,transparent)" }} />
+                        <span aria-hidden className="mt-5 block h-px w-32 animate-fade-up [animation-delay:100ms]" style={{ backgroundImage: "linear-gradient(90deg,#c9ddd0,transparent)" }} />
                         <p className="mt-5 max-w-sm animate-fade-up leading-loose text-white/70 [animation-delay:120ms]">{panel.text}</p>
 
                         <ul className="mt-8 hidden space-y-4 sm:block">
                             {panel.perks.map(({ icon: Icon, text }, i) => (
                                 <li key={text} className="flex animate-fade-up items-center gap-3" style={{ animationDelay: `${180 + i * 80}ms` }}>
-                                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-gold/40 bg-white/5 text-gold">
+                                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/20 bg-white/5 text-brand-soft">
                                         <Icon size={18} aria-hidden />
                                     </span>
                                     <span className="text-sm text-white/85">{text}</span>
@@ -413,14 +413,14 @@ export default function AuthClient({ initialView, callbackUrl }: { initialView: 
                         {view === "login" ? (
                             <>
                                 ليس لديك حساب؟{" "}
-                                <button type="button" onClick={() => go("individual")} className="font-bold text-gold-deep underline-offset-4 hover:underline focus:outline-none focus-visible:underline">
+                                <button type="button" onClick={() => go("individual")} className="font-bold text-brand-deep underline-offset-4 hover:underline focus:outline-none focus-visible:underline">
                                     أنشئ حسابًا جديدًا
                                 </button>
                             </>
                         ) : (
                             <>
                                 لديك حساب؟{" "}
-                                <button type="button" onClick={() => go("login")} className="font-bold text-gold-deep underline-offset-4 hover:underline focus:outline-none focus-visible:underline">
+                                <button type="button" onClick={() => go("login")} className="font-bold text-brand-deep underline-offset-4 hover:underline focus:outline-none focus-visible:underline">
                                     سجّل الدخول
                                 </button>
                             </>

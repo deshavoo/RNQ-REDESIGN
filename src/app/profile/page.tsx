@@ -59,6 +59,8 @@ export default async function ProfilePage({ searchParams }: { searchParams: Prom
         id: o.id,
         date: dateAr(o.createdAt, { day: "numeric", month: "long", year: "numeric" }),
         total: o.total.toNumber(),
+        country: o.country,
+        isGift: o.isGift,
         status: o.status,
         items: o.items.map((i) => ({ brand: i.brand, productId: i.productId, name: i.name, qty: i.qty, price: i.price.toNumber() })),
     }));
@@ -73,6 +75,7 @@ export default async function ProfilePage({ searchParams }: { searchParams: Prom
             name: p.name,
             note: p.description ?? BRANDS[w.brand].title,
             price: p.price,
+            priceEg: p.priceEg,
             image: p.image,
             href: productPath(w.brand, p),
         }];

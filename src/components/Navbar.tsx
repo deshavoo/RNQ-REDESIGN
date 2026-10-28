@@ -5,7 +5,8 @@ import Image from "next/image";
 import type { FormEvent, MouseEvent } from "react";
 import { Globe, Search, Menu, X, ShoppingBag, User, LogOut, Heart, ArrowLeft, ChevronDown, Coffee, Cookie, Gift, Truck, FileText, Building2, Package, Briefcase, } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { GOLD, goldFill } from "./theme";
+import { BRAND, brandFill } from "./theme";
+import RegionPicker, { RegionSegment } from "./region/RegionPicker";
 export interface MegaItem {
     label: string;
     href: string;
@@ -86,10 +87,10 @@ export interface NavbarProps {
 }
 
 const DEFAULT_LOGO: NavbarLogo = {
-    src: "/rnq-logo-wide.png",
-    alt: "شعار الموقع",
-    width: 780,
-    height: 388,
+    src: "/rnq-logo.png",
+    alt: "شعار مجموعة RNQ",
+    width: 1200,
+    height: 686,
 };
 
 const DEFAULT_LABELS = {
@@ -183,7 +184,7 @@ const DEFAULT_LINKS: NavLink[] = [
     { label: "من نحن", href: "#about" },
 ];
 
-const goldLine = `linear-gradient(90deg,transparent,${GOLD}aa,transparent)`;
+const brandLine = `linear-gradient(90deg,transparent,${BRAND}aa,transparent)`;
 
 function AudienceSwitch({
     audience,
@@ -205,7 +206,7 @@ function AudienceSwitch({
         <div
             role="group"
             aria-label={labels.audienceGroup}
-            className="inline-flex rounded-full border border-gold/30 bg-black/3 p-0.5"
+            className="inline-flex rounded-full border border-brand/30 bg-black/3 p-0.5"
         >
             {options.map((o) => {
                 const active = audience === o.id;
@@ -215,9 +216,9 @@ function AudienceSwitch({
                         type="button"
                         aria-pressed={active}
                         onClick={() => onChange(o.id)}
-                        className={`rounded-full font-semibold transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-black ${pad} ${active ? "text-black" : "text-black/60 hover:text-black"
+                        className={`rounded-full font-semibold transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-black ${pad} ${active ? "text-white" : "text-black/60 hover:text-black"
                             }`}
-                        style={active ? { backgroundImage: goldFill } : undefined}
+                        style={active ? { backgroundImage: brandFill } : undefined}
                     >
                         {o.label}
                     </button>
@@ -239,20 +240,20 @@ function MegaItemLink({
         <a
             href={item.href}
             onClick={(e) => onClick(e, item.href)}
-            className="group/item flex items-start gap-4 rounded-xl p-3 transition-colors duration-300 hover:bg-black/4 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+            className="group/item flex items-start gap-4 rounded-xl p-3 transition-colors duration-300 hover:bg-black/4 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand"
         >
             {Icon && (
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-gold/30 bg-black/3 text-gold-deep transition-all duration-300 group-hover/item:border-transparent group-hover/item:bg-gold group-hover/item:text-black"
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-brand/30 bg-black/3 text-brand-deep transition-all duration-300 group-hover/item:border-transparent group-hover/item:bg-brand group-hover/item:text-black"
                 >
                     <Icon size={20} strokeWidth={1.6} />
                 </span>
             )}
             <span className="min-w-0 flex-1">
-                <span className="flex items-center justify-between gap-2 text-[15px] font-bold text-black transition-colors group-hover/item:text-gold-deep">
+                <span className="flex items-center justify-between gap-2 text-[15px] font-bold text-black transition-colors group-hover/item:text-brand-deep">
                     {item.label}
                     <ArrowLeft
                         size={15}
-                        className="shrink-0 text-gold-deep opacity-0 transition-all duration-300 group-hover/item:-translate-x-1 group-hover/item:opacity-100"
+                        className="shrink-0 text-brand-deep opacity-0 transition-all duration-300 group-hover/item:-translate-x-1 group-hover/item:opacity-100"
                     />
                 </span>
                 {item.description && (
@@ -274,7 +275,7 @@ function FeaturedCard({
         <a
             href={featured.href}
             onClick={(e) => onClick(e, featured.href)}
-            className="group/feat relative isolate flex h-full min-h-70 flex-col justify-end overflow-hidden rounded-2xl border border-gold/30 bg-black p-6 transition-shadow duration-500 hover:shadow-[0_0_50px_-12px_rgba(212,175,55,0.5)] focus:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+            className="group/feat relative isolate flex h-full min-h-70 flex-col justify-end overflow-hidden rounded-2xl border border-brand-soft/30 bg-brand p-6 transition-shadow duration-500 hover:shadow-[0_0_50px_-12px_rgba(201,221,208,0.45)] focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
         >
             {featured.image ? (
                 <Image
@@ -290,19 +291,19 @@ function FeaturedCard({
                     className="absolute inset-0 -z-20"
                     style={{
                         background:
-                            "radial-gradient(ellipse at 80% 0%,rgba(212,175,55,.35),transparent 60%),#000",
+                            "radial-gradient(ellipse at 80% 0%,rgba(0,84,48,.35),transparent 60%),#0f2a1f",
                     }}
                 />
             )}
             <span aria-hidden className="absolute inset-0 -z-10 bg-linear-to-t from-black via-black/70 to-black/10" />
             {featured.badge && (
-                <span className="mb-3 w-fit rounded-full border border-gold/50 bg-black/50 px-3 py-1 text-xs font-semibold text-gold-soft backdrop-blur">
+                <span className="mb-3 w-fit rounded-full border border-brand-soft/50 bg-black/50 px-3 py-1 text-xs font-semibold text-brand-soft backdrop-blur">
                     {featured.badge}
                 </span>
             )}
             <span className="text-xl font-bold leading-snug text-white">{featured.title}</span>
             <span className="mt-2 text-sm leading-relaxed text-white/70">{featured.description}</span>
-            <span className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-gold transition-all duration-300 group-hover/feat:gap-3">
+            <span className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-brand-soft transition-all duration-300 group-hover/feat:gap-3">
                 {featured.cta}
                 <ArrowLeft size={16} />
             </span>
@@ -496,9 +497,9 @@ export default function Navbar({
 
     const surface = "bg-white";
     const iconBtn =
-        "relative flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-black/80 transition-colors duration-300 hover:bg-black/5 hover:text-[#8a6a1f] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]";
-    const goldPill =
-        "inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-full border border-[#d4af37]/50 bg-black px-3 text-xs font-bold text-[#f5e3a1] transition-all duration-300 hover:border-transparent hover:text-black focus:outline-none focus-visible:ring-2 focus-visible:ring-black lg:px-4 hover:[background-image:linear-gradient(135deg,#f5e3a1,#d4af37_55%,#b8891f)]";
+        "relative flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-black/80 transition-colors duration-300 hover:bg-black/5 hover:text-brand focus:outline-none focus-visible:ring-2 focus-visible:ring-brand";
+    const brandPill =
+        "inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-full border border-brand-soft/50 bg-brand px-3 text-xs font-bold text-brand-soft transition-all duration-300 hover:border-transparent hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-black lg:px-4 hover:bg-brand-deep";
 
     return (
         <>
@@ -512,7 +513,7 @@ export default function Navbar({
                         <a
                             href={contactHref}
                             onClick={(e) => handleLinkClick(e, contactHref)}
-                            className="transition-colors hover:text-gold-deep focus:outline-none focus-visible:text-gold-deep"
+                            className="transition-colors hover:text-brand-deep focus:outline-none focus-visible:text-brand-deep"
                         >
                             {labels.contact}
                         </a>
@@ -521,7 +522,7 @@ export default function Navbar({
                                 type="button"
                                 onClick={onLanguageToggle}
                                 aria-label={languageLabel ?? "English"}
-                                className="flex items-center gap-1.5 font-semibold transition-colors hover:text-gold-deep focus:outline-none focus-visible:text-gold-deep"
+                                className="flex items-center gap-1.5 font-semibold transition-colors hover:text-brand-deep focus:outline-none focus-visible:text-brand-deep"
                             >
                                 <Globe size={14} strokeWidth={1.8} />
                                 {languageLabel ?? "EN"}
@@ -548,7 +549,7 @@ export default function Navbar({
                         aria-label={isMobileMenuOpen ? labels.closeMenu : labels.openMenu}
                         aria-expanded={isMobileMenuOpen}
                         aria-controls="mobile-menu"
-                        className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-gold/30 text-gold-deep transition-colors hover:bg-black/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold lg:hidden"
+                        className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-brand/30 text-brand-deep transition-colors hover:bg-black/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand lg:hidden"
                     >
                         <Menu size={22} />
                     </button>
@@ -557,17 +558,17 @@ export default function Navbar({
                         href={homeHref}
                         onClick={(e) => handleLinkClick(e, homeHref)}
                         aria-label={logo.alt ?? labels.home}
-                        className="z-10 flex shrink-0 items-center justify-center transition-opacity duration-300 hover:opacity-85 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold max-lg:absolute max-lg:left-1/2 max-lg:-translate-x-1/2"
+                        className="z-10 flex shrink-0 items-center justify-center transition-opacity duration-300 hover:opacity-85 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand max-lg:absolute max-lg:left-1/2 max-lg:-translate-x-1/2"
                     >
                         <Image
                             src={logo.src}
                             alt={logo.alt ?? ""}
-                            width={logo.width ?? 780}
-                            height={logo.height ?? 388}
+                            width={logo.width ?? 1200}
+                            height={logo.height ?? 686}
                             preload
                             className={
                                 logo.className ??
-                                "h-11 w-auto max-w-[42vw] object-contain sm:h-12 lg:h-16 lg:max-w-64"
+                                "h-16 w-auto object-contain lg:h-20"
                             }
                         />
                     </a>
@@ -578,13 +579,13 @@ export default function Navbar({
                             const isOpen = activeMega === i;
                             const panelId = `mega-panel-${i}`;
                             const linkClass =
-                                "group relative flex h-10 items-center gap-1.5 rounded-full px-4 text-sm font-bold text-black/85 transition-colors duration-300 hover:text-[#8a6a1f] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]";
+                                "group relative flex h-10 items-center gap-1.5 rounded-full px-4 text-sm font-bold text-black/85 transition-colors duration-300 hover:text-brand focus:outline-none focus-visible:ring-2 focus-visible:ring-brand";
                             const underline = (
                                 <span
                                     aria-hidden="true"
                                     className={`absolute inset-x-4 -bottom-0.5 h-px origin-center transition-transform duration-300 ${isOpen ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
                                         }`}
-                                    style={{ backgroundImage: goldLine }}
+                                    style={{ backgroundImage: brandLine }}
                                 />
                             );
 
@@ -616,7 +617,7 @@ export default function Navbar({
                                             aria-haspopup="true"
                                             aria-controls={panelId}
                                             onClick={(e) => handleTriggerClick(e, i)}
-                                            className={`${linkClass} ${isOpen ? "text-gold-deep" : ""}`}
+                                            className={`${linkClass} ${isOpen ? "text-brand-deep" : ""}`}
                                         >
                                             {link.label}
                                             <ChevronDown
@@ -642,7 +643,7 @@ export default function Navbar({
                                             id={panelId}
                                             role="region"
                                             aria-label={link.label}
-                                            className={`absolute inset-x-0 top-full z-10 border-t border-gold/20 bg-white/95 backdrop-blur-2xl transition-[opacity,transform,visibility] duration-300 ease-out ${isOpen
+                                            className={`absolute inset-x-0 top-full z-10 border-t border-brand/20 bg-white/95 backdrop-blur-2xl transition-[opacity,transform,visibility] duration-300 ease-out ${isOpen
                                                 ? "visible translate-y-0 opacity-100"
                                                 : "invisible -translate-y-2 opacity-0"
                                                 }`}
@@ -652,7 +653,7 @@ export default function Navbar({
                                                 className="pointer-events-none absolute inset-0"
                                                 style={{
                                                     background:
-                                                        "radial-gradient(ellipse at 15% 0%,rgba(212,175,55,.14),transparent 55%)",
+                                                        "radial-gradient(ellipse at 15% 0%,rgba(0,84,48,.14),transparent 55%)",
                                                 }}
                                             />
                                             <div className="relative mx-auto grid max-w-7xl grid-cols-12 gap-10 px-8 py-10">
@@ -665,7 +666,7 @@ export default function Navbar({
                                                 >
                                                     {mega.columns.map((col) => (
                                                         <div key={col.title}>
-                                                            <p className="mb-3 border-b border-black/10 pb-3 text-sm font-bold text-gold-deep">
+                                                            <p className="mb-3 border-b border-black/10 pb-3 text-sm font-bold text-brand-deep">
                                                                 {col.title}
                                                             </p>
                                                             <ul className="flex flex-col gap-1">
@@ -680,7 +681,7 @@ export default function Navbar({
                                                     <a
                                                         href={link.href}
                                                         onClick={(e) => handleLinkClick(e, link.href)}
-                                                        className="col-span-full -mt-4 inline-flex w-fit items-center gap-2 text-sm font-bold text-black/65 transition-colors hover:text-gold-deep focus:outline-none focus-visible:text-gold-deep"
+                                                        className="col-span-full -mt-4 inline-flex w-fit items-center gap-2 text-sm font-bold text-black/65 transition-colors hover:text-brand-deep focus:outline-none focus-visible:text-brand-deep"
                                                     >
                                                         {labels.viewAll} {link.label}
                                                         <ArrowLeft size={15} />
@@ -695,7 +696,7 @@ export default function Navbar({
                                             <span
                                                 aria-hidden
                                                 className="absolute inset-x-0 bottom-0 h-px"
-                                                style={{ backgroundImage: goldLine }}
+                                                style={{ backgroundImage: brandLine }}
                                             />
                                         </div>
                                     )}
@@ -709,19 +710,21 @@ export default function Navbar({
                             <a
                                 href={quoteHref}
                                 onClick={(e) => handleLinkClick(e, quoteHref)}
-                                className="me-1 hidden h-10 items-center gap-2 rounded-full px-5 text-sm font-bold text-black shadow-[0_0_30px_-8px_rgba(212,175,55,0.7)] transition-all duration-300 hover:brightness-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-black xl:inline-flex"
-                                style={{ backgroundImage: goldFill }}
+                                className="me-1 hidden h-10 items-center gap-2 rounded-full px-5 text-sm font-bold text-white shadow-[0_0_30px_-8px_rgba(0,84,48,0.7)] transition-all duration-300 hover:brightness-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-black xl:inline-flex"
+                                style={{ backgroundImage: brandFill }}
                             >
                                 <FileText size={16} strokeWidth={2} />
                                 {labels.quote}
                             </a>
                         )}
 
+                        <RegionPicker className="me-1 hidden lg:block" />
+
                         <form
                             onSubmit={handleSearchSubmit}
                             role="search"
                             className={`hidden h-10 shrink-0 items-center overflow-hidden rounded-full border transition-all duration-500 ease-out lg:flex ${isSearchOpen
-                                ? "w-60 border-gold/60 bg-black/4"
+                                ? "w-60 border-brand/60 bg-black/4"
                                 : "w-10 border-transparent"
                                 }`}
                         >
@@ -765,8 +768,8 @@ export default function Navbar({
                             <ShoppingBag size={20} strokeWidth={1.8} />
                             {safeItemCount > 0 && (
                                 <span
-                                    className="absolute right-0 top-0 flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-[10px] font-bold text-black"
-                                    style={{ backgroundImage: goldFill }}
+                                    className="absolute right-0 top-0 flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-[10px] font-bold text-white"
+                                    style={{ backgroundImage: brandFill }}
                                 >
                                     {safeItemCount > 99 ? "99+" : safeItemCount}
                                 </span>
@@ -781,7 +784,7 @@ export default function Navbar({
                                     href={profileHref}
                                     onClick={(e) => handleLinkClick(e, profileHref)}
                                     aria-label={labels.account}
-                                    className={goldPill}
+                                    className={brandPill}
                                 >
                                     <User size={17} strokeWidth={2} className="shrink-0" />
                                     <span className="hidden max-w-30 truncate sm:inline-block">{firstName}</span>
@@ -804,7 +807,7 @@ export default function Navbar({
                                 onClick={(e) => handleLinkClick(e, loginHref)}
                                 aria-label={labels.login}
                                 title={labels.login}
-                                className={goldPill}
+                                className={brandPill}
                             >
                                 <User size={17} strokeWidth={2} className="shrink-0" />
                                 <span className="hidden sm:inline-block">{labels.login}</span>
@@ -816,7 +819,7 @@ export default function Navbar({
                 <span
                     aria-hidden
                     className="pointer-events-none absolute inset-x-0 bottom-0 h-px"
-                    style={{ backgroundImage: goldLine }}
+                    style={{ backgroundImage: brandLine }}
                 />
 
             </header>
@@ -846,14 +849,14 @@ export default function Navbar({
                 />
 
                 <div
-                    className={`absolute inset-y-0 right-0 flex w-[88%] max-w-sm flex-col border-l border-gold/30 bg-white shadow-[-30px_0_60px_-20px_rgba(0,0,0,0.35)] transition-transform duration-500 ease-[cubic-bezier(.22,.8,.3,1)] ${isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
+                    className={`absolute inset-y-0 right-0 flex w-[88%] max-w-sm flex-col border-l border-brand/30 bg-white shadow-[-30px_0_60px_-20px_rgba(0,0,0,0.35)] transition-transform duration-500 ease-[cubic-bezier(.22,.8,.3,1)] ${isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
                         }`}
                 >
                     <span
                         aria-hidden
                         className="pointer-events-none absolute inset-0"
                         style={{
-                            background: "radial-gradient(ellipse at 100% 0%,rgba(212,175,55,.16),transparent 55%)",
+                            background: "radial-gradient(ellipse at 100% 0%,rgba(0,84,48,.16),transparent 55%)",
                         }}
                     />
 
@@ -866,9 +869,9 @@ export default function Navbar({
                             <Image
                                 src={logo.src}
                                 alt={logo.alt ?? ""}
-                                width={logo.width ?? 780}
-                                height={logo.height ?? 388}
-                                className="h-12 w-auto max-w-48 object-contain"
+                                width={logo.width ?? 1200}
+                                height={logo.height ?? 686}
+                                className="h-14 w-auto object-contain"
                             />
                         </a>
                         <button
@@ -878,7 +881,7 @@ export default function Navbar({
                                 menuButtonRef.current?.focus();
                             }}
                             aria-label={labels.closeMenu}
-                            className="flex h-11 w-11 items-center justify-center rounded-xl border border-gold/30 text-gold-deep transition-colors hover:bg-black/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+                            className="flex h-11 w-11 items-center justify-center rounded-xl border border-brand/30 text-brand-deep transition-colors hover:bg-black/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand"
                         >
                             <X size={22} />
                         </button>
@@ -889,12 +892,14 @@ export default function Navbar({
                             <AudienceSwitch audience={audience} onChange={changeAudience} labels={labels} size="md" />
                         </div>
 
+                        <RegionSegment className="mb-6" />
+
                         <form
                             onSubmit={handleSearchSubmit}
                             role="search"
-                            className="mb-6 flex min-h-12 items-center gap-3 rounded-2xl border border-gold/30 bg-black/4 px-4 focus-within:border-gold"
+                            className="mb-6 flex min-h-12 items-center gap-3 rounded-2xl border border-brand/30 bg-black/4 px-4 focus-within:border-brand"
                         >
-                            <Search size={19} className="shrink-0 text-gold-deep" aria-hidden="true" />
+                            <Search size={19} className="shrink-0 text-brand-deep" aria-hidden="true" />
                             <input
                                 type="search"
                                 value={searchQuery}
@@ -928,12 +933,12 @@ export default function Navbar({
                                                     onClick={() => setOpenAccordion(isOpen ? null : i)}
                                                     aria-expanded={isOpen}
                                                     aria-controls={`m-acc-${i}`}
-                                                    className="flex min-h-14 w-full items-center justify-between gap-4 text-base font-bold text-black transition-colors hover:text-gold-deep focus:outline-none focus-visible:text-gold-deep"
+                                                    className="flex min-h-14 w-full items-center justify-between gap-4 text-base font-bold text-black transition-colors hover:text-brand-deep focus:outline-none focus-visible:text-brand-deep"
                                                 >
                                                     {link.label}
                                                     <ChevronDown
                                                         size={18}
-                                                        className={`text-gold-deep transition-transform duration-300 ${isOpen ? "rotate-180" : ""
+                                                        className={`text-brand-deep transition-transform duration-300 ${isOpen ? "rotate-180" : ""
                                                             }`}
                                                     />
                                                 </button>
@@ -948,7 +953,7 @@ export default function Navbar({
                                                         <div className="flex flex-col gap-5 pb-5">
                                                             {mega.columns.map((col) => (
                                                                 <div key={col.title}>
-                                                                    <p className="mb-1 text-xs font-bold text-gold-deep">
+                                                                    <p className="mb-1 text-xs font-bold text-brand-deep">
                                                                         {col.title}
                                                                     </p>
                                                                     <ul className="flex flex-col">
@@ -961,13 +966,13 @@ export default function Navbar({
                                                                                         onClick={(e) =>
                                                                                             handleLinkClick(e, item.href)
                                                                                         }
-                                                                                        className="flex min-h-12 items-center gap-3 rounded-lg px-1 text-[15px] text-black/75 transition-colors hover:text-gold-deep"
+                                                                                        className="flex min-h-12 items-center gap-3 rounded-lg px-1 text-[15px] text-black/75 transition-colors hover:text-brand-deep"
                                                                                     >
                                                                                         {Icon && (
                                                                                             <Icon
                                                                                                 size={18}
                                                                                                 strokeWidth={1.6}
-                                                                                                className="shrink-0 text-gold-deep"
+                                                                                                className="shrink-0 text-brand-deep"
                                                                                             />
                                                                                         )}
                                                                                         {item.label}
@@ -981,7 +986,7 @@ export default function Navbar({
                                                             <a
                                                                 href={link.href}
                                                                 onClick={(e) => handleLinkClick(e, link.href)}
-                                                                className="inline-flex w-fit items-center gap-2 text-sm font-bold text-gold-deep"
+                                                                className="inline-flex w-fit items-center gap-2 text-sm font-bold text-brand-deep"
                                                             >
                                                                 {labels.viewAll} {link.label}
                                                                 <ArrowLeft size={15} />
@@ -994,12 +999,12 @@ export default function Navbar({
                                             <a
                                                 href={link.href}
                                                 onClick={(e) => handleLinkClick(e, link.href)}
-                                                className="group flex min-h-14 items-center justify-between gap-4 text-base font-bold text-black transition-colors hover:text-gold-deep"
+                                                className="group flex min-h-14 items-center justify-between gap-4 text-base font-bold text-black transition-colors hover:text-brand-deep"
                                             >
                                                 <span>{link.label}</span>
                                                 <ArrowLeft
                                                     size={17}
-                                                    className="shrink-0 text-gold-deep transition-transform group-hover:-translate-x-1"
+                                                    className="shrink-0 text-brand-deep transition-transform group-hover:-translate-x-1"
                                                 />
                                             </a>
                                         )}
@@ -1019,8 +1024,8 @@ export default function Navbar({
                                             <ShoppingBag size={21} strokeWidth={1.7} />
                                             {safeItemCount > 0 && (
                                                 <span
-                                                    className="absolute -right-2 -top-2 flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-[9px] font-bold text-black"
-                                                    style={{ backgroundImage: goldFill }}
+                                                    className="absolute -right-2 -top-2 flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-[9px] font-bold text-white"
+                                                    style={{ backgroundImage: brandFill }}
                                                 >
                                                     {safeItemCount > 99 ? "99+" : safeItemCount}
                                                 </span>
@@ -1038,9 +1043,9 @@ export default function Navbar({
                                     key={t.label}
                                     href={t.href}
                                     onClick={(e) => handleLinkClick(e, t.href)}
-                                    className="flex min-h-22 flex-col items-center justify-center gap-2 rounded-2xl border border-gold/25 bg-black/3 p-3 text-sm font-semibold text-black transition-colors hover:border-gold/70 hover:bg-black/6"
+                                    className="flex min-h-22 flex-col items-center justify-center gap-2 rounded-2xl border border-brand/25 bg-black/3 p-3 text-sm font-semibold text-black transition-colors hover:border-brand/70 hover:bg-black/6"
                                 >
-                                    <span className="text-gold-deep">{t.icon}</span>
+                                    <span className="text-brand-deep">{t.icon}</span>
                                     <span>{t.label}</span>
                                 </a>
                             ))}
@@ -1048,9 +1053,9 @@ export default function Navbar({
                                 <button
                                     type="button"
                                     onClick={onLanguageToggle}
-                                    className="flex min-h-22 flex-col items-center justify-center gap-2 rounded-2xl border border-gold/25 bg-black/3 p-3 text-sm font-semibold text-black transition-colors hover:border-gold/70 hover:bg-black/6"
+                                    className="flex min-h-22 flex-col items-center justify-center gap-2 rounded-2xl border border-brand/25 bg-black/3 p-3 text-sm font-semibold text-black transition-colors hover:border-brand/70 hover:bg-black/6"
                                 >
-                                    <Globe size={21} strokeWidth={1.7} className="text-gold-deep" />
+                                    <Globe size={21} strokeWidth={1.7} className="text-brand-deep" />
                                     <span>{languageLabel ?? "English"}</span>
                                 </button>
                             )}
@@ -1063,7 +1068,7 @@ export default function Navbar({
                                     setIsMobileMenuOpen(false);
                                     onLogout();
                                 }}
-                                className="mt-4 flex min-h-12 w-full items-center justify-center gap-2 rounded-xl border border-black/20 px-4 py-3 text-sm font-bold text-black/75 transition-colors hover:border-gold hover:text-gold-deep"
+                                className="mt-4 flex min-h-12 w-full items-center justify-center gap-2 rounded-xl border border-black/20 px-4 py-3 text-sm font-bold text-black/75 transition-colors hover:border-brand hover:text-brand-deep"
                             >
                                 <LogOut size={18} strokeWidth={1.8} />
                                 <span>{labels.logout}</span>
@@ -1082,8 +1087,8 @@ export default function Navbar({
                             <a
                                 href={quoteHref}
                                 onClick={(e) => handleLinkClick(e, quoteHref)}
-                                className="flex min-h-12 w-full items-center justify-center gap-2 rounded-full text-sm font-bold text-black"
-                                style={{ backgroundImage: goldFill }}
+                                className="flex min-h-12 w-full items-center justify-center gap-2 rounded-full text-sm font-bold text-white"
+                                style={{ backgroundImage: brandFill }}
                             >
                                 <FileText size={18} />
                                 {labels.quote}

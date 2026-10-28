@@ -1,7 +1,8 @@
 "use client";
 
 import { useMemo, useSyncExternalStore } from "react";
-import { findProduct, isBrandId } from "@/components/brands";
+import { findProduct, isBrandId, priceOf } from "@/components/brands";
+import { useRegion } from "@/components/region/region-store";
 import type { BrandId, Product } from "@/components/brands";
 import { MAX_QTY } from "@/lib/shop";
 
@@ -90,17 +91,18 @@ export function useCartItems() {
 
 export function useCart() {
     const list = useCartItems();
+    const region = useRegion();
     return useMemo(() => {
         const lines: CartLine[] = list.flatMap((i) => {
             const product = findProduct(i.brand, i.productId);
-            return product ? [{ ...i, product, total: product.price * i.qty }] : [];
+            return product ? [{ ...i, product, total: priceOf(product, region) * i.qty }] : [];
         });
         return {
             lines,
             count: lines.reduce((n, l) => n + l.qty, 0),
             subtotal: lines.reduce((n, l) => n + l.total, 0),
         };
-    }, [list]);
+    }, [list, region]);
 }
 
 const noop = () => () => {};

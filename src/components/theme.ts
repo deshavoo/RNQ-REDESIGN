@@ -1,5 +1,5 @@
-export const GOLD = "#d4af37";
+export const BRAND = "#005430";
 
-export const goldFill = "linear-gradient(135deg,#f5e3a1,#d4af37 55%,#b8891f)";
+export const brandFill = "linear-gradient(135deg,#1f7a52,#005430 55%,#003d23)";
 
-export const goldLine = "linear-gradient(90deg,transparent,#d4af37,transparent)";
+export const brandLine = "linear-gradient(90deg,transparent,#005430,transparent)";

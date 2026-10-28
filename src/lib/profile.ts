@@ -1,10 +1,11 @@
 import type { Address } from "@/generated/prisma/client";
-import type { AddressKind, CompanyStatus, OrderStatus } from "@/generated/prisma/enums";
+import type { AddressKind, CompanyStatus, Country, OrderStatus } from "@/generated/prisma/enums";
 
 export interface ClientAddress {
     id: string;
     label: string;
     kind: AddressKind;
+    country: Country;
     city: string;
     street: string;
     phone: string;
@@ -15,6 +16,8 @@ export interface ClientOrder {
     id: string;
     date: string;
     total: number;
+    country: Country;
+    isGift: boolean;
     status: OrderStatus;
     items: { brand: string; productId: string; name: string; qty: number; price: number }[];
 }
@@ -25,6 +28,7 @@ export interface ClientWishItem {
     name: string;
     note: string;
     price: number;
+    priceEg: number;
     image?: string;
     href: string;
 }
@@ -55,6 +59,7 @@ export const toClientAddress = (a: Address): ClientAddress => ({
     id: a.id,
     label: a.label,
     kind: a.kind,
+    country: a.country,
     city: a.city,
     street: a.street,
     phone: a.phone,
